@@ -13,8 +13,7 @@
 		"style:all": "tsc && npm run style:lint && npm run style:prettier",
 		"style:lint": "eslint '**/*.{js,jsx,ts,tsx}'",
 		"style:prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
-		"make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'",
-		"prepare": "husky install"
+		"make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'"
 	},
 	"dependencies": {
 		"@react-navigation/material-bottom-tabs": "^6.2.17",
