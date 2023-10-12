@@ -1,20 +1,20 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Home() {
-	return (
-		// eslint-disable-next-line @typescript-eslint/no-use-before-define
-		<View style={styles.container}>
-			<Text>Home</Text>
-		</View>
-	);
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    <View style={styles.container}>
+      <Text>Home</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
