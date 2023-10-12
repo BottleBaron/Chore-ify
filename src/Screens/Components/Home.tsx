@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 export default function Home() {
 	return (
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define
 		<View style={styles.container}>
 			<Text>Home</Text>
 		</View>
