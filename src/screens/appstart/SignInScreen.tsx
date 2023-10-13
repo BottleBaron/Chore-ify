@@ -1,14 +1,14 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
+import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useAppTheme } from "../../contexts/ThemeContext";
-import { RootStackParamList } from "../../navigators/RootStackNavigator";
+import { RootStackScreenProps } from "../../navigators/types";
 
 // Ange typen för navigation prop
-type WelcomeProps = NativeStackScreenProps<RootStackParamList, "AppStart">;
 
-export default function AppStartScreen({ navigation }: WelcomeProps) {
+type Props = RootStackScreenProps<"SignIn">;
+
+export default function SignInScreen({ navigation }: Props) {
 	const theme = useAppTheme();
 
 	return (
@@ -20,7 +20,7 @@ export default function AppStartScreen({ navigation }: WelcomeProps) {
 				style={styles.button}>
 				Login - just nu direkt till HomeScreen
 			</Button>
-			<Button mode="contained" onPress={() => navigation.navigate("Register")} style={styles.button}>
+			<Button mode="contained" onPress={() => navigation.navigate("HouseholdDashboard")} style={styles.button}>
 				Register - just nu direkt till RegisterScreen
 			</Button>
 		</View>

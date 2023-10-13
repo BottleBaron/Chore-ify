@@ -1,26 +1,17 @@
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import ThemeProvider, { useAppTheme } from "./src/contexts/ThemeContext";
-import RootNavigator from "./src/navigators/RootStackNavigator";
-
-const Tab = createMaterialBottomTabNavigator();
-
+import ThemeProvider from "./src/contexts/ThemeContext";
+import RootStackNavigator from "./src/navigators/root/RootStackNavigator";
 export default function App() {
-	const theme = useAppTheme();
-
-	const isUserAuthenticated = true;
-
 	return (
 		<SafeAreaProvider>
+			{/* <ReduxProvider store={}> */}
 			<ThemeProvider>
 				<StatusBar style="auto" />
-				<NavigationContainer theme={theme}>
-					<RootNavigator />
-				</NavigationContainer>
+				<RootStackNavigator />
 			</ThemeProvider>
+			{/* </ReduxProvider> */}
 		</SafeAreaProvider>
 	);
 }
