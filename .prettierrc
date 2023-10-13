@@ -1,9 +1,4 @@
 {
-	"tabWidth": 4,
-	"useTabs": true,
-	"proseWrap": "never",
-	"singleAttributePerLine": false,
-	"endOfLine": "crlf",
-	"bracketSameLine": true,
-	"printWidth": 140
+    "trailingComma": "all",
+    "singleQuote": true
 }
