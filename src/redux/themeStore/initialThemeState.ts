@@ -1,12 +1,11 @@
-import { useColorScheme } from "react-native";
+import { useColorScheme } from 'react-native';
 
 const colorScheme = useColorScheme(); // Hämta enhetens färgschema
 
 export interface ThemeState {
-	theme: string;
+  theme: string;
 }
 
 export const initialThemeState = {
-	theme: colorScheme === "dark" ? "dark" : "light",
+  theme: colorScheme === 'dark' ? 'dark' : 'light',
 };
-

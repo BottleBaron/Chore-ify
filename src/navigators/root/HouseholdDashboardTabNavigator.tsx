@@ -1,23 +1,27 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import * as React from "react";
-import ChoreListScreen from "../../screens/mocked-screens/ChoreListScreen";
-import StatisticsScreen from "../../screens/mocked-screens/StatisticsScreen";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import * as React from 'react';
+// eslint-disable-next-line import/no-cycle
+import ChoreListScreen from '../../screens/mocked-screens/ChoreListScreen';
+import StatisticsScreen from '../../screens/mocked-screens/StatisticsScreen';
 
 export type HouseHoldDashboardParamList = {
-	ChoreList: undefined;
-	Statistics: { period: string };
+  ChoreList: undefined;
+  Statistics: { period: string };
 };
 
 const Tab = createMaterialTopTabNavigator<HouseHoldDashboardParamList>();
 
 export default function HouseholdDashboardTabNavigator() {
-	return (
-		<Tab.Navigator>
-			<Tab.Screen name="ChoreList" component={ChoreListScreen} />
-			<Tab.Screen name="Statistics" component={StatisticsScreen} initialParams={{ period: "week" }} />
-			{/* <Tab.Screen name="Statistics" component={StatisticsScreen} initialParams={{ period: "week" }} />
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="ChoreList" component={ChoreListScreen} />
+      <Tab.Screen
+        name="Statistics"
+        component={StatisticsScreen}
+        initialParams={{ period: 'week' }}
+      />
+      {/* <Tab.Screen name="Statistics" component={StatisticsScreen} initialParams={{ period: "week" }} />
 			<Tab.Screen name="Statistics" component={StatisticsScreen} initialParams={{ period: "week" }} /> */}
-		</Tab.Navigator>
-	);
+    </Tab.Navigator>
+  );
 }
-

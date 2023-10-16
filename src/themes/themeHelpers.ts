@@ -1,10 +1,8 @@
-import { AppDarkTheme, AppLightTheme } from "./theme";
+import { AppDarkTheme, AppLightTheme } from './theme';
 
-type ThemeString = "dark" | "light";
+type ThemeString = 'dark' | 'light';
 
-const getThemeObject = (theme: ThemeString) => {
-	return theme === "dark" ? AppDarkTheme : AppLightTheme;
-};
+const getThemeObject = (theme: ThemeString) =>
+  theme === 'dark' ? AppDarkTheme : AppLightTheme;
 
 export default getThemeObject;
-
