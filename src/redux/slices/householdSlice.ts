@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Household {
@@ -28,4 +27,4 @@ const householdSlice = createSlice({
 
 export const { setHouseholds } = householdSlice.actions;
 
-export default householdSlice.reducer;
+export const householdReducer = householdSlice.reducer;

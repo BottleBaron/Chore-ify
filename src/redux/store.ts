@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { accountReducer } from './slices/accountSlice';
-import householdSlice from './slices/householdSlice';
+import { choreReducer } from './slices/choreSlice';
+import { householdReducer } from './slices/householdSlice';
 import { themeReducer } from './slices/themeSlice';
 import { userReducer } from './slices/userSlice';
 
@@ -10,7 +11,8 @@ export const store = configureStore({
     theme: themeReducer,
     account: accountReducer,
     user: userReducer,
-    household: householdSlice,
+    household: householdReducer,
+    chore: choreReducer,
   },
 });
 

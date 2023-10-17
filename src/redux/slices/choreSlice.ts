@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Chore {
@@ -30,4 +29,4 @@ const choreSlice = createSlice({
 
 export const { setChores } = choreSlice.actions;
 
-export default choreSlice.reducer;
+export const choreReducer = choreSlice.reducer;
