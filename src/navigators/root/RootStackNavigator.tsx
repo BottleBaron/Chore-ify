@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
-import ChoreScreen from '../../screens/ChoreScreen';
-import SignInScreen from '../../screens/appstart/SignInScreen';
-import SignUpScreen from '../../screens/appstart/SignUpScreen';
-import HomeScreen from '../../screens/mocked-screens/HomeScreen';
+import ChoreScreen from '../../Screens/ChoreScreen';
+import SignInScreen from '../../Screens/appstart/SignInScreen';
+import SignUpScreen from '../../Screens/appstart/SignUpScreen';
+import HomeScreen from '../../Screens/mocked-screens/HomeScreen';
 import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
 // import HomeTabs from "../home/RootTabsNavigator";
 
