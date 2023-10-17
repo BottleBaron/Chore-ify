@@ -5,14 +5,13 @@ import AuthScreen from '../../screens/Auth/AuthScreen';
 import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
-import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
+import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 // import HomeTabs from "../home/RootTabsNavigator";
 
 // -- Parameterlista för vad RootRootStack kan ta emot --
 export type RootStackParamList = {
   Auth: undefined;
   Chore: undefined;
-  Home: undefined;
   HouseholdDashboard: undefined;
   Login: undefined;
   Profile: undefined;
@@ -24,19 +23,7 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const isAuthUser = false; // You can toggle this for testing
-
-  // const config = {
-  //   animation: 'spring',
-  //   config: {
-  //     stiffness: 1000,
-  //     damping: 500,
-  //     mass: 3,
-  //     overshootClamping: true,
-  //     restDisplacementThreshold: 0.01,
-  //     restSpeedThreshold: 0.01,
-  //   },
-  // };
+  const isAuthUser = true; // You can toggle this for testing
 
   return (
     <Stack.Navigator>
@@ -47,12 +34,11 @@ export default function RootStackNavigator() {
             component={AuthScreen}
             options={{ headerShown: false }}
           />
-        ) : (
-          <Stack.Screen
-            name="Home"
-            component={HouseholdDashboardTabNavigator}
-          />
-        )}
+        ) : null}
+        <Stack.Screen
+          name="HouseholdDashboard"
+          component={HouseHoldDashboardScreen}
+        />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="SignIn" component={SignInModalScreen} />
@@ -63,13 +49,27 @@ export default function RootStackNavigator() {
   );
 }
 
-// -- Skapa RootNavigator-komponenten och exportera den --
-// export default function RootRootStackNavigator() {
-// 	return (
-// 		<RootRootStack.Navigator>
-// 			<RootRootStack.Screen name="Welcome" component={WelcomeScreen} />
-// 			<RootRootStack.Screen name="Register" component={RegisterScreen} />
-// 			{/* <RootRootStack.Screen name="MyUserDashboard" component={MyUserDashboardScreen} /> */}
-// 		</RootRootStack.Navigator>
-// 	);
-// }
+//* Og-handle of isAuthUser:
+// return (
+//   <Stack.Navigator>
+//     <Stack.Group>
+//       {!isAuthUser ? (
+//         <Stack.Screen
+//           name="Auth"
+//           component={AuthScreen}
+//           options={{ headerShown: false }}
+//         />
+//       ) : (
+//         <Stack.Screen
+//           name="HouseholdDashboard"
+//           component={HouseHoldDashboardScreen}
+//         />
+//       )}
+//     </Stack.Group>
+//     <Stack.Group>
+//       <Stack.Screen name="SignIn" component={SignInModalScreen} />
+//       <Stack.Screen name="SignUp" component={SignUpModalScreen} />
+//       <Stack.Screen name="Chore" component={ChoreScreen} />
+//     </Stack.Group>
+//   </Stack.Navigator>
+// );}

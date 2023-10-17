@@ -8,7 +8,7 @@ import { RootStackScreenProps } from '../../navigators/types';
 
 type Props = RootStackScreenProps<'HouseholdDashboard'>;
 
-export default function HomeScreen({ navigation }: Props) {
+export default function HouseHoldDashboardScreen({ navigation }: Props) {
   const theme = useAppTheme();
   return (
     <View style={styles.container}>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Card, Paragraph, Title } from 'react-native-paper';
+import { TouchableOpacity, View } from 'react-native';
+import { Card, Paragraph } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useAppTheme } from '../contexts/ThemeContext';
 
@@ -13,7 +13,7 @@ type CardButtonProps = {
 };
 
 export default function ThemedClickableCardButton({
-  title,
+  // title,
   content,
   iconName,
   onPress,
@@ -24,36 +24,27 @@ export default function ThemedClickableCardButton({
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <Card style={styles.card}>
-        <View style={styles.cardContent}>
+      <Card style={{ margin: 10 }}>
+        <Card.Content
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
           <Icon
             name={iconName}
             size={actualIconSize}
             color={theme.colors.primary}
+            style={{ marginRight: 15 }}
           />
-          <View style={styles.textContainer}>
-            <Card.Content>
-              <Title>{title}</Title>
-              <Paragraph>{content}</Paragraph>
-            </Card.Content>
+          <View>
+            {/* <Title>{title}</Title> */}
+            <Paragraph style={{ color: theme.colors.primary }}>
+              {content}
+            </Paragraph>
           </View>
-        </View>
+        </Card.Content>
       </Card>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    margin: 10,
-  },
-  cardContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  textContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-});
