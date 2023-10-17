@@ -9,7 +9,7 @@ import { RootStackScreenProps } from '../../navigators/types';
 
 type Props = RootStackScreenProps<'SignIn'>;
 
-export default function SignInScreen({ navigation }: Props) {
+export default function SignInModalScreen({ navigation }: Props) {
   const theme = useAppTheme();
 
   return (
@@ -17,7 +17,7 @@ export default function SignInScreen({ navigation }: Props) {
       <Button
         mode="contained"
         buttonColor={theme.colors.buttonColor}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('HouseholdDashboard')}
         style={styles.button}
       >
         Login - just nu direkt till HomeScreen

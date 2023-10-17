@@ -6,7 +6,7 @@ import { Button } from 'react-native-paper';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 
-type Props = RootStackScreenProps<'Home'>;
+type Props = RootStackScreenProps<'HouseholdDashboard'>;
 
 export default function HomeScreen({ navigation }: Props) {
   const theme = useAppTheme();

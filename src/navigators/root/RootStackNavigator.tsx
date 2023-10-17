@@ -1,50 +1,64 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
+import AuthScreen from '../../screens/Auth/AuthScreen';
+import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
+import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
-import SignInScreen from '../../screens/appstart/SignInScreen';
-import SignUpScreen from '../../screens/appstart/SignUpScreen';
-import HomeScreen from '../../screens/mocked-screens/HomeScreen';
 import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
 // import HomeTabs from "../home/RootTabsNavigator";
 
 // -- Parameterlista för vad RootRootStack kan ta emot --
 export type RootStackParamList = {
+  Auth: undefined;
+  Chore: undefined;
   Home: undefined;
+  HouseholdDashboard: undefined;
+  Login: undefined;
   Profile: undefined;
   SignIn: undefined;
   SignUp: undefined;
-  HouseholdDashboard: undefined;
-  Chore: undefined;
 };
 
 // -- Skapa en stack-navigator --
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const isLoggedIn = true;
+  const isAuthUser = false; // You can toggle this for testing
+
+  // const config = {
+  //   animation: 'spring',
+  //   config: {
+  //     stiffness: 1000,
+  //     damping: 500,
+  //     mass: 3,
+  //     overshootClamping: true,
+  //     restDisplacementThreshold: 0.01,
+  //     restSpeedThreshold: 0.01,
+  //   },
+  // };
 
   return (
     <Stack.Navigator>
-      {isLoggedIn ? (
-        // Screens for logged in users
-        <Stack.Group>
-          <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Group>
+        {!isAuthUser ? (
           <Stack.Screen
-            name="HouseholdDashboard"
+            name="Auth"
+            component={AuthScreen}
+            options={{ headerShown: false }}
+          />
+        ) : (
+          <Stack.Screen
+            name="Home"
             component={HouseholdDashboardTabNavigator}
           />
-          <Stack.Group screenOptions={{ presentation: 'modal' }}>
-            <Stack.Screen name="Chore" component={ChoreScreen} />
-          </Stack.Group>
-        </Stack.Group>
-      ) : (
-        // Auth screens
-        <Stack.Group screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-        </Stack.Group>
-      )}
+        )}
+      </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen name="SignIn" component={SignInModalScreen} />
+        <Stack.Screen name="SignUp" component={SignUpModalScreen} />
+        <Stack.Screen name="Chore" component={ChoreScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
