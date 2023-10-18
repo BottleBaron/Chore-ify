@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react/require-default-props */
+import * as React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Card, Paragraph, Title } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
