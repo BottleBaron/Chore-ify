@@ -13,10 +13,11 @@ export const AppLightTheme = {
     color: 'rgb(255, 59, 48)',
     button: 'rgb(255, 59, 48)',
     buttonColor: 'rgb(155, 255, 0)',
-    activeOutlineColor: 'rgb(155, 255, 0)',
-    outLineColor: 'rgb(0, 122, 255)',
+
+    activeOutlineColor: 'rgb(0, 0, 0)',
+    outLineColor: 'rgb(63,165,145)',
     textColor: 'rgb(0, 0, 0)',
-    contentStyleBackgroundColor: 'rgb(155,255,0)',
+    contentStyleBackgroundColor: 'rgb(234, 129, 18)',
   },
 };
 
@@ -31,9 +32,10 @@ export const AppDarkTheme = {
     text: 'rgb(150, 150, 150)',
     border: 'rgb(216, 216, 216)',
     notification: 'rgb(255, 59, 48)',
+    color: 'rgb(255, 59, 48)',
     button: 'rgb(255, 59, 48)',
     buttonColor: 'rgb(255, 59, 48)',
-    color: 'rgb(255, 59, 48)',
+
     activeOutlineColor: 'rgb(155,255,0)',
     outLineColor: 'rgb(255, 59, 48)',
     textColor: 'rgb(150, 150, 150)',

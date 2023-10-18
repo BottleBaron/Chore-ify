@@ -30,18 +30,21 @@ export default function SignInModalScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <ThemedClickableCardButton
+        hideTitle // or hideTitle={false}
         title="Google"
         content="Sign in with Google"
         iconName="google"
         onPress={() => navigation.navigate('HouseholdDashboard')}
       />
       <ThemedClickableCardButton
-        title="Google"
+        hideTitle // or hideTitle={false}
+        title="Facebook"
         content="Sign in with Facebook"
         iconName="facebook"
         onPress={() => navigation.navigate('HouseholdDashboard')}
       />
       <ThemedClickableCardButton
+        hideTitle // or hideTitle={false}
         title="Email"
         content="Sign in with Email"
         iconName="at"

@@ -36,9 +36,11 @@ export default function SignUpModalScreen({ navigation }: Props) {
           onChangeText={setEmail}
           style={styles.input}
           mode="outlined"
-          contentStyle={{
-            backgroundColor: theme.colors.contentStyleBackgroundColor,
-          }}
+          contentStyle={
+            {
+              // backgroundColor: theme.colors.contentStyleBackgroundColor,
+            }
+          }
           outlineColor={theme.colors.outLineColor}
           activeOutlineColor={theme.colors.activeOutlineColor}
           selectionColor={theme.colors.activeOutlineColor}
@@ -60,9 +62,11 @@ export default function SignUpModalScreen({ navigation }: Props) {
           secureTextEntry
           style={styles.input}
           mode="outlined"
-          contentStyle={{
-            backgroundColor: theme.colors.contentStyleBackgroundColor,
-          }}
+          contentStyle={
+            {
+              // backgroundColor: theme.colors.contentStyleBackgroundColor,
+            }
+          }
           outlineColor={theme.colors.outLineColor}
           activeOutlineColor={theme.colors.activeOutlineColor}
           selectionColor={theme.colors.activeOutlineColor}
@@ -84,9 +88,11 @@ export default function SignUpModalScreen({ navigation }: Props) {
           secureTextEntry
           style={styles.input}
           mode="outlined"
-          contentStyle={{
-            backgroundColor: theme.colors.contentStyleBackgroundColor,
-          }}
+          contentStyle={
+            {
+              // backgroundColor: theme.colors.contentStyleBackgroundColor,
+            }
+          }
           outlineColor={theme.colors.outLineColor}
           activeOutlineColor={theme.colors.activeOutlineColor}
           selectionColor={theme.colors.activeOutlineColor}

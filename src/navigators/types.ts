@@ -3,7 +3,16 @@ import type { MaterialTopTabScreenProps } from '@react-navigation/material-top-t
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { HouseHoldDashboardParamList as HouseHoldDashboardTabParamList } from './root/HouseholdDashboardTabNavigator';
-import { RootStackParamList } from './root/RootStackNavigator';
+
+export type RootStackParamList = {
+  Auth: undefined;
+  Chore: undefined;
+  HouseholdDashboard: undefined;
+  Login: undefined;
+  Profile: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+};
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;

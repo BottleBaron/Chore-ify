@@ -6,24 +6,24 @@ import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
-// import HomeTabs from "../home/RootTabsNavigator";
+import { RootStackParamList } from '../types';
 
 // -- Parameterlista för vad RootRootStack kan ta emot --
-export type RootStackParamList = {
-  Auth: undefined;
-  Chore: undefined;
-  HouseholdDashboard: undefined;
-  Login: undefined;
-  Profile: undefined;
-  SignIn: undefined;
-  SignUp: undefined;
-};
+// export type RootStackParamList = {
+//   Auth: undefined;
+//   Chore: undefined;
+//   HouseholdDashboard: undefined;
+//   Login: undefined;
+//   Profile: undefined;
+//   SignIn: undefined;
+//   SignUp: undefined;
+// };
 
 // -- Skapa en stack-navigator --
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const isAuthUser = true; // You can toggle this for testing
+  const isAuthUser = false; // You can toggle this for testing
 
   return (
     <Stack.Navigator>
