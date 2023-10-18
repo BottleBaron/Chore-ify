@@ -1,11 +1,11 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+/* eslint-disable import/no-cycle */
 import * as React from 'react';
-// eslint-disable-next-line import/no-cycle
-import ChoreScreen from '../../screens/ChoreScreen';
-import SignInScreen from '../../screens/appstart/SignInScreen';
-import SignUpScreen from '../../screens/appstart/SignUpScreen';
-import HomeScreen from '../../screens/mocked-screens/HomeScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
+import SignInScreen from '../../screens/appstart/SignInScreen';
+import ChoreScreen from '../../screens/ChoreScreen';
+import HomeScreen from '../../screens/mocked-screens/HomeScreen';
+import SignUpScreen from '../../screens/appstart/SignUpScreen';
 // import HomeTabs from "../home/RootTabsNavigator";
 
 // -- Parameterlista för vad RootRootStack kan ta emot --
