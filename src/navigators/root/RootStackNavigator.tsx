@@ -1,18 +1,13 @@
 /* eslint-disable import/no-cycle */
 import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '../../screens/Auth/AuthScreen';
 import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 import { RootStackParamList } from '../types';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
-import SignInScreen from '../../screens/appstart/SignInScreen';
-import ChoreScreen from '../../screens/ChoreScreen';
-import HomeScreen from '../../screens/mocked-screens/HomeScreen';
-import SignUpScreen from '../../screens/appstart/SignUpScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
