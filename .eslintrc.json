@@ -13,7 +13,9 @@
        "prettier/prettier": ["error",{"endOfLine": "auto"}],
        "no-use-before-define": "off",
        "@typescript-eslint/no-use-before-define": "off",
-       "no-param-reassign": "off"
+       "no-param-reassign": "off",
+       "import/no-extraneous-dependencies": "off",
+       "import/no-cycle": "off"
     },
 
     "plugins": ["prettier"]
