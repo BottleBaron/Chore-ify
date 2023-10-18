@@ -7,7 +7,6 @@ import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import { mockHouseholds } from '../../../assets/Data/MockData';
 
-
 type Props = RootStackScreenProps<'Home'>;
 
 export default function HomeScreen({ navigation }: Props) {
@@ -16,7 +15,7 @@ export default function HomeScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={{ alignItems: 'center', marginTop: -100 }}>
+      <View style={{ alignItems: 'center', marginTop: 10 }}>
         <Text style={{ color: theme.colors.color }}>DINA HUSHÅLL</Text>
         <Divider
           style={{
@@ -26,17 +25,18 @@ export default function HomeScreen({ navigation }: Props) {
           }}
         />
       </View>
-      <TouchableRipple
-        style={styles.touchableRipple}
-        onPress={() => navigation.navigate('HouseholdDashboard')}
-      >
-        <View>
-          <Text style={{ color: theme.colors.color }}>
-            Familjen Johanssons hushåll
-          </Text>
-          <Text>🐙 </Text>
-        </View>
-      </TouchableRipple>
+      {mockHouseholds.map((household) => (
+        <TouchableRipple
+          key={household.id}
+          style={styles.touchableRipple}
+          onPress={() => navigation.navigate('HouseholdDashboard')}
+        >
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ color: theme.colors.color }}>{household.name}</Text>
+            <Text>🐙 </Text>
+          </View>
+        </TouchableRipple>
+      ))}
 
       <View style={styles.bottomButtons}>
         <Button
@@ -76,14 +76,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'black',
   },
-  hairline: {
-    backgroundColor: '#A2A2A2',
-    height: 2,
-    minWidth: '100%',
-  },
+
   touchableRipple: {
+    minWidth: '70%',
     borderWidth: 1,
-    padding: 10, // Anpassa padding efter behov
+    padding: 25, // Anpassa padding efter behov
     borderRadius: 5, // Anpassa gränsvärdet efter behov
   },
   content: {
