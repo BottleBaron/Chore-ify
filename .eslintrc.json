@@ -3,6 +3,7 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+
   "rules": {
     "linebreak-style": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
@@ -10,6 +11,12 @@
     "@typescript-eslint/no-use-before-define": "off",
     "react/require-default-props": "off"
   },
-
+    "rules": {
+       "linebreak-style": "off",
+       "prettier/prettier": ["error",{"endOfLine": "auto"}],
+       "no-use-before-define": "off",
+       "@typescript-eslint/no-use-before-define": "off",
+       "no-param-reassign": "off"
+    },
   "plugins": ["prettier"]
 }

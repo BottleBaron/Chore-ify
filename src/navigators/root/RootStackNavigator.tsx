@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+/* eslint-disable import/no-cycle */
 import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
 import AuthScreen from '../../screens/Auth/AuthScreen';
@@ -7,19 +7,13 @@ import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 import { RootStackParamList } from '../types';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
+import SignInScreen from '../../screens/appstart/SignInScreen';
+import ChoreScreen from '../../screens/ChoreScreen';
+import HomeScreen from '../../screens/mocked-screens/HomeScreen';
+import SignUpScreen from '../../screens/appstart/SignUpScreen';
 
-// -- Parameterlista för vad RootRootStack kan ta emot --
-// export type RootStackParamList = {
-//   Auth: undefined;
-//   Chore: undefined;
-//   HouseholdDashboard: undefined;
-//   Login: undefined;
-//   Profile: undefined;
-//   SignIn: undefined;
-//   SignUp: undefined;
-// };
-
-// -- Skapa en stack-navigator --
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
