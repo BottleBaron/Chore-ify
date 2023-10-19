@@ -8,6 +8,8 @@ export type RootStackParamList = {
   Auth: undefined;
   Chore: undefined;
   HouseholdDashboard: undefined;
+  HouseHoldSelectorScreen: undefined;
+  HouseHoldSelectorScreenNoHouseHold: undefined;
   Login: undefined;
   Profile: undefined;
   SignIn: undefined;
