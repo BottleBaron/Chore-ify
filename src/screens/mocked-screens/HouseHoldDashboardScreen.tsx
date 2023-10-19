@@ -7,10 +7,9 @@ import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import { mockHouseholds } from '../../../assets/Data/MockData';
 
-type Props = RootStackScreenProps<'Home'>;
+type Props = RootStackScreenProps<'HouseholdDashboard'>;
 
-export default function HomeScreen({ navigation }: Props) {
-  const mockedHousehold = mockHouseholds;
+export default function HouseHoldDashboardScreen({ navigation }: Props) {
   const theme = useAppTheme();
 
   return (
