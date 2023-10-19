@@ -28,7 +28,7 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
       {mockHouseholds.map((household) => (
         <TouchableRipple
           key={household.id}
-          style={styles.touchableRipple}
+          style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
           onPress={() => navigation.navigate('HouseholdDashboard')}
         >
           <View style={{ alignItems: 'center' }}>
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   touchableRipple: {
     minWidth: '70%',
     borderWidth: 1,
-    padding: 25, // Anpassa padding efter behov
-    borderRadius: 5, // Anpassa gränsvärdet efter behov
+    padding: 25,
+    borderRadius: 5,
   },
   content: {
     flex: 1,
@@ -87,16 +87,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  button: {
-    width: '80%',
-    marginTop: 10,
-    borderRadius: 15,
-    minHeight: '10%',
-  },
-  buttonContent: {
-    width: '100%',
-    flexDirection: 'row',
   },
   heading: {
     marginTop: -100, // Justera avståndet till toppen

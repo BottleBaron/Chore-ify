@@ -20,7 +20,7 @@ export default function HouseHoldSelectorScreenNoHouseHold({
           // Byt till join-household screen.
           // eslint-disable-next-line no-console
           onPress={() => console.log('Pressed')}
-          style={styles.touchableRipple}
+          style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
         >
           <View style={styles.buttonContainer}>
             <Image
@@ -28,8 +28,14 @@ export default function HouseHoldSelectorScreenNoHouseHold({
               source={require('../../../assets/button-images/joinHousehold.png')}
               style={styles.image}
             />
-            <Text> GÅ MED I ETT HUSHÅLL </Text>
-            <Text> Gå med i ett hushåll som någon redan har skapat</Text>
+            <Text style={{ color: theme.colors.color }}>
+              {' '}
+              GÅ MED I ETT HUSHÅLL{' '}
+            </Text>
+            <Text style={{ color: theme.colors.color }}>
+              {' '}
+              Gå med i ett hushåll som någon redan har skapat
+            </Text>
           </View>
         </TouchableRipple>
 
@@ -37,16 +43,21 @@ export default function HouseHoldSelectorScreenNoHouseHold({
           // Byt till create-household screen.
           // eslint-disable-next-line no-console
           onPress={() => console.log('Pressed')}
-          style={styles.touchableRipple}
+          style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
         >
-          <View style={{ alignItems: 'center' }}>
+          <View style={styles.buttonContainer}>
             <Image
               // eslint-disable-next-line global-require
               source={require('../../../assets/button-images/create-household.png')}
               style={styles.image}
             />
-            <Text> SKAPA ETT NYTT HUSHÅLL </Text>
-            <Text> Skapa ett nytt hushåll och bjud in andra att gå med</Text>
+            <Text style={{ color: theme.colors.color }}>
+              {' '}
+              SKAPA ETT NYTT HUSHÅLL{' '}
+            </Text>
+            <Text style={{ color: theme.colors.color }}>
+              Skapa ett nytt hushåll och bjud in andra att gå med
+            </Text>
           </View>
         </TouchableRipple>
       </View>
@@ -56,26 +67,23 @@ export default function HouseHoldSelectorScreenNoHouseHold({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    flex: 1,
   },
 
   buttonContainer: {
-    padding: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
 
-  image: {
-    width: 240,
-    height: 240,
-  },
+  image: {},
+
   touchableRipple: {
     marginTop: 20,
     minWidth: '70%',
+    minHeight: '40%',
     borderWidth: 1,
-    padding: 25, // Anpassa padding efter behov
-    borderRadius: 15, // Anpassa gränsvärdet efter behov
+    padding: 25,
+    borderRadius: 15,
   },
 });

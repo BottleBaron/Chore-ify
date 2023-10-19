@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   const isAuthUser = true; // You can toggle this for testing
-  const hasExistingHousehold = false; // Toogles the different screens for selecting household
+  const hasExistingHousehold = true; // Toogles the different screens for selecting household
   return (
     <Stack.Navigator>
       <Stack.Group>
@@ -30,7 +30,7 @@ export default function RootStackNavigator() {
           <Stack.Screen
             name="HouseHoldSelectorScreenNoHouseHold"
             component={HouseHoldSelectorScreenNoHouseHold}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
           />
         ) : null}
         <Stack.Screen
