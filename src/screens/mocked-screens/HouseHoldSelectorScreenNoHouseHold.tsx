@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Text, Button, TouchableRipple, Divider } from 'react-native-paper';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
-import { mockHouseholds } from '../../../assets/Data/MockData';
-import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 
 type Props = RootStackScreenProps<'HouseHoldSelectorScreenNoHouseHold'>;
 
@@ -17,21 +15,40 @@ export default function HouseHoldSelectorScreenNoHouseHold({
 
   return (
     <View style={styles.container}>
-      <View style={styles.bottomButtons}>
-        <ThemedClickableCardButton
-          hideTitle // or hideTitle={false}
-          title="SKAPA HUSHÅLL"
-          content="SKAPA HUSHÅLL"
-          iconName="plus-circle"
-          onPress={() => navigation.navigate('SignIn')}
-        />
-        <ThemedClickableCardButton
-          hideTitle // or hideTitle={false}
-          title="GÅ MED I HUSHÅLL"
-          content="GÅ MED I HUSHÅLL"
-          iconName="plus-circle"
-          onPress={() => navigation.navigate('SignIn')}
-        />
+      <View>
+        <TouchableRipple
+          // Byt till join-household screen.
+          // eslint-disable-next-line no-console
+          onPress={() => console.log('Pressed')}
+          style={styles.touchableRipple}
+        >
+          <View style={styles.buttonContainer}>
+            <Image
+              // eslint-disable-next-line global-require
+              source={require('../../../assets/button-images/joinHousehold.png')}
+              style={styles.image}
+            />
+            <Text> GÅ MED I ETT HUSHÅLL </Text>
+            <Text> Gå med i ett hushåll som någon redan har skapat</Text>
+          </View>
+        </TouchableRipple>
+
+        <TouchableRipple
+          // Byt till create-household screen.
+          // eslint-disable-next-line no-console
+          onPress={() => console.log('Pressed')}
+          style={styles.touchableRipple}
+        >
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              // eslint-disable-next-line global-require
+              source={require('../../../assets/button-images/create-household.png')}
+              style={styles.image}
+            />
+            <Text> SKAPA ETT NYTT HUSHÅLL </Text>
+            <Text> Skapa ett nytt hushåll och bjud in andra att gå med</Text>
+          </View>
+        </TouchableRipple>
       </View>
     </View>
   );
@@ -44,40 +61,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
 
-  householddivider: {
-    flex: 1,
-    paddingTop: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'black',
+  buttonContainer: {
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
+  image: {
+    width: 240,
+    height: 240,
+  },
   touchableRipple: {
+    marginTop: 20,
     minWidth: '70%',
     borderWidth: 1,
     padding: 25, // Anpassa padding efter behov
-    borderRadius: 5, // Anpassa gränsvärdet efter behov
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomButtons: {
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  button: {
-    width: '80%',
-    marginTop: 10,
-    borderRadius: 15,
-    minHeight: '10%',
-  },
-  buttonContent: {
-    width: '100%',
-    flexDirection: 'row',
-  },
-  heading: {
-    marginTop: -100, // Justera avståndet till toppen
+    borderRadius: 15, // Anpassa gränsvärdet efter behov
   },
 });
