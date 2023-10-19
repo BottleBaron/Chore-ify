@@ -15,7 +15,9 @@ export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
   HouseholdDashboard: undefined;
-  Chore: undefined;
+  Chore: {
+    choreId: number;
+  };
 };
 
 // -- Skapa en stack-navigator --
