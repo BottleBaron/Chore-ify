@@ -8,12 +8,14 @@ import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 import { RootStackParamList } from '../types';
+import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
+import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const isAuthUser = false; // You can toggle this for testing
-
+  const isAuthUser = true; // You can toggle this for testing
+  const hasExistingHousehold = true; // Toogles the different screens for selecting household
   return (
     <Stack.Navigator>
       <Stack.Group>
@@ -24,15 +26,26 @@ export default function RootStackNavigator() {
             options={{ headerShown: false }}
           />
         ) : null}
+        {!hasExistingHousehold ? (
+          <Stack.Screen
+            name="HouseHoldSelectorScreenNoHouseHold"
+            component={HouseHoldSelectorScreenNoHouseHold}
+            options={{ headerShown: true }}
+          />
+        ) : null}
         <Stack.Screen
-          name="HouseholdDashboard"
-          component={HouseHoldDashboardScreen}
+          name="HouseHoldSelectorScreen"
+          component={HouseHoldSelectorScreen}
         />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="SignIn" component={SignInModalScreen} />
         <Stack.Screen name="SignUp" component={SignUpModalScreen} />
         <Stack.Screen name="Chore" component={ChoreScreen} />
+        <Stack.Screen
+          name="HouseholdDashboard"
+          component={HouseHoldDashboardScreen}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
