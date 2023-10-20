@@ -6,7 +6,6 @@ import {
   updateFirebaseHousehold,
 } from '../../../api/household';
 import createAppAsyncThunk from '../utils';
-import { deleteChore } from './choreSlice';
 
 export interface Household {
   id: string;
@@ -46,7 +45,7 @@ const householdSlice = createSlice({
         state.households[updatedIndex] = action.payload;
       }
     });
-    builder.addCase(deleteChore.fulfilled, (state, action) => {
+    builder.addCase(deleteHousehold.fulfilled, (state, action) => {
       state.households = state.households.filter(
         (household) => household.id !== action.payload,
       );
