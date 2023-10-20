@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import createAppAsyncThunk from '../utils';
 
 export interface User {
   id: number;
@@ -30,3 +31,16 @@ const userSlice = createSlice({
 export const { setUsers } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
+
+// FIXME: not done
+export const addHousehold = createAppAsyncThunk<User, User>(
+  'user/create',
+  async (userData: User, thunkAPI) => {
+    try {
+      const newUser = await createFirebaseUser(userData);
+      return newUser;
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  },
+);

@@ -1,20 +1,19 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-shadow */
 import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDocs,
-    setDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
 } from 'firebase/firestore';
 import db from '../firebaseConfig';
 import { Chore, ChoreState } from '../src/redux/slices/choreSlice';
 
 export async function createFirebaseChore(choreData: Chore) {
-  const docRef = await addDoc(collection(db, 'chores'), choreData);
-  const newChore = {...choreData, id: docRef.id}
-  updateFirebaseChore(newChore);
+  const choreRef = doc(db, 'chores');
+  const newChore = { ...choreData, id: choreRef.id };
+  await setDoc(choreRef, choreData);
   return newChore;
 }
 
@@ -25,13 +24,11 @@ export async function getFirebaseChores(): Promise<ChoreState> {
   return allDocs[0] as ChoreState;
 }
 
-export async function updateFirebaseChore(chore: Chore) {
-  const choreRef = doc(db, 'chores', chore.id);
-  await setDoc(choreRef, chore);
-  return chore;
+export async function updateFirebaseChore(choreData: Chore) {
+  const choreRef = doc(db, 'chores', choreData.id);
+  await setDoc(choreRef, choreData);
 }
 
 export async function deleteFirebaseChore(choreId: string) {
-  await deleteDoc(doc(db, 'chores', choreId.toString()));
-  return choreId;
+  await deleteDoc(doc(db, 'chores', choreId));
 }
