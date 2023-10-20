@@ -1,11 +1,10 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-shadow */
 import {
-    collection,
-    deleteDoc,
-    doc,
-    getDocs,
-    setDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
 } from 'firebase/firestore';
 import db from '../firebaseConfig';
 import { User, UserState } from "../src/redux/slices/userSlice";
