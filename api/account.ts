@@ -10,6 +10,8 @@ import {
 import db from '../firebaseConfig';
 import { Account } from '../src/redux/slices/accountSlice';
 
+// NOTE: Do not use these until I have finished configuring auth.
+
 export async function createFirebaseAccount(accountData: Account) {
   const docRef = await addDoc(collection(db, 'accounts'), accountData);
   const newAccount = { ...accountData, id: docRef.id };
