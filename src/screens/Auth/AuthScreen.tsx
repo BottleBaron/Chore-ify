@@ -24,14 +24,12 @@ export default function AuthScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundTintColor },
+            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
           ]}
         />
         <View style={styles.innerContainer}>
           <View>
-            <Title
-              style={[styles.title, { color: theme.colors.themeTitleColor }]}
-            >
+            <Title style={[styles.title, { color: theme.colors.text }]}>
               Chorify
             </Title>
           </View>
@@ -40,6 +38,7 @@ export default function AuthScreen({ navigation }: Props) {
             title="Sign In"
             content="Sign in"
             iconName="sign-in"
+            iconColor={theme.colors.text}
             onPress={() => navigation.navigate('SignIn')}
           />
           <ThemedClickableCardButton
@@ -47,6 +46,7 @@ export default function AuthScreen({ navigation }: Props) {
             title="Create Account"
             content="Create Account"
             iconName="plus"
+            iconColor={theme.colors.text}
             onPress={() => navigation.navigate('SignUp')}
           />
         </View>

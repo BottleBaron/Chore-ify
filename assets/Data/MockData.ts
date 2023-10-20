@@ -37,6 +37,18 @@ export interface UserToCompletedChore {
   choreId: number;
 }
 
+export const mockUserToCompletedChore: UserToCompletedChore[] = [
+  {
+    userId: 1,
+    choreId: 1,
+  },
+  {
+    userId: 2,
+    choreId: 1,
+  },
+  // Lägg till fler om det behövs
+];
+
 export const mockAccounts: Account[] = [
   {
     id: 1,
@@ -44,6 +56,13 @@ export const mockAccounts: Account[] = [
     username: 'jensIsCool',
     password: 'hemligtlösen',
     useDarkMode: false,
+  },
+  {
+    id: 2,
+    email: 'banan123@testmail.com',
+    username: 'johnIsCool',
+    password: 'annatHemligtLösen',
+    useDarkMode: true,
   },
 ];
 
@@ -56,6 +75,14 @@ export const mockUsers: User[] = [
     name: 'Jens',
     isPaused: false,
   },
+  {
+    id: 2,
+    houseHoldId: 1,
+    accountId: 2,
+    avatar: '🦍',
+    name: 'John',
+    isPaused: false,
+  },
 ];
 
 export const mockHouseholds: Household[] = [
@@ -64,6 +91,12 @@ export const mockHouseholds: Household[] = [
     adminIds: [1],
     name: 'Johansson Hushållet',
     accesCode: 'someGeneratedCode',
+  },
+  {
+    id: 2,
+    adminIds: [2],
+    name: 'Andersson Hushållet',
+    accesCode: 'annanGeneratedCode',
   },
 ];
 
@@ -83,5 +116,13 @@ export const mockChores: Chore[] = [
     description: 'Dammsug hela huset och byt dammsugspåse om det behövs',
     dayinterval: 2,
     effortNumber: 4,
+  },
+  {
+    id: 3,
+    householdId: 1,
+    title: 'Moppa golv',
+    description: 'Moppa alla golvytor i huset',
+    dayinterval: 3,
+    effortNumber: 3,
   },
 ];
