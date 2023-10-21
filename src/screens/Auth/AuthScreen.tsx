@@ -49,6 +49,16 @@ export default function AuthScreen({ navigation }: Props) {
             iconColor={theme.colors.text}
             onPress={() => navigation.navigate('SignUp')}
           />
+          <ThemedClickableCardButton
+            hideTitle // or hideTitle={false}
+            title="Statistic"
+            content="Test Statistics"
+            iconName="home"
+            iconColor={theme.colors.text}
+            onPress={() =>
+              navigation.navigate('Statistics', { period: 'today' })
+            }
+          />
         </View>
       </ImageBackground>
     </View>

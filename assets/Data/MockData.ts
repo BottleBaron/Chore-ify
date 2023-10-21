@@ -46,6 +46,10 @@ export const mockUserToCompletedChore: UserToCompletedChore[] = [
     userId: 2,
     choreId: 1,
   },
+  {
+    userId: 1,
+    choreId: 2,
+  },
   // Lägg till fler om det behövs
 ];
 

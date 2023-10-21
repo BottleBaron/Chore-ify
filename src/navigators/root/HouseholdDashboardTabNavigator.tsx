@@ -3,13 +3,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import * as React from 'react';
 import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
 import ChoreListScreen from '../../screens/mocked-screens/ChoreListScreen';
+import { HouseHoldDashboardTabParamList } from '../types';
 
-export type HouseHoldDashboardParamList = {
-  ChoreList: undefined;
-  Statistics: { period: string };
-};
-
-const Tab = createMaterialTopTabNavigator<HouseHoldDashboardParamList>();
+const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();
 
 export default function HouseholdDashboardTabNavigator() {
   return (
@@ -18,7 +14,7 @@ export default function HouseholdDashboardTabNavigator() {
       <Tab.Screen
         name="Statistics"
         component={StatisticsScreen}
-        initialParams={{ period: 'week' }}
+        // initialParams={{ period: 'week' }}
       />
       {/* <Tab.Screen name="Statistics" component={StatisticsScreen} initialParams={{ period: "week" }} />
 			<Tab.Screen name="Statistics" component={StatisticsScreen} initialParams={{ period: "week" }} /> */}

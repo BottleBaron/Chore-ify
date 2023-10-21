@@ -16,25 +16,28 @@ export default function HouseHoldDashboardScreen({ navigation }: Props) {
       <Button
         icon="home"
         mode="contained"
-        onPress={() => navigation.navigate('HouseholdDashboard')}
+        onPress={() => navigation.navigate('MockedHouseholdDetail')}
       >
         Gå till hushåll 1
       </Button>
       <Button
+        icon="home"
         mode="contained"
-        onPress={() => navigation.navigate('HouseholdDashboard')}
+        onPress={() => navigation.navigate('MockedHouseholdDetail')}
       >
         Gå till hushåll 1
       </Button>
       <Button
+        icon="home"
         mode="contained"
-        onPress={() => navigation.navigate('HouseholdDashboard')}
+        onPress={() => navigation.navigate('MockedHouseholdDetail')}
       >
         Gå till hushåll 1
       </Button>
       <Button
+        icon="home"
         mode="contained"
-        onPress={() => navigation.navigate('HouseholdDashboard')}
+        onPress={() => navigation.navigate('MockedHouseholdDetail')}
       >
         Gå till hushåll 1
       </Button>

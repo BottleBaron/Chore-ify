@@ -1,28 +1,42 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
+import { useAppTheme } from '../../contexts/ThemeContext';
 
-const screenWidth = Dimensions.get('window').width;
-
-interface DataPoint {
+export interface DataPoint {
   name: string;
   population: number;
   color: string;
-  legendFontColor: string;
-  legendFontSize: number;
   avatar: string;
 }
 
 interface CircleDiagramProps {
   data: DataPoint[];
+  size?: number;
 }
 
-export default function CircleDiagram({ data }: CircleDiagramProps) {
-  const chartRadius = 110;
+CircleDiagram.defaultProps = {
+  size: 250,
+};
+
+export default function CircleDiagram({ data, size }: CircleDiagramProps) {
+  const theme = useAppTheme();
+
+  const actualSize = size ?? 250;
+
+  const chartData = data.map((point) => ({
+    name: point.name,
+    population: point.population,
+    color: point.color,
+    legendFontColor: '#7F7F7F', // Assuming a gray legend font color; modify as needed
+    legendFontSize: 15, // Assuming a legend font size of 15; modify as needed
+  }));
+
   const totalPopulation = data.reduce(
     (acc, point) => acc + point.population,
     0,
   );
+
   let startAngle = 0;
 
   const AvatarOverlays = data.map((point) => {
@@ -32,8 +46,8 @@ export default function CircleDiagram({ data }: CircleDiagramProps) {
     const midAngle = (startAngle + endAngle) / 2;
 
     // Trigonometry to find x and y coordinates
-    const x = chartRadius * Math.cos((midAngle * Math.PI) / 180);
-    const y = chartRadius * Math.sin((midAngle * Math.PI) / 180);
+    const x = (actualSize / 2) * Math.cos((midAngle * Math.PI) / 180);
+    const y = (actualSize / 2) * Math.sin((midAngle * Math.PI) / 180);
 
     startAngle = endAngle;
 
@@ -43,8 +57,8 @@ export default function CircleDiagram({ data }: CircleDiagramProps) {
         style={[
           styles.avatarOverlay,
           {
-            left: chartRadius + x - 10,
-            top: chartRadius + y - 10,
+            left: actualSize / 2 + x - 10,
+            top: actualSize / 2 + y - 10,
             backgroundColor: point.color,
           },
         ]}
@@ -57,14 +71,17 @@ export default function CircleDiagram({ data }: CircleDiagramProps) {
   return (
     <View style={styles.container}>
       <PieChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={{}}
+        data={chartData}
+        width={actualSize}
+        height={actualSize}
+        backgroundColor="#ffffff"
+        chartConfig={{
+          backgroundGradientFrom: '#ffffff',
+          backgroundGradientTo: '#ffffff',
+          color: () => `${theme.colors.button}`, // Add this line
+        }}
         accessor="population"
-        backgroundColor="transparent"
         paddingLeft="15"
-        absolute
       />
       {AvatarOverlays}
     </View>
@@ -73,6 +90,8 @@ export default function CircleDiagram({ data }: CircleDiagramProps) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    alignItems: 'center',
     position: 'relative',
   },
   avatarOverlay: {

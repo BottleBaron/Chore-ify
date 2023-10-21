@@ -6,6 +6,7 @@ import AuthScreen from '../../screens/Auth/AuthScreen';
 import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
+import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 import { RootStackParamList } from '../types';
 
@@ -28,6 +29,7 @@ export default function RootStackNavigator() {
           name="HouseholdDashboard"
           component={HouseHoldDashboardScreen}
         />
+        <Stack.Screen name="Statistics" component={StatisticsScreen} />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="SignIn" component={SignInModalScreen} />
