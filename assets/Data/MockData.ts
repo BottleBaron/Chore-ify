@@ -23,7 +23,7 @@ export interface Household {
 }
 
 export interface Chore {
-  id: number;
+  id: string;
   householdId: number;
   title: string;
   description: string;
@@ -69,7 +69,7 @@ export const mockHouseholds: Household[] = [
 
 export const mockChores: Chore[] = [
   {
-    id: 1,
+    id: '',
     householdId: 1,
     title: 'Diska',
     description: 'Diska och torka all smutsig disk i köket',
@@ -77,7 +77,7 @@ export const mockChores: Chore[] = [
     effortNumber: 2,
   },
   {
-    id: 2,
+    id: '',
     householdId: 1,
     title: 'Dammsug huset',
     description: 'Dammsug hela huset och byt dammsugspåse om det behövs',
