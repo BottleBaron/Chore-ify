@@ -1,8 +1,12 @@
+/* eslint-disable no-console */
+/* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  AuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   updateProfile,
   User,
 } from '@firebase/auth';
@@ -11,8 +15,8 @@ import {
   isRejectedWithValue,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
 import { auth } from '../../../firebaseConfig';
+import { useAppDispatch } from '../store';
 
 export interface LoginCredentialsDTO {
   email: string;
@@ -44,7 +48,7 @@ const accountSlice = createSlice({
         return e;
       });
     },
-    signInToAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
+    signIntoAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
       signInWithEmailAndPassword(
         auth,
         action.payload.email,
@@ -67,11 +71,19 @@ const accountSlice = createSlice({
   },
 });
 
+export async function signInWithExternalProvider(provider: AuthProvider) {
+  await signInWithPopup(auth, provider);
+}
+
 onAuthStateChanged(auth, (currentUser) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   dispatch(setActiveUser(currentUser));
 });
 
-export const { setActiveUser, createNewAccount, signInToAccount } =
-  accountSlice.actions;
+export const {
+  setActiveUser,
+  createNewAccount,
+  signIntoAccount,
+  updateDisplayname,
+} = accountSlice.actions;
 export const accountReducer = accountSlice.reducer;
