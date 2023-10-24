@@ -1,141 +1,70 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-
-import React, { useState } from 'react';
+import React from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import {
   mockChores,
   mockUserToCompletedChore,
   mockUsers,
 } from '../../../assets/Data/MockData';
-import { HouseholdDashboardTabScreenProps } from '../../navigators/types';
-import CircleDiagram, { DataPoint } from './CircleDiagram';
-import StatisticsAppBar from './StatisticsAppBar';
+import { ChorePieChart } from './chartComponents/ChorePieChart';
+import { TotalPieChart } from './chartComponents/TotalPieChart';
+import transformer, {
+  transformChoreSpecific,
+} from './chartComponents/transformer';
 
-type Props = HouseholdDashboardTabScreenProps<'Statistics'>;
+export default function StatisticsScreen() {
+  const users = mockUsers;
+  const chores = mockChores;
+  const completed = mockUserToCompletedChore;
 
-const periods = ['year', 'month', 'week', 'today']; // Arrange in reverse order
-
-export default function StatisticsScreen({ route }: Props) {
-  const [currentPeriod, setCurrentPeriod] = useState(route.params.period);
-
-  const prevPeriod = () => {
-    const currentIndex = periods.indexOf(currentPeriod);
-    if (currentIndex > 0) {
-      // Only go back if not already at the earliest period
-      const prevIndex = currentIndex - 1;
-      setCurrentPeriod(periods[prevIndex]);
-    }
-  };
-
-  const nextPeriod = () => {
-    const currentIndex = periods.indexOf(currentPeriod);
-    if (currentIndex < periods.length - 1) {
-      // Only go forward if not already at the latest period
-      const nextIndex = currentIndex + 1;
-      setCurrentPeriod(periods[nextIndex]);
-    }
-  };
-
-  // Define types
-  type CompletedChore = {
-    userId: number;
-    choreId: number;
-  };
-
-  // Aggregating data by user
-  // Explicitly specify types in reduce function
-  const totalDataByUser = mockUserToCompletedChore.reduce<DataPoint[]>(
-    (acc: DataPoint[], completedChore: CompletedChore) => {
-      const chore = mockChores.find((ch) => ch.id === completedChore.choreId);
-      const user = mockUsers.find((usr) => usr.id === completedChore.userId);
-      if (!chore || !user) return acc; // skip if chore or user not found
-
-      const foundUser = acc.find((item: DataPoint) => item.name === user.name);
-      if (foundUser) {
-        foundUser.population += chore.effortNumber;
-      } else {
-        acc.push({
-          name: user.name,
-          population: chore.effortNumber,
-          color: '', // You can dynamically generate or assign this
-          avatar: user.avatar,
-        });
-      }
-      return acc;
-    },
-    [],
-  );
+  // Transform the raw data into pie chart data
+  const pieChartData = transformer({ users, chores, completed });
 
   return (
-    <View style={styles.screenContainer}>
-      <StatisticsAppBar title="Today" actions={[]} />
-      <View style={styles.arrowContainer}>
-        <TouchableOpacity onPress={prevPeriod}>
-          <Text>Previous</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={nextPeriod}>
-          <Text>Next</Text>
-        </TouchableOpacity>
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.topContainer}>
+        <TotalPieChart data={pieChartData} widthAndHeight={150} />
       </View>
-      <ScrollView style={styles.container}>
-        {/* <Text style={styles.title}>Total Statistics</Text> */}
-        <CircleDiagram data={totalDataByUser} size={200} />
-        <View style={styles.gridContainer}>
-          {mockChores.map((chore) => {
-            const individualData: DataPoint[] = [
-              {
-                name: chore.title,
-                population: chore.effortNumber,
-                color: 'blue',
-                avatar: 'B',
-              },
-            ];
-            return (
-              <View key={chore.id} style={styles.gridItem}>
-                <CircleDiagram data={individualData} size={100} />
-                <Text>{chore.title}</Text>
-              </View>
-            );
-          })}
-        </View>
-      </ScrollView>
-    </View>
+      <View style={styles.gridContainer}>
+        {chores.map((chore) => {
+          const specificPieChartData = transformChoreSpecific(
+            { users, chores, completed },
+            chore.id,
+          );
+          return (
+            <View style={styles.gridItem} key={chore.id}>
+              <ChorePieChart
+                data={specificPieChartData}
+                widthAndHeight={50}
+                title={chore.title}
+              />
+            </View>
+          );
+        })}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-  },
-  arrowContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 5,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f0f0',
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    alignSelf: 'center',
+  scrollView: { flex: 1 },
+  topContainer: {
+    // flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
   },
   gridContainer: {
+    // flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    // alignItems: 'flex-start', // if you want to fill rows left to right
+    // paddingTop: 5,
   },
   gridItem: {
-    flex: 1,
-    width: '30%',
+    width: '33.33%', // is 50% of container width
     alignItems: 'center',
-    margin: 5,
+    justifyContent: 'center',
+    // borderWidth: 1, // kommentera ut detta
+    // borderColor: 'red', // kommentera ut detta
   },
 });
