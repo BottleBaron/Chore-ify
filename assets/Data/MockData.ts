@@ -1,5 +1,6 @@
 import { Account, Chore, Household, User, UserToCompletedChore } from './types';
 
+
 export const mockUserToCompletedChore: UserToCompletedChore[] = [
   // User 1
   { userId: 1, choreId: 1 },
@@ -37,6 +38,37 @@ export const mockUserToCompletedChore: UserToCompletedChore[] = [
   { userId: 4, choreId: 9 },
   { userId: 4, choreId: 9 },
 ];
+=======
+export interface User {
+  id: number;
+  houseHoldId: number;
+  accountId: number;
+  avatar: string;
+  name: string;
+  isPaused: boolean;
+}
+
+export interface Household {
+  id: number;
+  adminIds: number[];
+  name: string;
+  accesCode: string;
+}
+
+export interface Chore {
+  id: string;
+  householdId: number;
+  title: string;
+  description: string;
+  dayinterval: number;
+  effortNumber: number;
+}
+
+// NOTE: Not sure if this will be required as a class
+export interface UserToCompletedChore {
+  userId: number;
+  choreId: number;
+}
 
 export const mockAccounts: Account[] = [
   {
@@ -107,7 +139,7 @@ export const mockHouseholds: Household[] = [
 
 export const mockChores: Chore[] = [
   {
-    id: 1,
+    id: '',
     householdId: 1,
     title: 'Diska',
     description: 'Diska och torka all smutsig disk i köket',
@@ -115,7 +147,7 @@ export const mockChores: Chore[] = [
     effortNumber: 2,
   },
   {
-    id: 2,
+    id: '',
     householdId: 1,
     title: 'Dammsugning',
     description: 'Dammsug hela huset och byt dammsugspåse om det behövs',

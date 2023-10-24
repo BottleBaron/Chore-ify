@@ -5,6 +5,6 @@
     "jsx": "react",
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "assets/**/*", "types/**/*", "App.tsx"],
+  "include": ["src/**/*", "assets/**/*", "types/**/*", "App.tsx", "api/**/*"],
   "exclude": ["node_modules"]
 }

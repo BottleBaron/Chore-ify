@@ -1,30 +1,117 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+/* eslint-disable no-console */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  updateProfile,
+  User,
+} from '@firebase/auth';
+import {
+  createSlice,
+  isRejectedWithValue,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import { sendEmailVerification, signOut } from 'firebase/auth';
+import { auth } from '../../../firebaseConfig';
 
-export interface Account {
-  id: number;
+export interface LoginCredentialsDTO {
   email: string;
-  username: string;
   password: string;
-  useDarkMode: boolean;
 }
 
-interface AccountState {
-  account: Account | null;
+export interface AccountState {
+  authUser: User | null;
 }
 
 const initialState: AccountState = {
-  account: null,
+  authUser: null,
 };
 
 const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
-    setAccount: (state, action: PayloadAction<Account | null>) => {
-      state.account = action.payload;
+    setActiveUser: (state, action: PayloadAction<User | null>) => {
+      state.authUser = action.payload;
+    },
+    createNewAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
+      createUserWithEmailAndPassword(
+        auth,
+        action.payload.email,
+        action.payload.password,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setActiveUser(user);
+          SendVerificationMail();
+        })
+        .catch((error) => {
+          const e = isRejectedWithValue(error.message);
+          return e;
+        });
+    },
+    signIntoAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
+      signInWithEmailAndPassword(
+        auth,
+        action.payload.email,
+        action.payload.password,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setActiveUser(user);
+        })
+        .catch((error) => {
+          const e = isRejectedWithValue(error.message);
+          return e;
+        });
+    },
+    updateDisplayname: (state, action: PayloadAction<string>) => {
+      if (auth.currentUser != null) {
+        updateProfile(auth.currentUser, {
+          displayName: action.payload,
+        })
+          .then(() => {
+            // Displayname updated successfully
+          })
+          .catch((error) => {
+            const e = isRejectedWithValue(error.message);
+            return e;
+          });
+      }
+    },
+    signOutOfAccount: (state, action) => {
+      signOut(auth)
+        .then(() => {
+          // User signed out successfully
+          setActiveUser(null);
+        })
+        .catch((error) => {
+          const e = isRejectedWithValue(error.message);
+          return e;
+        });
     },
   },
 });
 
-export const { setAccount } = accountSlice.actions;
+export function SendVerificationMail() {
+  if (auth.currentUser != null) {
+    sendEmailVerification(auth.currentUser).then(() => {
+      // Email sent successfully
+    });
+  }
+}
+
+onAuthStateChanged(auth, (currentUser) => {
+  setActiveUser(currentUser);
+});
+
+export const {
+  setActiveUser,
+  createNewAccount,
+  signIntoAccount,
+  signOutOfAccount,
+  updateDisplayname,
+} = accountSlice.actions;
 export const accountReducer = accountSlice.reducer;
