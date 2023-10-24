@@ -10,6 +10,7 @@ export type RootStackParamList = {
   HouseholdDashboard: undefined;
   HouseHoldSelectorScreen: undefined;
   HouseHoldSelectorScreenNoHouseHold: undefined;
+  CreateHouseHold: undefined;
   JoinHouseHold: undefined;
   Login: undefined;
   Profile: undefined;

@@ -6,7 +6,6 @@ import { Text, Button, TextInput } from 'react-native-paper';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 
-
 type Props = RootStackScreenProps<'JoinHouseHold'>;
 
 export default function JoinHouseHoldScreen({ navigation }: Props) {

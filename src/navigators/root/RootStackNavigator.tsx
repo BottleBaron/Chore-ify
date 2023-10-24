@@ -11,6 +11,7 @@ import { RootStackParamList } from '../types';
 import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
 import JoinHouseHoldScreen from '../../screens/mocked-screens/JoinHouseHoldScreen';
+import CreateHouseHoldScreen from '../../screens/mocked-screens/CreateHouseHoldScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -48,6 +49,10 @@ export default function RootStackNavigator() {
           component={HouseHoldDashboardScreen}
         />
         <Stack.Screen name="JoinHouseHold" component={JoinHouseHoldScreen} />
+        <Stack.Screen
+          name="CreateHouseHold"
+          component={CreateHouseHoldScreen}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
