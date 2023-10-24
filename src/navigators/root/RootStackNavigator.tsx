@@ -50,6 +50,7 @@ export default function RootStackNavigator() {
         />
         <Stack.Screen name="JoinHouseHold" component={JoinHouseHoldScreen} />
         <Stack.Screen
+          options={{ headerShown: false }}
           name="CreateHouseHold"
           component={CreateHouseHoldScreen}
         />

@@ -11,14 +11,18 @@ type Props = RootStackScreenProps<'CreateHouseHold'>;
 export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
 
-  return <Text> Create household</Text>;
+  return (
+    <View style={styles.container}>
+      <Text> Create household</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignContent: 'center',
   },
   box: {
