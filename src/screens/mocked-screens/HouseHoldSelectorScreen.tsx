@@ -44,14 +44,14 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
           title="SKAPA HUSHÅLL"
           content="SKAPA HUSHÅLL"
           iconName="plus-circle"
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => navigation.navigate('JoinHouseHold')}
         />
         <ThemedClickableCardButton
           hideTitle // or hideTitle={false}
           title="GÅ MED I HUSHÅLL"
           content="GÅ MED I HUSHÅLL"
           iconName="plus-circle"
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => navigation.navigate('JoinHouseHold')}
         />
       </View>
     </View>
