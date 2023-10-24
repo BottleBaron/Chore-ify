@@ -1,84 +1,117 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+/* eslint-disable no-console */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  updateProfile,
+  User,
+} from '@firebase/auth';
+import {
+  createSlice,
+  isRejectedWithValue,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import { sendEmailVerification, signOut } from 'firebase/auth';
+import { auth } from '../../../firebaseConfig';
 
-export interface Account {
-  id: string;
+export interface LoginCredentialsDTO {
   email: string;
-  username: string;
   password: string;
-  useDarkMode: boolean;
 }
 
 export interface AccountState {
-  account: Account | null;
+  authUser: User | null;
 }
 
 const initialState: AccountState = {
-  account: null,
+  authUser: null,
 };
 
 const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
-    setAccount: (state, action: PayloadAction<Account | null>) => {
-      state.account = action.payload;
+    setActiveUser: (state, action: PayloadAction<User | null>) => {
+      state.authUser = action.payload;
+    },
+    createNewAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
+      createUserWithEmailAndPassword(
+        auth,
+        action.payload.email,
+        action.payload.password,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setActiveUser(user);
+          SendVerificationMail();
+        })
+        .catch((error) => {
+          const e = isRejectedWithValue(error.message);
+          return e;
+        });
+    },
+    signIntoAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
+      signInWithEmailAndPassword(
+        auth,
+        action.payload.email,
+        action.payload.password,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setActiveUser(user);
+        })
+        .catch((error) => {
+          const e = isRejectedWithValue(error.message);
+          return e;
+        });
+    },
+    updateDisplayname: (state, action: PayloadAction<string>) => {
+      if (auth.currentUser != null) {
+        updateProfile(auth.currentUser, {
+          displayName: action.payload,
+        })
+          .then(() => {
+            // Displayname updated successfully
+          })
+          .catch((error) => {
+            const e = isRejectedWithValue(error.message);
+            return e;
+          });
+      }
+    },
+    signOutOfAccount: (state, action) => {
+      signOut(auth)
+        .then(() => {
+          // User signed out successfully
+          setActiveUser(null);
+        })
+        .catch((error) => {
+          const e = isRejectedWithValue(error.message);
+          return e;
+        });
     },
   },
 });
 
-export const { setAccount } = accountSlice.actions;
+export function SendVerificationMail() {
+  if (auth.currentUser != null) {
+    sendEmailVerification(auth.currentUser).then(() => {
+      // Email sent successfully
+    });
+  }
+}
+
+onAuthStateChanged(auth, (currentUser) => {
+  setActiveUser(currentUser);
+});
+
+export const {
+  setActiveUser,
+  createNewAccount,
+  signIntoAccount,
+  signOutOfAccount,
+  updateDisplayname,
+} = accountSlice.actions;
 export const accountReducer = accountSlice.reducer;
-
-// TODO: Replace crud operations with auth event listeners from firebase
-
-// export const addAccount = createAppAsyncThunk<Account, Account>(
-//   'account/create',
-//   async (accountData: Account, thunkAPI) => {
-//     try {
-//       const newAccount = await createFirebaseAccount(accountData);
-//       return newAccount;
-//     } catch (e: any) {
-//       return thunkAPI.rejectWithValue(e.message);
-//     }
-//   },
-// );
-
-// export const fetchAccounts = createAppAsyncThunk<Account[], void>(
-//   'account/get',
-//   async (_, thunkAPI) => {
-//     try {
-//       const allAccounts = await getFirebaseAccounts();
-//       return allAccounts;
-//     } catch (e: any) {
-//       return thunkAPI.rejectWithValue(e.message);
-//     }
-//   },
-// );
-
-// // NOTE: Does not return AccountState but all Accounts
-// export const updateAccount = createAppAsyncThunk<Account, Account>(
-//   'account/update',
-//   async (accountData: Account, thunkAPI) => {
-//     if (!accountData.id) {
-//       return thunkAPI.rejectWithValue('accountData requires an Id to update');
-//     }
-//     try {
-//       await updateFirebaseAccount(accountData);
-//       return accountData;
-//     } catch (e: any) {
-//       return thunkAPI.rejectWithValue(e.message);
-//     }
-//   },
-// );
-
-// export const deleteAccount = createAppAsyncThunk<string, string>(
-//   'account/delete',
-//   async (accountId, thunkApi) => {
-//     try {
-//       await deleteFirebaseAccount(accountId);
-//       return accountId;
-//     } catch (e: any) {
-//       return thunkApi.rejectWithValue(e.message);
-//     }
-//   },
-// );

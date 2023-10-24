@@ -2,10 +2,10 @@
 /* eslint-disable import/no-cycle */
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, Button, TouchableRipple, Divider } from 'react-native-paper';
+import { Divider, Text, TouchableRipple } from 'react-native-paper';
+import { mockHouseholds } from '../../../assets/Data/MockData';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
-import { mockHouseholds } from '../../../assets/Data/MockData';
 import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 
 type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
