@@ -24,7 +24,7 @@ export interface Household {
 }
 
 export interface Chore {
-  id: number;
+  id: string;
   householdId: number;
   title: string;
   description: string;

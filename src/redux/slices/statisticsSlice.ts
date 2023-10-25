@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getColorForAvatar } from '../../../assets/avatarColorConfig';
-import { UserToCompletedChore } from '../../../assets/Data/MockData';
+
 import { User } from './userSlice';
+import { UserToCompletedChore } from '../../../assets/Data/types';
 
 interface PieChartData {
   value: number;
@@ -29,6 +30,7 @@ const statisticsSlice = createSlice({
         users: User[];
       }>,
     ) => {
+      // eslint-disable-next-line no-console
       console.log('generateTotalPieChartData action triggered');
       const { completedChores, users } = action.payload;
       const userTally: { [key: string]: number } = {};
@@ -41,7 +43,7 @@ const statisticsSlice = createSlice({
       });
 
       state.totalPieChartData = Object.keys(userTally).map((userId) => {
-        const user = users.find((u) => u.id === Number(userId));
+        const user = users.find((u) => u.id === userId);
         const color = user
           ? getColorForAvatar(user.avatar)
           : 'rgb(255, 255, 255)';
@@ -60,6 +62,7 @@ const statisticsSlice = createSlice({
         users: User[];
       }>,
     ) => {
+      // eslint-disable-next-line no-console
       console.log('generateChorePieChartData action triggered');
       const { choreId, completedChores, users } = action.payload;
       const choreTally: { [key: string]: number } = {};
@@ -74,7 +77,7 @@ const statisticsSlice = createSlice({
         });
 
       state.chorePieChartData = Object.keys(choreTally).map((userId) => {
-        const user = users.find((u) => u.id === Number(userId));
+        const user = users.find((u) => u.id === userId);
         const color = user
           ? getColorForAvatar(user.avatar)
           : 'rgb(255, 255, 255)';

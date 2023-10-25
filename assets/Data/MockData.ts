@@ -1,6 +1,5 @@
 import { Account, Chore, Household, User, UserToCompletedChore } from './types';
 
-
 export const mockUserToCompletedChore: UserToCompletedChore[] = [
   // User 1
   { userId: 1, choreId: 1 },
@@ -38,37 +37,6 @@ export const mockUserToCompletedChore: UserToCompletedChore[] = [
   { userId: 4, choreId: 9 },
   { userId: 4, choreId: 9 },
 ];
-=======
-export interface User {
-  id: number;
-  houseHoldId: number;
-  accountId: number;
-  avatar: string;
-  name: string;
-  isPaused: boolean;
-}
-
-export interface Household {
-  id: number;
-  adminIds: number[];
-  name: string;
-  accesCode: string;
-}
-
-export interface Chore {
-  id: string;
-  householdId: number;
-  title: string;
-  description: string;
-  dayinterval: number;
-  effortNumber: number;
-}
-
-// NOTE: Not sure if this will be required as a class
-export interface UserToCompletedChore {
-  userId: number;
-  choreId: number;
-}
 
 export const mockAccounts: Account[] = [
   {
@@ -139,7 +107,7 @@ export const mockHouseholds: Household[] = [
 
 export const mockChores: Chore[] = [
   {
-    id: '',
+    id: '1',
     householdId: 1,
     title: 'Diska',
     description: 'Diska och torka all smutsig disk i köket',
@@ -147,7 +115,7 @@ export const mockChores: Chore[] = [
     effortNumber: 2,
   },
   {
-    id: '',
+    id: '2',
     householdId: 1,
     title: 'Dammsugning',
     description: 'Dammsug hela huset och byt dammsugspåse om det behövs',
@@ -155,7 +123,7 @@ export const mockChores: Chore[] = [
     effortNumber: 4,
   },
   {
-    id: 3,
+    id: '3',
     householdId: 1,
     title: 'Moppa golven',
     description: 'Moppa alla golvytor i huset',
@@ -163,7 +131,7 @@ export const mockChores: Chore[] = [
     effortNumber: 3,
   },
   {
-    id: 4,
+    id: '4',
     householdId: 1,
     title: 'Gräsklippning',
     description: 'Klippa gräset på både fram- och baksidan',
@@ -171,7 +139,7 @@ export const mockChores: Chore[] = [
     effortNumber: 5,
   },
   {
-    id: 5,
+    id: '5',
     householdId: 1,
     title: 'Bädda rent',
     description: 'Byta lakan i alla sängar och tvätta de smutsiga',
@@ -179,7 +147,7 @@ export const mockChores: Chore[] = [
     effortNumber: 3,
   },
   {
-    id: 6,
+    id: '6',
     householdId: 1,
     title: 'Städa toaletten',
     description: 'Städa och desinficera toaletten',
@@ -187,7 +155,7 @@ export const mockChores: Chore[] = [
     effortNumber: 4,
   },
   {
-    id: 7,
+    id: '7',
     householdId: 1,
     title: 'Tvätta fönster',
     description: 'Clean all the windows inside and out',
@@ -195,7 +163,7 @@ export const mockChores: Chore[] = [
     effortNumber: 5,
   },
   {
-    id: 8,
+    id: '8',
     householdId: 1,
     title: 'Släng sopor',
     description: 'Take out all the trash and separate recyclables',
@@ -203,7 +171,7 @@ export const mockChores: Chore[] = [
     effortNumber: 1,
   },
   {
-    id: 9,
+    id: '9',
     householdId: 1,
     title: 'Storhandla',
     description: 'Purchase weekly groceries',

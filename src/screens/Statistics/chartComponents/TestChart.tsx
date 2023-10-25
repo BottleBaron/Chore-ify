@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import PieChart from 'react-native-pie-chart';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export default class TestChart extends Component {
   render() {
     const widthAndHeight = 250;
@@ -23,7 +24,7 @@ export default class TestChart extends Component {
           series={series}
           sliceColor={sliceColor}
           coverRadius={0.45}
-          coverFill={'#FFF'} //Vad som gör den till icke ihålig
+          coverFill="#FFF" // Vad som gör den till icke ihålig
         />
       </View>
       // </ScrollView>
