@@ -1,6 +1,6 @@
 // UserSettings.tsx
 import React from 'react'; // Don't forget to import React
-import { Text, View } from 'react-native'; // Text was missing in the import
+import { View } from 'react-native'; // Text was missing in the import
 import { useAppTheme } from '../../contexts/ThemeContext';
 import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 import { UserSettingsSubComponentProps } from './SettingsScreen'; // placed here for now, might be typefile later
@@ -12,12 +12,12 @@ export default function UserSettings({
   const theme = useAppTheme();
   return (
     <View>
-      <Text>User-settings</Text>
+      {/* <Text>User-settings</Text> */}
       <ThemedClickableCardButton
         hideTitle
         title="ProfileSettings"
         content="Profile Settings"
-        iconName="user-cog"
+        iconName="user"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />

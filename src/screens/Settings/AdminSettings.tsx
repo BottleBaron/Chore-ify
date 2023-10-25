@@ -1,5 +1,5 @@
 import React from 'react'; // Don't forget to import React
-import { Text, View } from 'react-native'; // Text was missing in the import
+import { View } from 'react-native'; // Text was missing in the import
 import { useAppTheme } from '../../contexts/ThemeContext';
 import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 import { AdminSettingsSubComponentProps } from './SettingsScreen';
@@ -10,12 +10,12 @@ export default function AdminSettings({
   const theme = useAppTheme();
   return (
     <View>
-      <Text>Admin-settings</Text>
+      {/* <Text>Admin-settings</Text> */}
       <ThemedClickableCardButton
         hideTitle
         title="ProfileSettings"
         content="Profile Settings"
-        iconName="user-cog"
+        iconName="user"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
@@ -23,7 +23,7 @@ export default function AdminSettings({
         hideTitle
         title="HandleUsers"
         content="Handle Users"
-        iconName="user-edit"
+        iconName="edit"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
@@ -47,7 +47,7 @@ export default function AdminSettings({
         hideTitle
         title="EditHousehold"
         content="Edit Household"
-        iconName="home-edit"
+        iconName="edit"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStackScreenProps } from '../../navigators/types';
 import AdminSettings from './AdminSettings';
 import UserSettings from './UserSettings';
@@ -15,18 +15,40 @@ export type UserSettingsSubComponentProps = {
 };
 
 export default function SettingsScreen({ navigation }: Props) {
-  const userIsAdmin = false; // You can toggle this for testing
+  const userIsAdmin = true; // You can toggle this for testing
   return (
-    <ScrollView>
-      {!userIsAdmin ? (
-        <UserSettings navigation={navigation} />
-      ) : (
-        <AdminSettings navigation={navigation} />
-      )}
+    <ScrollView style={styles.container}>
+      <View style={styles.section}>
+        <Text style={styles.sectionHeader}>
+          {userIsAdmin ? 'Admin Settings' : 'User Settings'}
+        </Text>
+        {!userIsAdmin ? (
+          <UserSettings navigation={navigation} />
+        ) : (
+          <AdminSettings navigation={navigation} />
+        )}
+      </View>
     </ScrollView>
   );
 }
-
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: '#f5f5f5',
+  },
+  section: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    // padding: 16,
+    // borderBottomWidth: 1,
+    // borderColor: '#ccc',
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    // marginBottom: 8,
+  },
+});
 // Dependant of whether the user is an admin within this household or not
 // If admin, show the following:
 // - Profile-settings
