@@ -26,6 +26,7 @@ export default function SettingsScreen({ navigation }: Props) {
 
   return (
   );
+}
 
   // Dependant of whether the user is an admin within this household or not
   // If admin, show the following:
