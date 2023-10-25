@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, ScrollView, Text, View } from 'react-native';
 import { RootStackScreenProps } from '../../navigators/types';
 
 type Props = RootStackScreenProps<'Settings'>;
@@ -25,6 +25,9 @@ export default function SettingsScreen({ navigation }: Props) {
   );
 
   return (
+    <ScrollView>
+      {userIsAdmin ? <AdminSettings /> : <UserSettings />}
+    </ScrollView>
   );
 }
 
