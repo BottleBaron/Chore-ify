@@ -25,7 +25,16 @@ export default function UserSettings({
         hideTitle
         title="LeaveHousehold"
         content="Leave Household"
-        iconName="door-open"
+        iconName="times-circle"
+        iconColor={theme.colors.text}
+        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
+      />
+      <ThemedClickableCardButton
+        hideTitle
+        title="SignOut"
+        content="Sign Out"
+        iconName="sign-out"
+        rotateIcon={180}
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />

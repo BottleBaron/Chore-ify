@@ -17,7 +17,7 @@ export type UserSettingsSubComponentProps = {
 
 export default function SettingsScreen({ navigation }: Props) {
   const theme = useAppTheme();
-  const userIsAdmin = true; // You can toggle this for testing
+  const userIsAdmin = false; // You can toggle this for testing
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
