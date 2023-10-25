@@ -7,7 +7,7 @@ import {
   setDoc,
 } from 'firebase/firestore';
 import db from '../firebaseConfig';
-import { User, UserState } from "../src/redux/slices/userSlice";
+import { User, UserState } from '../src/redux/slices/userSlice';
 
 export async function createFirebaseUser(userData: User) {
   const userRef = doc(db, 'users');

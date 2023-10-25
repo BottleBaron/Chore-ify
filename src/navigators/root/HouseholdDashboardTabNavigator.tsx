@@ -1,8 +1,9 @@
 /* eslint-disable import/no-cycle */
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import * as React from 'react';
-import ChoreListScreen from '../../Screens/mocked-screens/ChoreListScreen';
-import StatisticsScreen from '../../Screens/mocked-screens/StatisticsScreen';
+
+import StatisticsScreen from '../../screens/mocked-screens/StatisticsScreen';
+import ChoreListScreen from '../../screens/mocked-screens/ChoreListScreen';
 
 export type HouseHoldDashboardParamList = {
   ChoreList: undefined;
