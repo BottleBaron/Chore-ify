@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable no-console */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -7,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   User,
+  UserCredential,
 } from '@firebase/auth';
 import {
   createSlice,
@@ -15,6 +17,7 @@ import {
 } from '@reduxjs/toolkit';
 import { sendEmailVerification, signOut } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
+import createAppAsyncThunk from '../utils';
 
 export interface LoginCredentialsDTO {
   email: string;
@@ -52,21 +55,6 @@ const accountSlice = createSlice({
           return e;
         });
     },
-    signIntoAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
-      signInWithEmailAndPassword(
-        auth,
-        action.payload.email,
-        action.payload.password,
-      )
-        .then((userCredential) => {
-          const user = userCredential.user;
-          setActiveUser(user);
-        })
-        .catch((error) => {
-          const e = isRejectedWithValue(error.message);
-          return e;
-        });
-    },
     updateDisplayname: (state, action: PayloadAction<string>) => {
       if (auth.currentUser != null) {
         updateProfile(auth.currentUser, {
@@ -93,6 +81,27 @@ const accountSlice = createSlice({
         });
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(signIntoAccount.fulfilled, (state, action) => {
+      setActiveUser(action.payload.user);
+    });
+  },
+});
+
+export const signIntoAccount = createAppAsyncThunk<
+  UserCredential,
+  LoginCredentialsDTO
+>('account/signIn', async (credentials: LoginCredentialsDTO) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      credentials.email,
+      credentials.password,
+    );
+    return userCredential;
+  } catch (e: any) {
+    throw e;
+  }
 });
 
 export function SendVerificationMail() {
@@ -110,7 +119,6 @@ onAuthStateChanged(auth, (currentUser) => {
 export const {
   setActiveUser,
   createNewAccount,
-  signIntoAccount,
   signOutOfAccount,
   updateDisplayname,
 } = accountSlice.actions;

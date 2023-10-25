@@ -13,6 +13,7 @@ export const AppLightTheme = {
     color: 'rgb(255, 59, 48)',
     button: 'rgb(255, 59, 48)',
     buttonColor: 'rgb(255, 103, 31)',
+    error: 'rgb(220, 0, 0)',
 
     /*
     TextInputFields
@@ -45,6 +46,7 @@ export const AppDarkTheme = {
     color: 'rgb(255, 111, 97)',
     button: 'rgb(255, 111, 97)',
     buttonColor: 'rgb(255, 111, 97)',
+    error: 'rgb(220, 0, 0)',
 
     /*
     TextInputFields
