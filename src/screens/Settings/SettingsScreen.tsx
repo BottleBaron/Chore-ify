@@ -6,11 +6,11 @@ import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCar
 
 type Props = RootStackScreenProps<'Settings'>;
 
-type AdminSettingsSubComponentProps = {
+export type AdminSettingsSubComponentProps = {
   navigation: Props['navigation'];
 };
 
-type UserSettingsSubComponentProps = {
+export type UserSettingsSubComponentProps = {
   navigation: Props['navigation'];
 };
 
@@ -56,31 +56,6 @@ function AdminSettings({ navigation }: AdminSettingsSubComponentProps) {
         title="EditHousehold"
         content="Edit Household"
         iconName="home-edit"
-        iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
-      />
-    </View>
-  );
-}
-
-function UserSettings({ navigation }: UserSettingsSubComponentProps) {
-  const theme = useAppTheme();
-  return (
-    <View>
-      <Text>User-settings</Text>
-      <ThemedClickableCardButton
-        hideTitle
-        title="ProfileSettings"
-        content="Profile Settings"
-        iconName="user-cog"
-        iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
-      />
-      <ThemedClickableCardButton
-        hideTitle
-        title="LeaveHousehold"
-        content="Leave Household"
-        iconName="door-open"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
