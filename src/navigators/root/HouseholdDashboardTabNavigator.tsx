@@ -6,10 +6,6 @@ import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
 import ChoreListScreen from '../../screens/mocked-screens/ChoreListScreen';
 import { HouseHoldDashboardTabParamList } from '../types';
 
-import ChoreListScreen from '../../Screens/mocked-screens/ChoreListScreen';
-import StatisticsScreen from '../../Screens/mocked-screens/StatisticsScreen';
-
-
 const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();
 
 export default function HouseholdDashboardTabNavigator() {

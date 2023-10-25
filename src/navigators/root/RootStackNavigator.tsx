@@ -8,17 +8,12 @@ import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
 import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
+// eslint-disable-next-line import/no-named-as-default
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 
-import AuthScreen from '../../Screens/Auth/AuthScreen';
-import SignInModalScreen from '../../Screens/Auth/SignInModalScreen';
-import SignUpModalScreen from '../../Screens/Auth/SignUpModalScreen';
-import ChoreScreen from '../../Screens/ChoreScreen';
-import HouseHoldDashboardScreen from '../../Screens/mocked-screens/HouseHoldDashboardScreen';
-import HouseHoldSelectorScreen from '../../Screens/mocked-screens/HouseHoldSelectorScreen';
-import HouseHoldSelectorScreenNoHouseHold from '../../Screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
-
 import { RootStackParamList } from '../types';
+import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
+import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
