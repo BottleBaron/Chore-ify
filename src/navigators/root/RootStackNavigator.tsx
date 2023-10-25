@@ -11,6 +11,7 @@ import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
 // eslint-disable-next-line import/no-named-as-default
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 
+import SettingsScreen from '../../screens/Settings/SettingsScreen';
 import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
 import { RootStackParamList } from '../types';
@@ -42,6 +43,7 @@ export default function RootStackNavigator() {
           component={HouseHoldSelectorScreen}
         />
         <Stack.Screen name="Statistics" component={StatisticsScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="SignIn" component={SignInModalScreen} />

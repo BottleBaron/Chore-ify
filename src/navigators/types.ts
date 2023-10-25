@@ -18,6 +18,8 @@ export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
   Statistics: { period: string };
+
+  Settings: undefined;
 };
 
 export type HouseHoldDashboardTabParamList = {
