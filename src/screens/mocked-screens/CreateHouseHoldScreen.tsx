@@ -2,7 +2,7 @@
 /* eslint-disable import/no-cycle */
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
-import { Text, Button, TextInput } from 'react-native-paper';
+import { Text, Button, TextInput, List } from 'react-native-paper';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 
@@ -10,10 +10,34 @@ type Props = RootStackScreenProps<'CreateHouseHold'>;
 
 export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
+  const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
+  const [householdName, setHouseholdName] = useState<string>('');
+  const [selectedAvatar, setSelectedAvatar] = useState<string>('');
+
+  const handleAvatarSelection = (avatar: string) => {
+    setSelectedAvatar(avatar);
+  };
 
   return (
     <View style={styles.container}>
       <Text> Create household</Text>
+      <TextInput
+        mode="outlined"
+        label="Hushållets namn"
+        value={householdName}
+        onChangeText={(householdName) => setHouseholdName(householdName)}
+      />
+      <Text>
+        <List.Accordion title="Välj din avatar">
+          {avatars.map((avatar, index) => (
+            <List.Item
+              key={index}
+              title={avatar}
+              onPress={() => handleAvatarSelection(avatar)}
+            />
+          ))}
+        </List.Accordion>
+      </Text>
     </View>
   );
 }
