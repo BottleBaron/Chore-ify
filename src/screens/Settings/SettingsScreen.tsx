@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import AdminSettings from './AdminSettings';
 import UserSettings from './UserSettings';
@@ -15,13 +16,16 @@ export type UserSettingsSubComponentProps = {
 };
 
 export default function SettingsScreen({ navigation }: Props) {
+  const theme = useAppTheme();
   const userIsAdmin = true; // You can toggle this for testing
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>
-          {userIsAdmin ? 'Admin Settings' : 'User Settings'}
-        </Text>
+        <View style={styles.textContainer}>
+          <Text style={[styles.sectionHeader, { color: theme.colors.text }]}>
+            {userIsAdmin ? 'Admin Settings' : 'User Settings'}
+          </Text>
+        </View>
         {!userIsAdmin ? (
           <UserSettings navigation={navigation} />
         ) : (
@@ -34,21 +38,22 @@ export default function SettingsScreen({ navigation }: Props) {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#f5f5f5',
   },
   section: {
     alignItems: 'center',
     justifyContent: 'center',
-    // padding: 16,
-    // borderBottomWidth: 1,
-    // borderColor: '#ccc',
+  },
+  textContainer: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 16,
   },
   sectionHeader: {
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: 'bold',
-    // marginBottom: 8,
   },
 });
+
 // Dependant of whether the user is an admin within this household or not
 // If admin, show the following:
 // - Profile-settings
