@@ -3,14 +3,17 @@ import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { RootStackParamList } from '../types';
 import AuthScreen from '../../screens/Auth/AuthScreen';
-import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
-import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
+import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
+// eslint-disable-next-line import/no-named-as-default
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
+
+import { RootStackParamList } from '../types';
+import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
+import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -38,6 +41,7 @@ export default function RootStackNavigator() {
           name="HouseHoldSelectorScreen"
           component={HouseHoldSelectorScreen}
         />
+        <Stack.Screen name="Statistics" component={StatisticsScreen} />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="SignIn" component={SignInModalScreen} />

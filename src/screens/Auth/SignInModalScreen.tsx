@@ -39,7 +39,7 @@ export default function SignInModalScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundTintColor },
+            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
           ]}
         />
         <View style={styles.innerContainer}>
@@ -48,21 +48,36 @@ export default function SignInModalScreen({ navigation }: Props) {
             title="Google"
             content="Sign in with Google"
             iconName="google"
+            iconColor={theme.colors.googleColor}
             onPress={() => navigation.navigate('HouseholdDashboard')}
+            borderStyle={{
+              borderColor: theme.colors.googleColor,
+              borderWidth: 3,
+            }}
           />
           <ThemedClickableCardButton
             hideTitle // or hideTitle={false}
             title="Facebook"
             content="Sign in with Facebook"
             iconName="facebook"
+            iconColor={theme.colors.facebookColor}
             onPress={() => navigation.navigate('HouseholdDashboard')}
+            borderStyle={{
+              borderColor: theme.colors.facebookColor,
+              borderWidth: 3,
+            }}
           />
           <ThemedClickableCardButton
             hideTitle // or hideTitle={false}
             title="Email"
             content="Sign in with Email"
             iconName="at"
+            iconColor={theme.colors.outLookColor}
             onPress={() => navigation.navigate('HouseholdDashboard')}
+            borderStyle={{
+              borderColor: theme.colors.outLookColor,
+              borderWidth: 3,
+            }}
           />
         </View>
       </ImageBackground>
