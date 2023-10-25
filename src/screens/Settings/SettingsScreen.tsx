@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
@@ -19,45 +19,43 @@ function AdminSettings({ navigation }: AdminSettingsSubComponentProps) {
   return (
     <View>
       <Text>Admin-settings</Text>
-      <Button title="Change name" onPress={() => {}} />
-      <Button title="Change email" onPress={() => {}} />
       <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="Profile"
-        content="Profile"
-        iconName="user"
+        hideTitle
+        title="ProfileSettings"
+        content="Profile Settings"
+        iconName="user-cog"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
       <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
+        hideTitle
+        title="HandleUsers"
+        content="Handle Users"
+        iconName="user-edit"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
       <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
+        hideTitle
+        title="ShowAccessCode"
+        content="Show Access Code"
+        iconName="key"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
       <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
+        hideTitle
+        title="ShowQRCode"
+        content="Show QR Code"
+        iconName="qrcode"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
       <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
+        hideTitle
+        title="EditHousehold"
+        content="Edit Household"
+        iconName="home-edit"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
@@ -70,53 +68,19 @@ function UserSettings({ navigation }: UserSettingsSubComponentProps) {
   return (
     <View>
       <Text>User-settings</Text>
-      <Button title="Change name" onPress={() => {}} />
-      <Button title="Change email" onPress={() => {}} />
       <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="Profile"
-        content="Profile"
-        iconName="user"
+        hideTitle
+        title="ProfileSettings"
+        content="Profile Settings"
+        iconName="user-cog"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
       <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
-        iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
-      />
-      <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
-        iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
-      />
-      <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
-        iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
-      />
-      <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
-        iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
-      />
-      <ThemedClickableCardButton
-        hideTitle // or hideTitle={false}
-        title="ChangeName"
-        content="Change Name"
-        iconName="cog"
+        hideTitle
+        title="LeaveHousehold"
+        content="Leave Household"
+        iconName="door-open"
         iconColor={theme.colors.text}
         onPress={() => navigation.navigate('Statistics', { period: 'today' })}
       />
