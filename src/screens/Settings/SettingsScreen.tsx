@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { RootStackScreenProps } from '../../navigators/types';
 
 type Props = RootStackScreenProps<'Settings'>;
@@ -7,15 +7,15 @@ type Props = RootStackScreenProps<'Settings'>;
 export default function SettingsScreen({ navigation }: Props) {
   const userIsAdmin = true; // You can toggle this for testing
 
-  return (
+  const AdminSettings = () => (
     <View>
-      {userIsAdmin ? (
-<View>
-        <Text>Admin</Text>
-        </View>
-
-      ): <SettingsScreen>}
+      <Text>Profile-settings</Text>
+      <Button title="Change name" onPress={() => {}} />
+      <Button title="Change email" onPress={() => {}} />
     </View>
+  );
+
+  return (
   );
 
   // Dependant of whether the user is an admin within this household or not
