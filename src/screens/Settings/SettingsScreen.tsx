@@ -15,6 +15,15 @@ export default function SettingsScreen({ navigation }: Props) {
     </View>
   );
 
+  const UserSettings = () => (
+    <View>
+      <Text>Profile-settings</Text>
+      <Button title="Change name" onPress={() => {}} />
+      <Button title="Change email" onPress={() => {}} />
+      {/* ...other user options */}
+    </View>
+  );
+
   return (
   );
 
