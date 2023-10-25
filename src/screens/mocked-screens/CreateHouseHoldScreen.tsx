@@ -12,11 +12,15 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
+  const [nickName, setNickName] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('');
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   const handleAvatarSelection = (avatar: string) => {
     setSelectedAvatar(avatar);
+    setExpanded(!expanded); // Stänger listan när en avatar väljs
   };
+  const handlePress = () => setExpanded(!expanded);
 
   return (
     <View style={styles.container}>
@@ -27,8 +31,14 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
         value={householdName}
         onChangeText={(householdName) => setHouseholdName(householdName)}
       />
-      <Text>
-        <List.Accordion title="Välj din avatar">
+      <TextInput
+        mode="outlined"
+        label="Ditt namn i hushållet"
+        value={nickName}
+        onChangeText={(nickName) => setNickName(nickName)}
+      />
+     <Text>
+        <List.Accordion expanded={expanded} title={selectedAvatar || 'Välj din avatar'} onPress={handlePress}>
           {avatars.map((avatar, index) => (
             <List.Item
               key={index}
@@ -37,7 +47,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
             />
           ))}
         </List.Accordion>
-      </Text>
+        </Text>
     </View>
   );
 }
