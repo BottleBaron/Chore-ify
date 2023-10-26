@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable no-console */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -13,8 +14,9 @@ import {
   isRejectedWithValue,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { sendEmailVerification, signOut } from 'firebase/auth';
+import { sendEmailVerification, signOut, UserCredential } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
+import createAppAsyncThunk from '../utils';
 
 export interface LoginCredentialsDTO {
   email: string;
@@ -35,37 +37,6 @@ const accountSlice = createSlice({
   reducers: {
     setActiveUser: (state, action: PayloadAction<User | null>) => {
       state.authUser = action.payload;
-    },
-    createNewAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
-      createUserWithEmailAndPassword(
-        auth,
-        action.payload.email,
-        action.payload.password,
-      )
-        .then((userCredential) => {
-          const user = userCredential.user;
-          setActiveUser(user);
-          SendVerificationMail();
-        })
-        .catch((error) => {
-          const e = isRejectedWithValue(error.message);
-          return e;
-        });
-    },
-    signIntoAccount: (state, action: PayloadAction<LoginCredentialsDTO>) => {
-      signInWithEmailAndPassword(
-        auth,
-        action.payload.email,
-        action.payload.password,
-      )
-        .then((userCredential) => {
-          const user = userCredential.user;
-          setActiveUser(user);
-        })
-        .catch((error) => {
-          const e = isRejectedWithValue(error.message);
-          return e;
-        });
     },
     updateDisplayname: (state, action: PayloadAction<string>) => {
       if (auth.currentUser != null) {
@@ -93,7 +64,50 @@ const accountSlice = createSlice({
         });
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(signIntoAccount.fulfilled, (state, action) => {
+      const result = JSON.parse(action.payload) as UserCredential;
+      setActiveUser(result.user);
+    });
+    builder.addCase(createAccount.fulfilled, (state, action) => {
+      const result = JSON.parse(action.payload) as UserCredential;
+      setActiveUser(result.user);
+      SendVerificationMail();
+    });
+  },
 });
+
+export const signIntoAccount = createAppAsyncThunk<string, LoginCredentialsDTO>(
+  'account/signIn',
+  async (credentials: LoginCredentialsDTO) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        credentials.email,
+        credentials.password,
+      );
+      return JSON.stringify(userCredential);
+    } catch (e: any) {
+      throw e;
+    }
+  },
+);
+
+export const createAccount = createAppAsyncThunk<string, LoginCredentialsDTO>(
+  'account/create',
+  async (credentials: LoginCredentialsDTO) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        credentials.email,
+        credentials.password,
+      );
+      return JSON.stringify(userCredential);
+    } catch (e: any) {
+      throw e;
+    }
+  },
+);
 
 export function SendVerificationMail() {
   if (auth.currentUser != null) {
@@ -107,11 +121,6 @@ onAuthStateChanged(auth, (currentUser) => {
   setActiveUser(currentUser);
 });
 
-export const {
-  setActiveUser,
-  createNewAccount,
-  signIntoAccount,
-  signOutOfAccount,
-  updateDisplayname,
-} = accountSlice.actions;
+export const { setActiveUser, signOutOfAccount, updateDisplayname } =
+  accountSlice.actions;
 export const accountReducer = accountSlice.reducer;

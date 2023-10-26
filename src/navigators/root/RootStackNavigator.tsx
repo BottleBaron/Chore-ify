@@ -8,13 +8,12 @@ import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
 import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
-// eslint-disable-next-line import/no-named-as-default
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
-
-import SettingsScreen from '../../screens/Settings/SettingsScreen';
 import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
 import { RootStackParamList } from '../types';
+
+import SettingsScreen from '../../screens/Settings/SettingsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

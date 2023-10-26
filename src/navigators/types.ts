@@ -7,12 +7,9 @@ export type RootStackParamList = {
   Auth: undefined;
   Chore: undefined;
   HouseholdDashboard: undefined;
-
   MockedHouseholdDetail: undefined;
-
   HouseHoldSelectorScreen: undefined;
   HouseHoldSelectorScreenNoHouseHold: undefined;
-
   Login: undefined;
   Profile: undefined;
   SignIn: undefined;
