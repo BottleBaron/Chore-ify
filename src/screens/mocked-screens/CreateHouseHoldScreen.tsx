@@ -18,6 +18,7 @@ type Props = RootStackScreenProps<'CreateHouseHold'>;
 export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
+  const currentAccount = useAppSelector((state) => state.account.authUser);
 
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
@@ -32,21 +33,18 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
   const handlePress = () => setExpanded(!expanded);
   const handleCreate = async () => {
     const createdHousehold: Household = {
-      id: '',
       name: householdName,
       accessCode: '',
     };
+    await dispatch(addHousehold(createdHousehold));
+    /* 
+    const households = useAppSelector((state) => state.household.households);
+    const createdHouseholdId = households.find(
+      (hs) => hs.name === householdName,
+    )?.id;
 
-    const action = await dispatch(addHousehold(createdHousehold));
-    console.log(action.payload);
-    const householdId = useAppSelector(
-      (state) =>
-        state.household.households.findLast((hs) => hs.name === householdName)
-          ?.id,
-    );
+    if (!createdHouseholdId) return;
 
-    if (!householdId) return;
-    const currentAccount = useAppSelector((state) => state.account.authUser);
     if (currentAccount === null) return;
 
     const createdUser: User = {
@@ -56,10 +54,11 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
       name: nickName,
       isPaused: false,
       isAdmin: true,
-      householdId,
+      householdId: createdHouseholdId,
     };
 
     dispatch(addUser(createdUser));
+    */
   };
 
   return (

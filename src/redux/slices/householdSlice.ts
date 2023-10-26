@@ -10,7 +10,6 @@ import { getFirebaseUsers } from '../../../api/user';
 import { User } from './userSlice';
 
 export interface Household {
-  id: string;
   name: string;
   accessCode: string;
 }
