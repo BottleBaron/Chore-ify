@@ -14,6 +14,7 @@ export interface User {
   avatar: string;
   name: string;
   isPaused: boolean;
+  isAdmin: boolean;
 }
 
 export interface Household {

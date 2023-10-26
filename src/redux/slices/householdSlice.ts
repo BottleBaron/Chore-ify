@@ -11,7 +11,6 @@ import { User } from './userSlice';
 
 export interface Household {
   id: string;
-  adminIds: number[];
   name: string;
   accessCode: string;
 }

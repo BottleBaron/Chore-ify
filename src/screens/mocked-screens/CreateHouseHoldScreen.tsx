@@ -4,15 +4,21 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Text, Button, TextInput, List } from 'react-native-paper';
-
+import { useSelector } from 'react-redux';
+import { User, addUser } from '../../redux/slices/userSlice';
+import { Household, addHousehold } from '../../redux/slices/householdSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
+
 import HouseHoldSelectorScreen from './HouseHoldSelectorScreen';
 
 type Props = RootStackScreenProps<'CreateHouseHold'>;
 
 export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
+  const dispatch = useAppDispatch();
+
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
@@ -24,6 +30,37 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
     setExpanded(!expanded); // Stänger listan när en avatar väljs
   };
   const handlePress = () => setExpanded(!expanded);
+  const handleCreate = async () => {
+    const createdHousehold: Household = {
+      id: '',
+      name: householdName,
+      accessCode: '',
+    };
+
+    const action = await dispatch(addHousehold(createdHousehold));
+    console.log(action.payload);
+    const householdId = useAppSelector(
+      (state) =>
+        state.household.households.findLast((hs) => hs.name === householdName)
+          ?.id,
+    );
+
+    if (!householdId) return;
+    const currentAccount = useAppSelector((state) => state.account.authUser);
+    if (currentAccount === null) return;
+
+    const createdUser: User = {
+      id: '',
+      accountId: currentAccount.uid,
+      avatar: selectedAvatar,
+      name: nickName,
+      isPaused: false,
+      isAdmin: true,
+      householdId,
+    };
+
+    dispatch(addUser(createdUser));
+  };
 
   return (
     <View style={styles.container}>
@@ -68,6 +105,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
             icon="plus-circle"
             mode="outlined"
             labelStyle={{ fontSize: 18 }}
+            onPress={handleCreate}
           >
             Skapa
           </Button>

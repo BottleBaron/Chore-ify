@@ -9,10 +9,11 @@ import { fetchHouseholdsAndUsers } from './householdSlice';
 
 export interface User {
   id: string;
-  accountId: number;
+  accountId: string;
   avatar: string;
   name: string;
   isPaused: boolean;
+  isAdmin: boolean;
   householdId: string;
 }
 
