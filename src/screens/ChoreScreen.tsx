@@ -73,19 +73,15 @@ export default function ChoreScreen({ route, navigation }: Props) {
     const recentCompletion = mockCompletedChores.find(
       (completion) => completion.choreId === choreId,
     );
-
     if (!recentCompletion) return null;
-
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const user = mockUsers.find((user) => user.id === recentCompletion.userId);
-
     return {
       user,
       completedDate: recentCompletion.completedDate,
     };
   };
   const recentActivity = getRecentActivity(choreId);
-
   const recentCompleter = recentActivity ? recentActivity.user : null;
   const completedDate = recentActivity ? recentActivity.completedDate : null;
 
@@ -95,6 +91,7 @@ export default function ChoreScreen({ route, navigation }: Props) {
         <Text style={styles.headerText}>{chore.title}</Text>
       </View>
       <StatusCard status="done" daysLeft={5} />
+      <Text style={styles.activityText}>Senast aktivitet</Text>
       <Card style={styles.card}>
         <Card.Content>
           <Title>{chore.title}</Title>
@@ -148,6 +145,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  activityText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginHorizontal: 16,
+    marginTop: 16,
+    textAlign: 'center',
+  },
   header: {
     padding: 16,
     borderBottomWidth: 1,
@@ -167,6 +171,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  activityContainer: {
+    padding: 16,
+  },
   card: {
     flex: 1,
     marginHorizontal: 16,
@@ -181,6 +188,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
+  },
+  statusText: {
+    fontSize: 18,
+    textAlign: 'center',
   },
   footer: {
     padding: 16,
