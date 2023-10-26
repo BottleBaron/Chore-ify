@@ -13,6 +13,7 @@ export interface User {
   avatar: string;
   name: string;
   isPaused: boolean;
+  date: Date;
 }
 
 export interface Household {
@@ -33,9 +34,13 @@ export interface Chore {
 
 // NOTE: Not sure if this will be required as a class
 export interface UserToCompletedChore {
+  completedDate: any;
   userId: number;
   choreId: number;
 }
+export const mockCompletedChores: UserToCompletedChore[] = [
+  { userId: 1, choreId: 1, completedDate: new Date('2023-10-23') },
+];
 
 export const mockAccounts: Account[] = [
   {
@@ -55,6 +60,7 @@ export const mockUsers: User[] = [
     avatar: '🐙',
     name: 'Jens',
     isPaused: false,
+    date: new Date('2023-10-22'),
   },
 ];
 
