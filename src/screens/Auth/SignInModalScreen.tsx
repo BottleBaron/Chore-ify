@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
-import { Button, HelperText, TextInput } from 'react-native-paper';
+import { Button, HelperText, TextInput, Title } from 'react-native-paper';
 import initialBackground from '../../../assets/backgrounds/initial_background.png';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
@@ -16,7 +16,6 @@ type Props = RootStackScreenProps<'SignIn'>;
 export default function SignInModalScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -74,15 +73,34 @@ export default function SignInModalScreen({ navigation }: Props) {
           ]}
         />
         <View style={styles.innerContainer}>
+          <Title
+            style={[styles.title, { color: theme.colors.themeTitleColor }]}
+          >
+            Chorify
+          </Title>
           <TextInput
-            outlineColor={theme.colors.primary}
-            style={{ width: '50%' }}
-            keyboardType="email-address"
-            mode="outlined"
             label="Email"
+            aria-labelledby="email"
             value={email}
             onChangeText={validateEmail}
-            error={!!emailError}
+            style={styles.input}
+            mode="outlined"
+            inputMode="email"
+            contentStyle={{
+              backgroundColor: theme.colors.contentStyleBackgroundColor,
+            }}
+            outlineColor={theme.colors.outLineColor}
+            activeOutlineColor={theme.colors.activeOutlineColor}
+            selectionColor={theme.colors.activeOutlineColor}
+            // den blinkande cursorn:
+            cursorColor={theme.colors.button}
+            // texten:
+            textColor={theme.colors.textColor}
+            // underlinjen av texten:
+            underlineColor={theme.colors.outLineColor}
+            // underlinjen när texten är aktiv:
+            activeUnderlineColor={theme.colors.outLineColor}
+            placeholderTextColor={theme.colors.color}
           />
           <HelperText
             style={{ color: theme.colors.error }}
@@ -93,14 +111,28 @@ export default function SignInModalScreen({ navigation }: Props) {
           </HelperText>
 
           <TextInput
-            outlineColor={theme.colors.primary}
-            style={{ width: '50%' }}
-            mode="outlined"
-            label="Password"
-            secureTextEntry
+            label="Confirm Password"
+            aria-labelledby="confirm password"
             value={password}
             onChangeText={validatePassword}
-            error={!!passwordError}
+            secureTextEntry
+            style={styles.input}
+            mode="outlined"
+            contentStyle={{
+              backgroundColor: theme.colors.contentStyleBackgroundColor,
+            }}
+            outlineColor={theme.colors.outLineColor}
+            activeOutlineColor={theme.colors.activeOutlineColor}
+            selectionColor={theme.colors.activeOutlineColor}
+            // den blinkande cursorn:
+            cursorColor={theme.colors.button}
+            // texten:
+            textColor={theme.colors.textColor}
+            // underlinjen av texten:
+            underlineColor={theme.colors.outLineColor}
+            // underlinjen när texten är aktiv:
+            activeUnderlineColor={theme.colors.outLineColor}
+            placeholderTextColor={theme.colors.color}
           />
           <HelperText type="error" visible={!!passwordError}>
             {passwordError}
@@ -133,6 +165,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    lineHeight: 80,
+    fontSize: 80,
+    fontWeight: 'bold',
+    marginTop: 50,
+  },
   cardContainer: {
     marginBottom: 20,
     width: 300,
@@ -140,5 +178,10 @@ const styles = StyleSheet.create({
   cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  input: {
+    width: '70%',
+    marginTop: 20,
+    margin: 5,
   },
 });
