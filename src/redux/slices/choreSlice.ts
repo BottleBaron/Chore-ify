@@ -11,7 +11,7 @@ import createAppAsyncThunk from '../utils';
 
 export interface Chore {
   id: string;
-  householdId: number;
+  householdId: string;
   title: string;
   description: string;
   dayinterval: number;

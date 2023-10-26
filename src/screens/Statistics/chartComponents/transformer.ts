@@ -19,7 +19,7 @@ export default function transformer(input: Input): PieChartData[] {
   const output: PieChartData[] = [];
   input.users.forEach(({ id, avatar }) => {
     const completedChores = input.completed.filter(
-      (completed) => completed.userId === Number(id),
+      (completed) => completed.userId === id,
     );
     const completedChoresCount = completedChores.length;
     const color = getColorForAvatar(avatar);
@@ -30,13 +30,12 @@ export default function transformer(input: Input): PieChartData[] {
 
 export function transformChoreSpecific(
   input: Input,
-  choreId: number,
+  choreId: string,
 ): PieChartData[] {
   const output: PieChartData[] = [];
   input.users.forEach(({ id, avatar }) => {
     const completedChores = input.completed.filter(
-      (completed) =>
-        completed.userId === Number(id) && completed.choreId === choreId,
+      (completed) => completed.userId === id && completed.choreId === choreId,
     );
     const completedChoresCount = completedChores.length;
     const color = getColorForAvatar(avatar);

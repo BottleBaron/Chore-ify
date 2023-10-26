@@ -2,40 +2,40 @@ import { Account, Chore, Household, User, UserToCompletedChore } from './types';
 
 export const mockUserToCompletedChore: UserToCompletedChore[] = [
   // User 1
-  { userId: 1, choreId: 1 },
-  { userId: 1, choreId: 1 },
-  { userId: 1, choreId: 2 },
-  { userId: 1, choreId: 6 },
-  { userId: 1, choreId: 4 },
-  { userId: 1, choreId: 7 },
-  { userId: 1, choreId: 8 },
-  { userId: 1, choreId: 9 },
+  { userId: '1', choreId: '1' },
+  { userId: '1', choreId: '1' },
+  { userId: '1', choreId: '2' },
+  { userId: '1', choreId: '6' },
+  { userId: '1', choreId: '4' },
+  { userId: '1', choreId: '7' },
+  { userId: '1', choreId: '8' },
+  { userId: '1', choreId: '9' },
   // User 2
-  { userId: 2, choreId: 1 },
-  { userId: 2, choreId: 5 },
-  { userId: 2, choreId: 5 },
-  { userId: 2, choreId: 5 },
-  { userId: 2, choreId: 7 },
-  { userId: 2, choreId: 7 },
-  { userId: 2, choreId: 8 },
+  { userId: '2', choreId: '1' },
+  { userId: '2', choreId: '5' },
+  { userId: '2', choreId: '5' },
+  { userId: '2', choreId: '5' },
+  { userId: '2', choreId: '7' },
+  { userId: '2', choreId: '7' },
+  { userId: '2', choreId: '8' },
   // User 3
-  { userId: 3, choreId: 2 },
-  { userId: 3, choreId: 3 },
-  { userId: 3, choreId: 4 },
-  { userId: 3, choreId: 1 },
-  { userId: 3, choreId: 9 },
-  { userId: 3, choreId: 8 },
-  { userId: 3, choreId: 7 },
+  { userId: '3', choreId: '2' },
+  { userId: '3', choreId: '3' },
+  { userId: '3', choreId: '4' },
+  { userId: '3', choreId: '1' },
+  { userId: '3', choreId: '9' },
+  { userId: '3', choreId: '8' },
+  { userId: '3', choreId: '7' },
   // User 4
-  { userId: 4, choreId: 4 },
-  { userId: 4, choreId: 5 },
-  { userId: 4, choreId: 6 },
-  { userId: 4, choreId: 6 },
-  { userId: 4, choreId: 6 },
-  { userId: 4, choreId: 7 },
-  { userId: 4, choreId: 8 },
-  { userId: 4, choreId: 9 },
-  { userId: 4, choreId: 9 },
+  { userId: '4', choreId: '4' },
+  { userId: '4', choreId: '5' },
+  { userId: '4', choreId: '6' },
+  { userId: '4', choreId: '6' },
+  { userId: '4', choreId: '6' },
+  { userId: '4', choreId: '7' },
+  { userId: '4', choreId: '8' },
+  { userId: '4', choreId: '9' },
+  { userId: '4', choreId: '9' },
 ];
 
 export const mockAccounts: Account[] = [
@@ -92,13 +92,13 @@ export const mockUsers: User[] = [
 
 export const mockHouseholds: Household[] = [
   {
-    id: 1,
+    id: '1',
     adminIds: [1],
     name: 'Johansson Hushållet',
     accesCode: 'someGeneratedCode',
   },
   {
-    id: 2,
+    id: '2',
     adminIds: [2],
     name: 'Andersson Hushållet',
     accesCode: 'annanGeneratedCode',
@@ -108,7 +108,7 @@ export const mockHouseholds: Household[] = [
 export const mockChores: Chore[] = [
   {
     id: '1',
-    householdId: 1,
+    householdId: '1',
     title: 'Diska',
     description: 'Diska och torka all smutsig disk i köket',
     dayinterval: 2,
@@ -116,7 +116,7 @@ export const mockChores: Chore[] = [
   },
   {
     id: '2',
-    householdId: 1,
+    householdId: '1',
     title: 'Dammsugning',
     description: 'Dammsug hela huset och byt dammsugspåse om det behövs',
     dayinterval: 2,
@@ -124,7 +124,7 @@ export const mockChores: Chore[] = [
   },
   {
     id: '3',
-    householdId: 1,
+    householdId: '1',
     title: 'Moppa golven',
     description: 'Moppa alla golvytor i huset',
     dayinterval: 3,
@@ -132,7 +132,7 @@ export const mockChores: Chore[] = [
   },
   {
     id: '4',
-    householdId: 1,
+    householdId: '1',
     title: 'Gräsklippning',
     description: 'Klippa gräset på både fram- och baksidan',
     dayinterval: 7,
@@ -140,7 +140,7 @@ export const mockChores: Chore[] = [
   },
   {
     id: '5',
-    householdId: 1,
+    householdId: '1',
     title: 'Bädda rent',
     description: 'Byta lakan i alla sängar och tvätta de smutsiga',
     dayinterval: 14,
@@ -148,7 +148,7 @@ export const mockChores: Chore[] = [
   },
   {
     id: '6',
-    householdId: 1,
+    householdId: '1',
     title: 'Städa toaletten',
     description: 'Städa och desinficera toaletten',
     dayinterval: 7,
@@ -156,7 +156,7 @@ export const mockChores: Chore[] = [
   },
   {
     id: '7',
-    householdId: 1,
+    householdId: '1',
     title: 'Tvätta fönster',
     description: 'Clean all the windows inside and out',
     dayinterval: 30,
@@ -164,7 +164,7 @@ export const mockChores: Chore[] = [
   },
   {
     id: '8',
-    householdId: 1,
+    householdId: '1',
     title: 'Släng sopor',
     description: 'Take out all the trash and separate recyclables',
     dayinterval: 7,
@@ -172,10 +172,14 @@ export const mockChores: Chore[] = [
   },
   {
     id: '9',
-    householdId: 1,
+    householdId: '1',
     title: 'Storhandla',
     description: 'Purchase weekly groceries',
     dayinterval: 7,
     effortNumber: 4,
   },
+];
+
+export const mockCompletedChores: UserToCompletedChore[] = [
+  { userId: '1', choreId: '1', dateCompleted: new Date('2023-10-23') },
 ];

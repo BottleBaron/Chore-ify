@@ -29,7 +29,7 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
         <TouchableRipple
           key={household.id}
           style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
-          onPress={() => navigation.navigate('Statistics', { period: 'today' })}
+          onPress={() => navigation.navigate('HouseholdDashboard')}
         >
           <View style={{ alignItems: 'center' }}>
             <Text style={{ color: theme.colors.textColor }}>
