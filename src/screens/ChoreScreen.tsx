@@ -20,8 +20,13 @@ import {
 
 type Props = RootStackScreenProps<'Chore'>;
 
+interface StatusCardProps {
+  status: string;
+  daysLeft: number;
+}
+
 // eslint-disable-next-line react/prop-types
-function StatusCard({ status, daysLeft }) {
+function StatusCard({ status, daysLeft }: StatusCardProps) {
   let backgroundColor = '#CCCCCC'; // grå
   let text = 'Den här sysslan behöver fortfarande göras idag!';
 
@@ -69,7 +74,7 @@ export default function ChoreScreen({ route, navigation }: Props) {
     );
   };
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const getRecentActivity = (choreId: number) => {
+  const getRecentActivity = (choreId: string) => {
     const recentCompletion = mockCompletedChores.find(
       (completion) => completion.choreId === choreId,
     );
@@ -78,7 +83,7 @@ export default function ChoreScreen({ route, navigation }: Props) {
     const user = mockUsers.find((user) => user.id === recentCompletion.userId);
     return {
       user,
-      completedDate: recentCompletion.completedDate,
+      completedDate: recentCompletion.dateCompleted,
     };
   };
   const recentActivity = getRecentActivity(choreId);

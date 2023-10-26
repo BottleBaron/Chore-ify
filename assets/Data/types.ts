@@ -17,7 +17,7 @@ export interface User {
 }
 
 export interface Household {
-  id: number;
+  id: string;
   adminIds: number[];
   name: string;
   accesCode: string;
@@ -25,7 +25,7 @@ export interface Household {
 
 export interface Chore {
   id: string;
-  householdId: number;
+  householdId: string;
   title: string;
   description: string;
   dayinterval: number;
@@ -34,7 +34,7 @@ export interface Chore {
 
 // NOTE: Not sure if this will be required as a class
 export interface UserToCompletedChore {
-  userId: number;
-  choreId: number;
+  userId: string;
+  choreId: string;
   dateCompleted?: Date;
 }

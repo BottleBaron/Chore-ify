@@ -57,7 +57,7 @@ const statisticsSlice = createSlice({
     generateChorePieChartData: (
       state,
       action: PayloadAction<{
-        choreId: number;
+        choreId: string;
         completedChores: UserToCompletedChore[];
         users: User[];
       }>,

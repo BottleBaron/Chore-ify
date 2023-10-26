@@ -28,7 +28,7 @@ export default function StatisticsScreen() {
         {chores.map((chore) => {
           const specificPieChartData = transformChoreSpecific(
             { users, chores, completed },
-            Number(chore.id),
+            (chore.id),
           );
           return (
             <View style={styles.gridItem} key={chore.id}>

@@ -5,7 +5,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Auth: undefined;
-  Chore: undefined;
+  Settings: undefined;
   HouseholdDashboard: undefined;
   MockedHouseholdDetail: undefined;
   HouseHoldSelectorScreen: undefined;
@@ -15,8 +15,9 @@ export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
   Statistics: { period: string };
-
-  Settings: undefined;
+  Chore: {
+    choreId: string;
+  };
 };
 
 export type HouseHoldDashboardTabParamList = {

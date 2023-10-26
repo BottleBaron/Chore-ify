@@ -3,22 +3,14 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+	"baseUrl": "./",
+	  "paths": {
+		"*": ["src/*", "assets/*"]
+	  }
+
   },
   "include": ["src/**/*", "assets/**/*", "types/**/*", "App.tsx", "api/**/*"],
   "exclude": ["node_modules"]
 }
 
-	"extends": "expo/tsconfig.base",
-	"compilerOptions": {
-	  "strict": true,
-	  "jsx": "react",
-	  "esModuleInterop": true,
-	  "baseUrl": "./",
-	  "paths": {
-		"*": ["src/*", "assets/*"]
-	  }
-	},
-	"include": ["src/**/*", "declarations.ts"]
-  }
-  
