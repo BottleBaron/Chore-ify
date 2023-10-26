@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import * as React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Card, Paragraph, Title } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useAppTheme } from '../contexts/ThemeContext';
@@ -11,8 +11,11 @@ type CardButtonProps = {
   iconName: string;
   onPress: () => void;
   iconSize?: number;
+  iconColor?: string;
   hideTitle?: boolean; // Add this line
   width?: number;
+  borderStyle?: ViewStyle;
+  rotateIcon?: number; // Add this line
 };
 
 export default function ThemedClickableCardButton({
@@ -21,8 +24,11 @@ export default function ThemedClickableCardButton({
   iconName,
   onPress,
   iconSize,
+  iconColor,
   hideTitle,
   width,
+  borderStyle,
+  rotateIcon,
 }: CardButtonProps) {
   const theme = useAppTheme(); // get the theme
   const actualIconSize = iconSize ?? 30; // Use 30 if `iconSize` is not provided
@@ -33,14 +39,27 @@ export default function ThemedClickableCardButton({
     return null;
   };
   const actualWidth = width ?? 300;
+  const rotationStyle = rotateIcon
+    ? { transform: [{ rotate: `${rotateIcon}deg` }] }
+    : {};
+
+  const defaultBorderStyle = {
+    // Default border style if not provided
+    borderWidth: 1,
+    borderColor: 'transparent', // or any default color you'd like
+  };
+
+  const actualBorderStyle = borderStyle ?? defaultBorderStyle;
+  const actualIconColor = iconColor ?? theme.colors.buttonIconColor;
 
   return (
     <TouchableOpacity onPress={onPress}>
       <Card
         style={{
           margin: 10,
-          backgroundColor: theme.colors.card,
+          backgroundColor: theme.colors.background,
           width: actualWidth,
+          ...actualBorderStyle, // Spread the default border style
         }}
       >
         <Card.Content
@@ -54,7 +73,7 @@ export default function ThemedClickableCardButton({
               width: 50,
               height: 30,
               borderRadius: 25,
-              backgroundColor: theme.colors.card,
+              backgroundColor: theme.colors.background,
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -62,15 +81,15 @@ export default function ThemedClickableCardButton({
             <Icon
               name={iconName}
               size={actualIconSize}
-              color={theme.colors.primary}
-              style={{ marginRight: 15 }}
+              color={actualIconColor} // Use the actualIconColor here
+              style={[{ marginRight: 15 }, rotationStyle]} // Add rotation here
             />
           </View>
           <View>
             {renderTitle()}
             <Paragraph
               style={{
-                color: theme.colors.primary,
+                color: theme.colors.text,
                 marginStart: 10,
                 fontSize: 18,
               }}

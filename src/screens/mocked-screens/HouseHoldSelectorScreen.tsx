@@ -2,10 +2,10 @@
 /* eslint-disable import/no-cycle */
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, Button, TouchableRipple, Divider } from 'react-native-paper';
+import { Divider, Text, TouchableRipple } from 'react-native-paper';
+import { mockHouseholds } from '../../../assets/Data/MockData';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
-import { mockHouseholds } from '../../../assets/Data/MockData';
 import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 
 type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
@@ -16,10 +16,10 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', marginTop: 10 }}>
-        <Text style={{ color: theme.colors.color }}>DINA HUSHÅLL</Text>
+        <Text style={{ color: theme.colors.textColor }}>DINA HUSHÅLL</Text>
         <Divider
           style={{
-            backgroundColor: theme.colors.color,
+            backgroundColor: theme.colors.textColor,
             minWidth: '100%',
             height: 3,
           }}
@@ -29,10 +29,12 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
         <TouchableRipple
           key={household.id}
           style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
-          onPress={() => navigation.navigate('HouseholdDashboard')}
+          onPress={() => navigation.navigate('Statistics', { period: 'today' })}
         >
           <View style={{ alignItems: 'center' }}>
-            <Text style={{ color: theme.colors.color }}>{household.name}</Text>
+            <Text style={{ color: theme.colors.textColor }}>
+              {household.name}
+            </Text>
             <Text>🐙 </Text>
           </View>
         </TouchableRipple>

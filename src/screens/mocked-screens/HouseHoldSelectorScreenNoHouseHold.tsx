@@ -28,11 +28,11 @@ export default function HouseHoldSelectorScreenNoHouseHold({
               source={require('../../../assets/button-images/joinHousehold.png')}
               style={styles.image}
             />
-            <Text style={{ color: theme.colors.color }}>
+            <Text style={{ color: theme.colors.textColor }}>
               {' '}
               GÅ MED I ETT HUSHÅLL{' '}
             </Text>
-            <Text style={{ color: theme.colors.color }}>
+            <Text style={{ color: theme.colors.textColor }}>
               {' '}
               Gå med i ett hushåll som någon redan har skapat
             </Text>
@@ -51,11 +51,11 @@ export default function HouseHoldSelectorScreenNoHouseHold({
               source={require('../../../assets/button-images/create-household.png')}
               style={styles.image}
             />
-            <Text style={{ color: theme.colors.color }}>
+            <Text style={{ color: theme.colors.textColor }}>
               {' '}
               SKAPA ETT NYTT HUSHÅLL{' '}
             </Text>
-            <Text style={{ color: theme.colors.color }}>
+            <Text style={{ color: theme.colors.textColor }}>
               Skapa ett nytt hushåll och bjud in andra att gå med
             </Text>
           </View>

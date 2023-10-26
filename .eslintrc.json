@@ -3,20 +3,25 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-
   "rules": {
     "linebreak-style": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "no-param-reassign": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-cycle": "off"
   },
-    "rules": {
-       "linebreak-style": "off",
-       "prettier/prettier": ["error",{"endOfLine": "auto"}],
-       "no-use-before-define": "off",
-       "@typescript-eslint/no-use-before-define": "off",
-       "no-param-reassign": "off"
-    },
+  "ignorePatterns": [
+    "node_modules/",
+    "**/node_modules/",
+    "/**/node_modules/*",
+    "node_modules/react-native-gifted-charts/",
+    "out/",
+    "dist/",
+    "build/"
+  ],
   "plugins": ["prettier"]
 }
