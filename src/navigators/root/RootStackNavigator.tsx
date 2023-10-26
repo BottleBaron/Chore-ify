@@ -3,15 +3,17 @@ import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { RootStackParamList } from '../types';
 import AuthScreen from '../../screens/Auth/AuthScreen';
-import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
-import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
-import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
+import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
 import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
+import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
+import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
+import { RootStackParamList } from '../types';
+
+import SettingsScreen from '../../screens/Settings/SettingsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -40,6 +42,7 @@ export default function RootStackNavigator() {
           component={HouseHoldSelectorScreen}
         />
         <Stack.Screen name="Statistics" component={StatisticsScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="SignIn" component={SignInModalScreen} />

@@ -15,6 +15,7 @@ type CardButtonProps = {
   hideTitle?: boolean; // Add this line
   width?: number;
   borderStyle?: ViewStyle;
+  rotateIcon?: number; // Add this line
 };
 
 export default function ThemedClickableCardButton({
@@ -27,6 +28,7 @@ export default function ThemedClickableCardButton({
   hideTitle,
   width,
   borderStyle,
+  rotateIcon,
 }: CardButtonProps) {
   const theme = useAppTheme(); // get the theme
   const actualIconSize = iconSize ?? 30; // Use 30 if `iconSize` is not provided
@@ -37,6 +39,9 @@ export default function ThemedClickableCardButton({
     return null;
   };
   const actualWidth = width ?? 300;
+  const rotationStyle = rotateIcon
+    ? { transform: [{ rotate: `${rotateIcon}deg` }] }
+    : {};
 
   const defaultBorderStyle = {
     // Default border style if not provided
@@ -77,7 +82,7 @@ export default function ThemedClickableCardButton({
               name={iconName}
               size={actualIconSize}
               color={actualIconColor} // Use the actualIconColor here
-              style={{ marginRight: 15 }}
+              style={[{ marginRight: 15 }, rotationStyle]} // Add rotation here
             />
           </View>
           <View>
