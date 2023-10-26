@@ -12,7 +12,6 @@ import { useAppDispatch } from '../../redux/store';
 type Props = RootStackScreenProps<'SignUp'>;
 
 export default function SignUpModalScreen({ navigation }: Props) {
-  const [isFocused, setIsFocused] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -99,7 +98,7 @@ export default function SignUpModalScreen({ navigation }: Props) {
             mode="outlined"
             inputMode="email"
             contentStyle={{
-              backgroundColor: theme.colors.contentStyleBackgroundColor,
+              backgroundColor: theme.colors.background,
             }}
             // textContentType="oneTimeCode"
             outlineColor={theme.colors.outLineColor}

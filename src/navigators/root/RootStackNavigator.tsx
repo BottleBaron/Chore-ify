@@ -3,18 +3,15 @@ import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AuthScreen from '../../Screens/Auth/AuthScreen';
-import SignInModalScreen from '../../Screens/Auth/SignInModalScreen';
-import SignUpModalScreen from '../../Screens/Auth/SignUpModalScreen';
-import ChoreScreen from '../../Screens/ChoreScreen';
-import HouseHoldDashboardScreen from '../../Screens/mocked-screens/HouseHoldDashboardScreen';
-import HouseHoldSelectorScreen from '../../Screens/mocked-screens/HouseHoldSelectorScreen';
-import HouseHoldSelectorScreenNoHouseHold from '../../Screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
 import { RootStackParamList } from '../types';
-
-import { RootStackParamList } from '../types';
+import AuthScreen from '../../screens/Auth/AuthScreen';
 import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
+import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
 import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
+import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
+import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
+import ChoreScreen from '../../screens/ChoreScreen';
+import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

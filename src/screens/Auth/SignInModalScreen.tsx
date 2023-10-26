@@ -87,7 +87,7 @@ export default function SignInModalScreen({ navigation }: Props) {
             mode="outlined"
             inputMode="email"
             contentStyle={{
-              backgroundColor: theme.colors.contentStyleBackgroundColor,
+              backgroundColor: theme.colors.background,
             }}
             outlineColor={theme.colors.outLineColor}
             activeOutlineColor={theme.colors.activeOutlineColor}
@@ -119,7 +119,7 @@ export default function SignInModalScreen({ navigation }: Props) {
             style={styles.input}
             mode="outlined"
             contentStyle={{
-              backgroundColor: theme.colors.contentStyleBackgroundColor,
+              backgroundColor: theme.colors.background,
             }}
             outlineColor={theme.colors.outLineColor}
             activeOutlineColor={theme.colors.activeOutlineColor}
