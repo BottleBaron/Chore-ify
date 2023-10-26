@@ -3,15 +3,27 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Divider, Text, TouchableRipple } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/core';
+import { useCallback } from 'react';
 import { mockHouseholds } from '../../../assets/Data/MockData';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { fetchHouseholdsAndUsers } from '../../redux/slices/householdSlice';
 
 type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
 
 export default function HouseHoldSelectorScreen({ navigation }: Props) {
   const theme = useAppTheme();
+  const households = useAppSelector((state) => state.household.households);
+  const dispatch = useAppDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchHouseholdsAndUsers());
+    }, []),
+  );
 
   return (
     <View style={styles.container}>
@@ -25,7 +37,7 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
           }}
         />
       </View>
-      {mockHouseholds.map((household) => (
+      {households.map((household) => (
         <TouchableRipple
           key={household.id}
           style={[styles.touchableRipple, { borderColor: theme.colors.border }]}

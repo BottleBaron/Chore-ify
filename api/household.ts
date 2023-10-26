@@ -4,10 +4,12 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import db from '../firebaseConfig';
-import { Household, HouseholdState } from '../src/redux/slices/householdSlice';
+import { Household } from '../src/redux/slices/householdSlice';
 
 export async function createFirebaseHousehold(householdData: Household) {
   const householdRef = doc(db, 'chores');
@@ -16,11 +18,15 @@ export async function createFirebaseHousehold(householdData: Household) {
   return newHousehold;
 }
 
-export async function getFirebaseHouseholds(): Promise<HouseholdState> {
-  const snapshot = await getDocs(collection(db, 'households'));
+export async function getFirebaseHouseholds(
+  householdIds: string[],
+): Promise<Household[]> {
+  const snapshot = await getDocs(
+    query(collection(db, 'households'), where('id', 'in', householdIds)),
+  );
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
-  return allDocs[0] as HouseholdState;
+  return allDocs as Household[];
 }
 
 export async function updateFirebaseHousehold(householdData: Household) {

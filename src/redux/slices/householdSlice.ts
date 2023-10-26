@@ -6,6 +6,8 @@ import {
   updateFirebaseHousehold,
 } from '../../../api/household';
 import createAppAsyncThunk from '../utils';
+import { getFirebaseUsers } from '../../../api/user';
+import { User } from './userSlice';
 
 export interface Household {
   id: string;
@@ -22,6 +24,11 @@ const initialState: HouseholdState = {
   households: [],
 };
 
+export interface HouseholdsAndUsersDTO {
+  users: User[];
+  households: Household[];
+}
+
 const householdSlice = createSlice({
   name: 'household',
   initialState,
@@ -34,8 +41,8 @@ const householdSlice = createSlice({
     builder.addCase(addHousehold.fulfilled, (state, action) => {
       state.households.push(action.payload);
     });
-    builder.addCase(fetchHouseholds.fulfilled, (state, action) => {
-      state.households = action.payload;
+    builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
+      state.households = action.payload.households;
     });
     builder.addCase(updateHousehold.fulfilled, (state, action) => {
       const updatedIndex = state.households.findIndex(
@@ -68,17 +75,29 @@ export const addHousehold = createAppAsyncThunk<Household, Household>(
   },
 );
 
-export const fetchHouseholds = createAppAsyncThunk(
-  'household/get',
-  async (_, thunkAPI) => {
-    try {
-      const householdState = await getFirebaseHouseholds();
-      return householdState.households;
-    } catch (e: any) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  },
-);
+export const fetchHouseholdsAndUsers =
+  createAppAsyncThunk<HouseholdsAndUsersDTO>(
+    'household/get',
+    async (_, thunkAPI) => {
+      const state = thunkAPI.getState();
+      const accountId = state.account.authUser?.uid;
+      console.log('accountId', accountId);
+
+      if (!accountId) return { users: [], households: [] };
+
+      try {
+        console.log('FETCHING DATA');
+        const users = await getFirebaseUsers(accountId);
+        console.log(users);
+        const householdIds = users.map((u) => u.householdId);
+        const households = await getFirebaseHouseholds(householdIds);
+        console.log(householdIds);
+        return { users, households };
+      } catch (e: any) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    },
+  );
 
 export const updateHousehold = createAppAsyncThunk<Household, Household>(
   'household/update',

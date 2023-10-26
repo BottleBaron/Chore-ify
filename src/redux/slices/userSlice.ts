@@ -2,18 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createFirebaseUser,
   deleteFirebaseUser,
-  getFirebaseUsers,
   updateFirebaseUser,
 } from '../../../api/user';
 import createAppAsyncThunk from '../utils';
+import { fetchHouseholdsAndUsers } from './householdSlice';
 
 export interface User {
   id: string;
-  UserId: number;
   accountId: number;
   avatar: string;
   name: string;
   isPaused: boolean;
+  householdId: string;
 }
 
 export interface UserState {
@@ -36,9 +36,9 @@ const userSlice = createSlice({
     builder.addCase(addUser.fulfilled, (state, action) => {
       state.users.push(action.payload);
     });
-    builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      state.users = action.payload;
-    });
+    // builder.addCase(fetchUsers.fulfilled, (state, action) => {
+    //   state.users = action.payload;
+    // });
     builder.addCase(updateUser.fulfilled, (state, action) => {
       const updatedIndex = state.users.findIndex(
         (User) => User.id === action.payload.id,
@@ -49,6 +49,9 @@ const userSlice = createSlice({
     });
     builder.addCase(deleteUser.fulfilled, (state, action) => {
       state.users = state.users.filter((user) => user.id !== action.payload);
+    });
+    builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
+      state.users = action.payload.users;
     });
   },
 });
@@ -69,17 +72,16 @@ export const addUser = createAppAsyncThunk<User, User>(
   },
 );
 
-export const fetchUsers = createAppAsyncThunk<User[], void>(
-  'user/get',
-  async (_, thunkAPI) => {
-    try {
-      const userState = await getFirebaseUsers();
-      return userState.users;
-    } catch (e: any) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  },
-);
+// export const fetchUsers = createAppAsyncThunk<User[], void>(
+//   'user/get',
+//   async (_, thunkAPI) => {
+//     try {
+//       return await getFirebaseUsers();
+//     } catch (e: any) {
+//       return thunkAPI.rejectWithValue(e.message);
+//     }
+//   },
+// );
 
 export const updateUser = createAppAsyncThunk<User, User>(
   'user/update',
