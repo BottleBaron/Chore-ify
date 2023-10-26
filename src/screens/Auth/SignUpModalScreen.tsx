@@ -81,7 +81,7 @@ export default function SignUpModalScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundTintColor },
+            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
           ]}
         />
         <View style={styles.innerContainer}>
@@ -107,13 +107,7 @@ export default function SignUpModalScreen({ navigation }: Props) {
             selectionColor={theme.colors.activeOutlineColor}
             // den blinkande cursorn:
             cursorColor={theme.colors.button}
-            // texten:
             textColor={theme.colors.textColor}
-            // underlinjen av texten:
-            underlineColor={theme.colors.outLineColor}
-            // underlinjen när texten är aktiv:
-            activeUnderlineColor={theme.colors.outLineColor}
-            placeholderTextColor={theme.colors.color}
           />
           <HelperText
             type="error"
@@ -131,24 +125,16 @@ export default function SignUpModalScreen({ navigation }: Props) {
             secureTextEntry
             style={styles.input}
             mode="outlined"
-            contentStyle={{
-              backgroundColor: theme.colors.contentStyleBackgroundColor,
-            }}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            textContentType={isFocused ? 'password' : 'oneTimeCode'}
-            outlineColor={theme.colors.outLineColor}
-            activeOutlineColor={theme.colors.activeOutlineColor}
-            selectionColor={theme.colors.activeOutlineColor}
-            // den blinkande cursorn:
+            // contentStyle={{
+            //   backgroundColor: theme.colors.contentStyleBackgroundColor,
+            // }}
+            // onFocus={() => setIsFocused(true)}
+            // onBlur={() => setIsFocused(false)}
+            // textContentType={isFocused ? 'password' : 'oneTimeCode'}
+            outlineColor={theme.colors.secondary}
+            activeOutlineColor={theme.colors.button}
             cursorColor={theme.colors.button}
-            // texten:
             textColor={theme.colors.textColor}
-            // underlinjen av texten:
-            underlineColor={theme.colors.outLineColor}
-            // underlinjen när texten är aktiv:
-            activeUnderlineColor={theme.colors.outLineColor}
-            placeholderTextColor={theme.colors.color}
           />
           <TextInput
             label="Confirm Password"
@@ -158,24 +144,16 @@ export default function SignUpModalScreen({ navigation }: Props) {
             secureTextEntry
             style={styles.input}
             mode="outlined"
-            contentStyle={{
-              backgroundColor: theme.colors.contentStyleBackgroundColor,
-            }}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            textContentType={isFocused ? 'password' : 'oneTimeCode'}
-            outlineColor={theme.colors.outLineColor}
-            activeOutlineColor={theme.colors.activeOutlineColor}
-            selectionColor={theme.colors.activeOutlineColor}
-            // den blinkande cursorn:
+            // contentStyle={{
+            //   backgroundColor: theme.colors.contentStyleBackgroundColor,
+            // }}
+            // onFocus={() => setIsFocused(true)}
+            // onBlur={() => setIsFocused(false)}
+            // textContentType={isFocused ? 'password' : 'oneTimeCode'}
+            outlineColor={theme.colors.secondary}
+            activeOutlineColor={theme.colors.button}
             cursorColor={theme.colors.button}
-            // texten:
             textColor={theme.colors.textColor}
-            // underlinjen av texten:
-            underlineColor={theme.colors.outLineColor}
-            // underlinjen när texten är aktiv:
-            activeUnderlineColor={theme.colors.outLineColor}
-            placeholderTextColor={theme.colors.color}
           />
           <HelperText
             type="error"
@@ -189,7 +167,7 @@ export default function SignUpModalScreen({ navigation }: Props) {
             mode="contained"
             onPress={handleSubmit}
             style={styles.button}
-            buttonColor={theme.colors.buttonColor}
+            buttonColor={theme.colors.button}
           >
             Sign Up
           </Button>

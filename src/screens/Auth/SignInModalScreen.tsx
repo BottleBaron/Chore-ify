@@ -69,7 +69,7 @@ export default function SignInModalScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundTintColor },
+            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
           ]}
         />
         <View style={styles.innerContainer}>

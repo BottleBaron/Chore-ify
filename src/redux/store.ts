@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { accountReducer } from './slices/accountSlice';
+import { appbarNavigationReducer } from './slices/appbarNavigationSlice';
 import { choreReducer } from './slices/choreSlice';
 import { householdReducer } from './slices/householdSlice';
+import { statisticsReducer } from './slices/statisticsSlice';
 import { themeReducer } from './slices/themeSlice';
 import { userReducer } from './slices/userSlice';
 
@@ -13,6 +15,8 @@ export const store = configureStore({
     user: userReducer,
     household: householdReducer,
     chore: choreReducer,
+    appbarNavigation: appbarNavigationReducer,
+    statistics: statisticsReducer,
   },
 });
 
