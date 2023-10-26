@@ -1,63 +1,83 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+/* eslint-disable import/no-cycle */
 import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import AuthScreen from '../../screens/Auth/AuthScreen';
+import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
+import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
-import SignInScreen from '../../screens/appstart/SignInScreen';
-import SignUpScreen from '../../screens/appstart/SignUpScreen';
-import HomeScreen from '../../screens/mocked-screens/HomeScreen';
-import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
-// import HomeTabs from "../home/RootTabsNavigator";
+import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
+import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
+import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
+import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
+import { RootStackParamList } from '../types';
 
-// -- Parameterlista för vad RootRootStack kan ta emot --
-export type RootStackParamList = {
-  Home: undefined;
-  Profile: undefined;
-  SignIn: undefined;
-  SignUp: undefined;
-  HouseholdDashboard: undefined;
-  Chore: {
-    choreId: number;
-  };
-};
+import SettingsScreen from '../../screens/Settings/SettingsScreen';
 
-// -- Skapa en stack-navigator --
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const isLoggedIn = true;
-
+  const isAuthUser = false; // You can toggle this for testing
+  const hasExistingHousehold = true; // Toogles the different screens for selecting household
   return (
     <Stack.Navigator>
-      {isLoggedIn ? (
-        // Screens for logged in users
-        <Stack.Group>
-          <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Group>
+        {!isAuthUser ? (
           <Stack.Screen
-            name="HouseholdDashboard"
-            component={HouseholdDashboardTabNavigator}
+            name="Auth"
+            component={AuthScreen}
+            options={{ headerShown: false }}
           />
-          <Stack.Group screenOptions={{ presentation: 'modal' }}>
-            <Stack.Screen name="Chore" component={ChoreScreen} />
-          </Stack.Group>
-        </Stack.Group>
-      ) : (
-        // Auth screens
-        <Stack.Group screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-        </Stack.Group>
-      )}
+        ) : null}
+        {!hasExistingHousehold ? (
+          <Stack.Screen
+            name="HouseHoldSelectorScreenNoHouseHold"
+            component={HouseHoldSelectorScreenNoHouseHold}
+            options={{ headerShown: true }}
+          />
+        ) : null}
+        <Stack.Screen
+          name="HouseHoldSelectorScreen"
+          component={HouseHoldSelectorScreen}
+        />
+        <Stack.Screen name="Statistics" component={StatisticsScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+      </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen name="SignIn" component={SignInModalScreen} />
+        <Stack.Screen name="SignUp" component={SignUpModalScreen} />
+        <Stack.Screen name="Chore" component={ChoreScreen} />
+        <Stack.Screen
+          name="HouseholdDashboard"
+          component={HouseHoldDashboardScreen}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
 
-// -- Skapa RootNavigator-komponenten och exportera den --
-// export default function RootRootStackNavigator() {
-// 	return (
-// 		<RootRootStack.Navigator>
-// 			<RootRootStack.Screen name="Welcome" component={WelcomeScreen} />
-// 			<RootRootStack.Screen name="Register" component={RegisterScreen} />
-// 			{/* <RootRootStack.Screen name="MyUserDashboard" component={MyUserDashboardScreen} /> */}
-// 		</RootRootStack.Navigator>
-// 	);
-// }
+//* Og-handle of isAuthUser:
+// return (
+//   <Stack.Navigator>
+//     <Stack.Group>
+//       {!isAuthUser ? (
+//         <Stack.Screen
+//           name="Auth"
+//           component={AuthScreen}
+//           options={{ headerShown: false }}
+//         />
+//       ) : (
+//         <Stack.Screen
+//           name="HouseholdDashboard"
+//           component={HouseHoldDashboardScreen}
+//         />
+//       )}
+//     </Stack.Group>
+//     <Stack.Group>
+//       <Stack.Screen name="SignIn" component={SignInModalScreen} />
+//       <Stack.Screen name="SignUp" component={SignUpModalScreen} />
+//       <Stack.Screen name="Chore" component={ChoreScreen} />
+//     </Stack.Group>
+//   </Stack.Navigator>
+// );}
