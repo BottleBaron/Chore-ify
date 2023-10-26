@@ -1,9 +1,22 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, Button, Alert } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Alert,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import { Card, Title, Paragraph, IconButton } from 'react-native-paper';
+import doneIcon from '../../assets/doneIcon.png';
 // eslint-disable-next-line import/no-cycle
 import { RootStackScreenProps } from '../navigators/types';
-import { mockChores } from '../../assets/Data/MockData';
+import {
+  mockUsers,
+  mockCompletedChores,
+  mockChores,
+} from '../../assets/Data/MockData';
 
 type Props = RootStackScreenProps<'Chore'>;
 
@@ -55,6 +68,26 @@ export default function ChoreScreen({ route, navigation }: Props) {
       ],
     );
   };
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const getRecentActivity = (choreId: number) => {
+    const recentCompletion = mockCompletedChores.find(
+      (completion) => completion.choreId === choreId,
+    );
+
+    if (!recentCompletion) return null;
+
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const user = mockUsers.find((user) => user.id === recentCompletion.userId);
+
+    return {
+      user,
+      completedDate: recentCompletion.completedDate,
+    };
+  };
+  const recentActivity = getRecentActivity(choreId);
+
+  const recentCompleter = recentActivity ? recentActivity.user : null;
+  const completedDate = recentActivity ? recentActivity.completedDate : null;
 
   return (
     <View style={styles.container}>
@@ -70,7 +103,29 @@ export default function ChoreScreen({ route, navigation }: Props) {
           <Text style={styles.infoText}>
             Ansträngningsnummer: {chore.effortNumber}
           </Text>
-          <Button title="Markera som gjord" onPress={() => {}} />
+
+          <TouchableOpacity onPress={() => {}}>
+            <Image
+              source={doneIcon}
+              style={{
+                width: 100,
+                height: 100,
+                position: 'absolute',
+                bottom: -350,
+                alignSelf: 'center',
+              }}
+            />
+          </TouchableOpacity>
+          {recentCompleter && completedDate && (
+            <View style={{ marginTop: 16 }}>
+              <Text style={styles.infoText}>
+                Senaste utförare: {recentCompleter.name}
+              </Text>
+              <Text style={styles.infoText}>
+                Utförd datum: {completedDate.toLocaleDateString()}
+              </Text>
+            </View>
+          )}
         </Card.Content>
       </Card>
 
