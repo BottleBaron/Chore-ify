@@ -6,14 +6,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '../../screens/Auth/AuthScreen';
 import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
+import ChoreListScreen from '../../screens/ChoreListScreen/ChoreListScreen';
 import ChoreScreen from '../../screens/ChoreScreen';
+import SettingsScreen from '../../screens/Settings/SettingsScreen';
 import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
-import HouseHoldDashboardScreen from '../../screens/mocked-screens/HouseHoldDashboardScreen';
 import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
 import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
 import { RootStackParamList } from '../types';
-
-import SettingsScreen from '../../screens/Settings/SettingsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -48,10 +47,7 @@ export default function RootStackNavigator() {
         <Stack.Screen name="SignIn" component={SignInModalScreen} />
         <Stack.Screen name="SignUp" component={SignUpModalScreen} />
         <Stack.Screen name="Chore" component={ChoreScreen} />
-        <Stack.Screen
-          name="HouseholdDashboard"
-          component={HouseHoldDashboardScreen}
-        />
+        <Stack.Screen name="ChoreList" component={ChoreListScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
