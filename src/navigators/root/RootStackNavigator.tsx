@@ -13,6 +13,7 @@ import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelec
 import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
 import { RootStackParamList } from '../types';
 
+import ChoreListScreen from '../../screens/ChoreListScreen/ChoreListScreen';
 import SettingsScreen from '../../screens/Settings/SettingsScreen';
 import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
 
@@ -79,17 +80,7 @@ export default function RootStackNavigator() {
         />
       </Stack.Group>
       <Stack.Group>
-        <Stack.Screen
-          name="ChoreList"
-          component={HouseholdDashboardTabNavigator}
-          options={
-            {
-              // headerShown: false,
-              // presentation: 'fullScreenModal',
-              // animation: 'slide_from_bottom',
-            }
-          }
-        />
+        <Stack.Screen name="ChoreList" component={ChoreListScreen} />
         <Stack.Screen
           name="Chore"
           component={ChoreScreen}
