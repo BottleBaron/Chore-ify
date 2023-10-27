@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
 import { useFocusEffect } from '@react-navigation/core';
-import { useCallback } from 'react';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Text, Button, TextInput, List } from 'react-native-paper';
 import { useSelector } from 'react-redux';
@@ -27,17 +27,15 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const households = useAppSelector((state) => state.household.households);
   const users = useAppSelector((state) => state.user.users);
+  const account = useAppSelector((state) => state.account.authUser);
+  const lastAddedHouseholdId = useAppSelector(
+    (state) => state.household.lastAddedHouseHoldId,
+  );
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('');
   const [expanded, setExpanded] = useState<boolean>(false);
-
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(fetchHouseholdsAndUsers());
-    }, []),
-  );
 
   const handleAvatarSelection = (avatar: string) => {
     setSelectedAvatar(avatar);
@@ -50,30 +48,33 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
       name: householdName,
       accessCode: '',
     };
-    await dispatch(addHousehold(createdHousehold));
-    // Hämtar alla users. Ska bara hämta en
-    await dispatch(fetchHouseholdsAndUsers());
-    const createdHouseholdId = households.find(
-      (hs) => hs.name === householdName,
-    )?.id;
 
-    if (!createdHouseholdId) return;
-    const authUserId = auth.currentUser?.uid;
-    if (authUserId === undefined) throw new Error('authUser is undefined');
+    const actionresult = await dispatch(addHousehold(createdHousehold));
 
-    console.log(authUserId);
+    if (
+      actionresult.payload === undefined ||
+      typeof actionresult.payload === 'string'
+    ) {
+      throw new Error('Payload is not of type HouseHold');
+    } else {
+      const lastAddedHouseHold: Household = actionresult.payload;
 
-    const createdUser: User = {
-      id: '',
-      accountId: authUserId,
-      avatar: selectedAvatar,
-      name: nickName,
-      isPaused: false,
-      isAdmin: true,
-      householdId: createdHouseholdId,
-    };
-    console.log(`HouseholdId:${createdUser.householdId}`);
-    await dispatch(addUser(createdUser));
+      console.log(`Skapat hushållsID: ${lastAddedHouseHold.id}`);
+      // await dispatch(fetchHouseholdsAndUsers());
+
+      const accountIdfromState: string = auth.currentUser?.uid || '';
+      const createdUser: User = {
+        id: '',
+        accountId: accountIdfromState,
+        avatar: selectedAvatar,
+        name: nickName,
+        isPaused: false,
+        isAdmin: true,
+        householdId: lastAddedHouseHold.id,
+      };
+      console.log(`HouseholdId:${createdUser.householdId}`);
+      await dispatch(addUser(createdUser));
+    }
   };
 
   return (

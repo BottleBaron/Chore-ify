@@ -14,15 +14,16 @@ export interface Household {
   accessCode: string;
   id: string;
   name: string;
-  
 }
 
 export interface HouseholdState {
   households: Household[];
+  lastAddedHouseHoldId: string;
 }
 
 const initialState: HouseholdState = {
   households: [],
+  lastAddedHouseHoldId: '',
 };
 
 export interface HouseholdsAndUsersDTO {
@@ -40,8 +41,10 @@ const householdSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addHousehold.fulfilled, (state, action) => {
-      state.households.push(action.payload);
-      console.log('HOUSEHOLD CREATED SUCCESSFULLY');
+      state.lastAddedHouseHoldId = action.payload.id;
+      console.log(
+        `HOUSEHOLD CREATED SUCCESSFULLY with ID: ${state.lastAddedHouseHoldId}`,
+      );
     });
     builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
       state.households = action.payload.households;
