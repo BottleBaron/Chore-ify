@@ -43,7 +43,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
       accessCode: '',
     };
     await dispatch(addHousehold(createdHousehold));
-
+    //Hämtar alla users. Ska bara hämta en
     await dispatch(fetchHouseholdsAndUsers());
     const createdHouseholdId = households.find(
       (hs) => hs.name === householdName,
