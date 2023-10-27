@@ -11,9 +11,10 @@ import { getFirebaseUsers } from '../../../api/user';
 import { User } from './userSlice';
 
 export interface Household {
+  accessCode: string;
   id: string;
   name: string;
-  accessCode: string;
+  
 }
 
 export interface HouseholdState {
@@ -44,6 +45,7 @@ const householdSlice = createSlice({
     });
     builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
       state.households = action.payload.households;
+      console.log('Households fetched SUCCESSFULLY');
     });
     builder.addCase(updateHousehold.fulfilled, (state, action) => {
       const updatedIndex = state.households.findIndex(
@@ -90,6 +92,7 @@ export const fetchHouseholdsAndUsers =
         const users = await getFirebaseUsers(accountId);
         console.log(users);
         const householdIds = users.map((u) => u.householdId);
+        console.log('householdIds:', JSON.stringify(householdIds));
         const households = await getFirebaseHouseholds(householdIds);
         console.log(householdIds);
         return { users, households };

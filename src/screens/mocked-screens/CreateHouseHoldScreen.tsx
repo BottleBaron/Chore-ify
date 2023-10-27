@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
+import { useFocusEffect } from '@react-navigation/core';
+import { useCallback } from 'react';
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Text, Button, TextInput, List } from 'react-native-paper';
@@ -24,12 +26,18 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
   const households = useAppSelector((state) => state.household.households);
-
+  const users = useAppSelector((state) => state.user.users);
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('');
   const [expanded, setExpanded] = useState<boolean>(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchHouseholdsAndUsers());
+    }, []),
+  );
 
   const handleAvatarSelection = (avatar: string) => {
     setSelectedAvatar(avatar);
@@ -43,7 +51,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
       accessCode: '',
     };
     await dispatch(addHousehold(createdHousehold));
-    //Hämtar alla users. Ska bara hämta en
+    // Hämtar alla users. Ska bara hämta en
     await dispatch(fetchHouseholdsAndUsers());
     const createdHouseholdId = households.find(
       (hs) => hs.name === householdName,
@@ -54,6 +62,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
     if (authUserId === undefined) throw new Error('authUser is undefined');
 
     console.log(authUserId);
+
     const createdUser: User = {
       id: '',
       accountId: authUserId,
@@ -63,8 +72,8 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
       isAdmin: true,
       householdId: createdHouseholdId,
     };
-
-    dispatch(addUser(createdUser));
+    console.log(`HouseholdId:${createdUser.householdId}`);
+    await dispatch(addUser(createdUser));
   };
 
   return (
