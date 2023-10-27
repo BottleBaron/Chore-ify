@@ -1,22 +1,22 @@
 import * as React from 'react';
 import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
   Alert,
+  Button,
   Image,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { Card, Title, Paragraph, IconButton } from 'react-native-paper';
+import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
 import doneIcon from '../../assets/doneIcon.png';
 // eslint-disable-next-line import/no-cycle
-import { RootStackScreenProps } from '../navigators/types';
 import {
-  mockUsers,
-  mockCompletedChores,
   mockChores,
+  mockCompletedChores,
+  mockUsers,
 } from '../../assets/Data/MockData';
+import { RootStackScreenProps } from '../navigators/types';
 
 type Props = RootStackScreenProps<'Chore'>;
 
@@ -138,7 +138,7 @@ export default function ChoreScreen({ route, navigation }: Props) {
       <View style={styles.footer}>
         <Button
           title="Stäng"
-          onPress={() => navigation.navigate('HouseholdDashboard')}
+          onPress={() => navigation.navigate('ChoreList')}
         />
       </View>
     </View>

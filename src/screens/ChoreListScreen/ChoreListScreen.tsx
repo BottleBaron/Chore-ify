@@ -26,7 +26,12 @@ export default function ChoreListScreen({ navigation }: Props) {
         <View>
           {mockChores.map((chore) => (
             <View key={chore.id} style={styles.choreList}>
-              <TouchableOpacity style={styles.card}>
+              <TouchableOpacity
+                style={styles.card}
+                onPress={() =>
+                  navigation.navigate('Chore', { choreId: chore.id })
+                }
+              >
                 <Text style={styles.cardText}>{chore.title}</Text>
                 {/* Avatars */}
               </TouchableOpacity>

@@ -11,10 +11,11 @@ import transformer, {
   transformChoreSpecific,
 } from './chartComponents/transformer';
 
-export default function StatisticsScreen() {
+export default function StatisticsScreen(/* { route } */) {
   const users = mockUsers;
   const chores = mockChores;
   const completed = mockUserToCompletedChore;
+  // console.log('period', route.params.period);
 
   // Transform the raw data into pie chart data
   const pieChartData = transformer({ users, chores, completed });
@@ -28,7 +29,7 @@ export default function StatisticsScreen() {
         {chores.map((chore) => {
           const specificPieChartData = transformChoreSpecific(
             { users, chores, completed },
-            (chore.id),
+            chore.id,
           );
           return (
             <View style={styles.gridItem} key={chore.id}>
