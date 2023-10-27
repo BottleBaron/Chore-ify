@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -8,20 +9,15 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import firebase from 'firebase/app';
 import db from '../firebaseConfig';
 import { Household } from '../src/redux/slices/householdSlice';
-import firebase from 'firebase/app';
-
 
 export async function createFirebaseHousehold(householdData: Household) {
-  try {
-    const docRef = await firebase.firestore().collection('households').add(householdData);
-    const newHousehold = await docRef.get();
-    const id = docRef.id; // Använd det genererade dokument-ID:t
-    return { id, ...newHousehold.data() };
-  } catch (error) {
-    throw new Error('Error creating household in Firebase');
-  }
+  const docRef = await addDoc(collection(db, 'households'), householdData);
+  const newHousehold = { ...householdData, id: docRef.id };
+  updateFirebaseHousehold(newHousehold);
+  return newHousehold;
 }
 
 export async function getFirebaseHouseholds(

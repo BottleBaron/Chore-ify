@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -12,9 +13,9 @@ import db from '../firebaseConfig';
 import { User } from '../src/redux/slices/userSlice';
 
 export async function createFirebaseUser(userData: User) {
-  const userRef = doc(db, 'users');
-  const newUser = { ...userData, id: userRef.id };
-  await setDoc(userRef, userData);
+  const docRef = await addDoc(collection(db, 'users'), userData);
+  const newUser = { ...userData, id: docRef.id };
+  updateFirebaseUser(newUser);
   return newUser;
 }
 

@@ -5,8 +5,13 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Text, Button, TextInput, List } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+import { auth } from '../../../firebaseConfig';
 import { User, addUser } from '../../redux/slices/userSlice';
-import { Household, addHousehold } from '../../redux/slices/householdSlice';
+import {
+  Household,
+  addHousehold,
+  fetchHouseholdsAndUsers,
+} from '../../redux/slices/householdSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
@@ -18,7 +23,7 @@ type Props = RootStackScreenProps<'CreateHouseHold'>;
 export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
-  const currentAccount = useAppSelector((state) => state.account.authUser);
+  const households = useAppSelector((state) => state.household.households);
 
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
@@ -33,23 +38,25 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
   const handlePress = () => setExpanded(!expanded);
   const handleCreate = async () => {
     const createdHousehold: Household = {
+      id: '',
       name: householdName,
       accessCode: '',
     };
     await dispatch(addHousehold(createdHousehold));
-    /* 
-    const households = useAppSelector((state) => state.household.households);
+
+    await dispatch(fetchHouseholdsAndUsers());
     const createdHouseholdId = households.find(
       (hs) => hs.name === householdName,
     )?.id;
 
     if (!createdHouseholdId) return;
+    const authUserId = auth.currentUser?.uid;
+    if (authUserId === undefined) throw new Error('authUser is undefined');
 
-    if (currentAccount === null) return;
-
+    console.log(authUserId);
     const createdUser: User = {
       id: '',
-      accountId: currentAccount.uid,
+      accountId: authUserId,
       avatar: selectedAvatar,
       name: nickName,
       isPaused: false,
@@ -58,7 +65,6 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
     };
 
     dispatch(addUser(createdUser));
-    */
   };
 
   return (

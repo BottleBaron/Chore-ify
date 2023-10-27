@@ -17,6 +17,7 @@ type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
 export default function HouseHoldSelectorScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const households = useAppSelector((state) => state.household.households);
+  const usersByHouseholds = useAppSelector((state) => state.user.users);
   const dispatch = useAppDispatch();
 
   useFocusEffect(
@@ -47,7 +48,11 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
             <Text style={{ color: theme.colors.textColor }}>
               {household.name}
             </Text>
-            <Text>🐙 </Text>
+            {usersByHouseholds
+              .filter((user) => user.householdId === household.id)
+              .map((user, index) => (
+                <Text key={index}>{user.avatar}</Text>
+              ))}
           </View>
         </TouchableRipple>
       ))}

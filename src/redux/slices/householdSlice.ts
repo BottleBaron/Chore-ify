@@ -5,11 +5,13 @@ import {
   getFirebaseHouseholds,
   updateFirebaseHousehold,
 } from '../../../api/household';
+import { auth } from '../../../firebaseConfig';
 import createAppAsyncThunk from '../utils';
 import { getFirebaseUsers } from '../../../api/user';
 import { User } from './userSlice';
 
 export interface Household {
+  id: string;
   name: string;
   accessCode: string;
 }
@@ -38,6 +40,7 @@ const householdSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(addHousehold.fulfilled, (state, action) => {
       state.households.push(action.payload);
+      console.log('HOUSEHOLD CREATED SUCCESSFULLY');
     });
     builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
       state.households = action.payload.households;
@@ -77,8 +80,7 @@ export const fetchHouseholdsAndUsers =
   createAppAsyncThunk<HouseholdsAndUsersDTO>(
     'household/get',
     async (_, thunkAPI) => {
-      const state = thunkAPI.getState();
-      const accountId = state.account.authUser?.uid;
+      const accountId = auth.currentUser?.uid;
       console.log('accountId', accountId);
 
       if (!accountId) return { users: [], households: [] };
