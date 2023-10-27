@@ -14,6 +14,7 @@ import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/Hou
 import { RootStackParamList } from '../types';
 
 import SettingsScreen from '../../screens/Settings/SettingsScreen';
+import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -45,12 +46,60 @@ export default function RootStackNavigator() {
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Group>
       <Stack.Group>
-        <Stack.Screen name="SignIn" component={SignInModalScreen} />
-        <Stack.Screen name="SignUp" component={SignUpModalScreen} />
-        <Stack.Screen name="Chore" component={ChoreScreen} />
+        <Stack.Screen
+          name="SignIn"
+          component={SignInModalScreen}
+          options={{
+            headerShown: false,
+            // presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpModalScreen}
+          options={{
+            headerShown: false,
+            // presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        {/* <Stack.Screen
+          name="Chore"
+          component={ChoreScreen}
+          options={{
+            headerShown: false,
+            presentation: 'fullScreenModal',
+            animation: 'slide_from_bottom',
+          }}
+        /> */}
         <Stack.Screen
           name="HouseholdDashboard"
           component={HouseHoldDashboardScreen}
+        />
+      </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen
+          name="ChoreList"
+          component={HouseholdDashboardTabNavigator}
+          options={
+            {
+              // headerShown: false,
+              // presentation: 'fullScreenModal',
+              // animation: 'slide_from_bottom',
+            }
+          }
+        />
+        <Stack.Screen
+          name="Chore"
+          component={ChoreScreen}
+          options={
+            {
+              // headerShown: false,
+              // presentation: 'fullScreenModal',
+              // animation: 'slide_from_bottom',
+            }
+          }
         />
       </Stack.Group>
     </Stack.Navigator>

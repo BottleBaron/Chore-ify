@@ -18,10 +18,11 @@ export type RootStackParamList = {
   Chore: {
     choreId: string;
   };
+  ChoreList: undefined; // ska den ligga här eller i HHDTP?
 };
 
 export type HouseHoldDashboardTabParamList = {
-  ChoreList: undefined;
+  ChoreList: undefined; // ska den ligga här eller i RSPL?
   MockedHouseholdDetail: undefined;
   Statistics: { period: string };
 };
