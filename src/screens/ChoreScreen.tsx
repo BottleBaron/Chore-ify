@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useFocusEffect } from '@react-navigation/native';
+import doneIcon from '@src/assets/doneIcon.png';
 import * as React from 'react';
 import {
   Alert,
@@ -10,18 +12,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
-import doneIcon from '../../assets/doneIcon.png';
 // eslint-disable-next-line import/no-cycle
-import { useAppSelector, useAppDispatch } from '../redux/store';
-import {
-  mockChores,
-  mockCompletedChores,
-  mockUsers,
-} from '../../assets/Data/MockData';
+import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
 import { RootStackScreenProps } from '../navigators/types';
 import { fetchChores } from '../redux/slices/choreSlice';
+import { useAppDispatch, useAppSelector } from '../redux/store';
 
 type Props = RootStackScreenProps<'Chore'>;
 
@@ -58,7 +54,7 @@ function StatusCard({ status, daysLeft }: StatusCardProps) {
   );
 }
 
-export default function ChoreScreen({ navigation }) {
+export default function ChoreScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
 
   // Make sure that our choredata is relevant on page load

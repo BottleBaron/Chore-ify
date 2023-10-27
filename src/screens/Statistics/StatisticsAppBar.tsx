@@ -1,7 +1,7 @@
+import { navigateToRoute } from '@src/redux/slices/appbarNavigationSlice';
 import React from 'react';
 import { Appbar } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import { navigateToRoute } from '../../redux/slices/appbarNavigationSlice';
 
 interface AppBarProps {
   title: string;

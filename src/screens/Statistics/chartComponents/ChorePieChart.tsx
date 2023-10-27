@@ -1,9 +1,9 @@
 /* eslint-disable react/require-default-props, import/prefer-default-export, react/function-component-definition */
 
+import { useAppTheme } from '@src/contexts/ThemeContext';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
-import { useAppTheme } from '../../../contexts/ThemeContext';
 
 type PieChartData = { value: number };
 

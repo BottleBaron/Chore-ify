@@ -1,67 +1,45 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useFocusEffect } from '@react-navigation/native';
-import * as React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// eslint-disable-next-line import/no-cycle
+// import * as React from 'react';
+// import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+// import { useAppTheme } from '../../contexts/ThemeContext';
+// // eslint-disable-next-line import/no-cycle
+// import { mockChores } from '../../../assets/Data/MockData';
+// import { HouseholdDashboardTabScreenProps } from '../../navigators/types';
+// import BottomButtons from './BottomButtonsComponent';
+// import NoChoresPage from './NoChoresPage';
+
+// import { mockChores } from '@assets/Data/MockData';
 import { mockChores } from '@src/assets/Data/MockData';
-// import { useAppTheme } from '@src/contexts/ThemeContext';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
-import { fetchChores, setActiveChoreId } from '@src/redux/slices/choreSlice';
-import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import BottomButtons from './BottomButtonsComponent';
 import NoChoresPage from './NoChoresPage';
+
+// export type ChoreStackParamList = {
+// 	ChoreIndex: undefined;
+// 	Chore: undefined;
+// };
 
 type Props = HouseholdDashboardTabScreenProps<'ChoreList'>;
 
 export default function ChoreListScreen({ navigation }: Props) {
   const theme = useAppTheme();
-  const dispatch = useAppDispatch();
-  const activeHouseholdId = useAppSelector(
-    (state) => state.household.activeHouseholdId,
-  );
-  const dbChores = useAppSelector((state) => state.chore.chores);
-  // Dags att fakea lite mer data
-  const mockedChore = {
-    id: '1',
-    householdId: activeHouseholdId,
-    title: 'Diska',
-    description: 'Diska och torka all smutsig disk i köket',
-    dayinterval: 2,
-    effortNumber: 2,
-  };
-  useFocusEffect(
-    React.useCallback(() => {
-      let isActive = true;
-      const handleInit = async () => {
-        await dispatch(fetchChores(activeHouseholdId));
-      };
-
-      handleInit();
-      return () => {
-        isActive = false;
-      };
-    }, []),
-  );
-
-  const handleChoreSelection = (id: string) => {
-    dispatch(setActiveChoreId(id));
-
-    navigation.navigate('Chore', { choreId: id });
-  };
-
   return (
     <View style={styles.container}>
       {mockChores.length === 0 ? (
         <NoChoresPage />
       ) : (
         <View>
-          {dbChores.map((chore) => (
+          {mockChores.map((chore) => (
             <View key={chore.id} style={styles.choreList}>
               <TouchableOpacity
                 style={styles.card}
-                onPress={() => handleChoreSelection(chore.id)}
+                onPress={() =>
+                  navigation.navigate('Chore', { choreId: chore.id })
+                }
               >
                 <Text style={styles.cardText}>{chore.title}</Text>
                 {/* Avatars */}

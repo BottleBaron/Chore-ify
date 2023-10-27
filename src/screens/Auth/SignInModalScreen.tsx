@@ -1,10 +1,11 @@
 /* eslint-disable import/no-cycle */
+import initialBackground from '@src/assets/backgrounds/initial_background.png';
 import * as React from 'react';
 import { useState } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Button, HelperText, TextInput, Title } from 'react-native-paper';
-import initialBackground from '../../../assets/backgrounds/initial_background.png';
-import { useAppTheme } from '../../contexts/ThemeContext';
+// import { useAppTheme } from '../../contexts/ThemeContext';
+import { useAppTheme } from '@root/src/contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import { signIntoAccount } from '../../redux/slices/accountSlice';
 import { useAppDispatch } from '../../redux/store';

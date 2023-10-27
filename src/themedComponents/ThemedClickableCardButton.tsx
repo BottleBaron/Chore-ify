@@ -1,9 +1,9 @@
 /* eslint-disable react/require-default-props */
+import { useAppTheme } from '@src/contexts/ThemeContext';
 import * as React from 'react';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Card, Paragraph, Title } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useAppTheme } from '../contexts/ThemeContext';
 
 type CardButtonProps = {
   title: string;
