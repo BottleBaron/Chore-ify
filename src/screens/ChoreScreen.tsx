@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import {
   Alert,
@@ -8,15 +10,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
 import doneIcon from '../../assets/doneIcon.png';
 // eslint-disable-next-line import/no-cycle
+import { useAppSelector, useAppDispatch } from '../redux/store';
 import {
   mockChores,
   mockCompletedChores,
   mockUsers,
 } from '../../assets/Data/MockData';
 import { RootStackScreenProps } from '../navigators/types';
+import { fetchChores } from '../redux/slices/choreSlice';
 
 type Props = RootStackScreenProps<'Chore'>;
 
@@ -53,12 +58,34 @@ function StatusCard({ status, daysLeft }: StatusCardProps) {
   );
 }
 
-export default function ChoreScreen({ route, navigation }: Props) {
-  const { choreId } = route.params;
+export default function ChoreScreen({ navigation }) {
+  const dispatch = useAppDispatch();
 
-  const chore = mockChores.find((ch) => ch.id === choreId);
+  // Make sure that our choredata is relevant on page load
+  useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
+      const handleInit = async () => {
+        await dispatch(fetchChores(activeHouseholdId));
+      };
 
-  if (!chore) {
+      handleInit();
+      return () => {
+        isActive = false;
+      };
+    }, []),
+  );
+
+  // Select our current chore based on activeChoreId,
+  const currentChore = useAppSelector((state) =>
+    state.chore.chores.find((c) => c.id === state.chore.activeChoreId),
+  );
+
+  const activeHouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+
+  if (!currentChore) {
     return <Text>Sysslan kunde inte hittas</Text>;
   }
 
@@ -86,24 +113,26 @@ export default function ChoreScreen({ route, navigation }: Props) {
       completedDate: recentCompletion.dateCompleted,
     };
   };
-  const recentActivity = getRecentActivity(choreId);
+  const recentActivity = getRecentActivity(currentChore.id);
   const recentCompleter = recentActivity ? recentActivity.user : null;
   const completedDate = recentActivity ? recentActivity.completedDate : null;
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>{chore.title}</Text>
+        <Text style={styles.headerText}>{currentChore.title}</Text>
       </View>
       <StatusCard status="done" daysLeft={5} />
       <Text style={styles.activityText}>Senast aktivitet</Text>
       <Card style={styles.card}>
         <Card.Content>
-          <Title>{chore.title}</Title>
-          <Paragraph>{chore.description}</Paragraph>
-          <Text style={styles.infoText}>Dagintervall: {chore.dayinterval}</Text>
+          <Title>{currentChore.title}</Title>
+          <Paragraph>{currentChore.description}</Paragraph>
           <Text style={styles.infoText}>
-            Ansträngningsnummer: {chore.effortNumber}
+            Dagintervall: {currentChore.dayinterval}
+          </Text>
+          <Text style={styles.infoText}>
+            Ansträngningsnummer: {currentChore.effortNumber}
           </Text>
 
           <TouchableOpacity onPress={() => {}}>

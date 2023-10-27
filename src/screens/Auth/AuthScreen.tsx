@@ -4,7 +4,9 @@ import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Title } from 'react-native-paper';
 import initialBackground from '../../../assets/backgrounds/initial_background.png';
 import { useAppTheme } from '../../contexts/ThemeContext';
+import { useAppDispatch } from '../../redux/store';
 import { RootStackScreenProps } from '../../navigators/types';
+import { setActiveHouseholdId } from '../../redux/slices/householdSlice';
 import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 
 // Ange typen för navigation prop
@@ -13,6 +15,14 @@ type Props = RootStackScreenProps<'Auth'>;
 
 export default function AuthScreen({ navigation }: Props) {
   const theme = useAppTheme();
+  const dispatch = useAppDispatch();
+
+  // FIXME: Replace with actual data
+  const mockedId = 'uQhzt1mNqtvGVUJpnQER';
+  const handleChoreListInit = async () => {
+    await dispatch(setActiveHouseholdId(mockedId));
+    navigation.navigate('ChoreList');
+  };
 
   return (
     <View style={styles.container}>
@@ -66,6 +76,14 @@ export default function AuthScreen({ navigation }: Props) {
             iconName="cog"
             iconColor={theme.colors.text}
             onPress={() => navigation.navigate('Settings')}
+          />
+          <ThemedClickableCardButton
+            hideTitle // or hideTitle={false}
+            title="Test"
+            content="Test"
+            iconName="cog"
+            iconColor={theme.colors.text}
+            onPress={handleChoreListInit}
           />
         </View>
       </ImageBackground>
