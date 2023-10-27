@@ -8,7 +8,7 @@ import BottomButtons from './BottomButtonsComponent';
 
 export default function NoChoresPage() {
   const [fontsLoaded, fontError] = useFonts({
-    Abel: require('../../../assets/Fonts/Abel-Regular.ttf'),
+    Abel: require('@src/assets/Fonts/Abel-Regular.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {
