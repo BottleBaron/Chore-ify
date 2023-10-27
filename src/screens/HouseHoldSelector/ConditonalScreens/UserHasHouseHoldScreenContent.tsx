@@ -1,44 +1,69 @@
-import { mockHouseholds } from '@src/assets/Data/MockData';
+import { mockHouseholds, mockUsers } from '@src/assets/Data/MockData';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
+import { Household } from '@src/redux/slices/householdSlice';
+import ThemedClickableCardButtonWithAvatars from '@src/themedComponents/ThemedClickableCardButtonWithAvatars';
+// import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 // import { mockHouseholds } from 'assets/Data/MockData';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TouchableRipple } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StatusBar, StyleSheet } from 'react-native';
 
 type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
+
+interface HouseholdData extends Household {
+  avatars?: string[];
+}
 
 export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
   const theme = useAppTheme();
 
+  const [householdsData, setHouseholdsData] = useState<HouseholdData[]>([]);
+
+  useEffect(() => {
+    const newHouseholdsData: HouseholdData[] = mockHouseholds.map(
+      (household) => {
+        const householdUsers = mockUsers.filter(
+          (user) => user.houseHoldId === parseInt(household.id, 10),
+        );
+        console.log('householdUsers for id', household.id, ':', householdUsers); // Debugging line
+        const avatars = householdUsers.map((user) => user.avatar);
+        console.log('avatars:', avatars); // Debugging line
+        return { ...household, avatars };
+      },
+    );
+    console.log('newHouseholdsData:', newHouseholdsData); // Debugging line
+    setHouseholdsData(newHouseholdsData);
+  }, []);
+
   return (
-    <View style={styles.container}>
-      {mockHouseholds.map((household) => (
-        <TouchableRipple
+    <ScrollView style={styles.scrollView}>
+      {householdsData.map((household) => (
+        <ThemedClickableCardButtonWithAvatars
+          hideTitle
           key={household.id}
-          style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
+          title={household.name}
+          content={household.name} // Add your own content
+          iconName="" // Add an appropriate icon name
           onPress={() => navigation.navigate('ChoreList')}
-        >
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ color: theme.colors.text }}>{household.name}</Text>
-            <Text>🐙</Text>
-          </View>
-        </TouchableRipple>
+          width={280} // Custom width, you can change this
+          iconColor={theme.colors.primary} // Custom icon color, you can change this'
+          avatarList={household.avatars} // Add your own avatar list
+          // Add any other props you might need
+        />
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
+    marginHorizontal: 35,
+    marginTop: StatusBar.currentHeight,
   },
-  touchableRipple: {
-    minWidth: '70%',
-    borderWidth: 1,
-    padding: 25,
-    borderRadius: 5,
+  item: {
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
 });

@@ -20,7 +20,7 @@ export interface Household {
   id: string;
   adminIds: number[];
   name: string;
-  accesCode: string;
+  accessCode: string;
 }
 
 export interface Chore {

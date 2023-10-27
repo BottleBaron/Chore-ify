@@ -13,22 +13,18 @@ export default function UserHasNoHouseHoldScreenContent() {
 
   return (
     <View style={styles.container}>
-      <TouchableRipple
-        // onPress={() => console.log('Pressed')}
-        style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
-      >
-        <View style={styles.buttonContainer}>
-          <Image
-            // eslint-disable-next-line global-require
-            source={joinHouseholdImage}
-            style={styles.image}
-          />
-          <Text style={{ color: theme.colors.text }}>GÅ MED I ETT HUSHÅLL</Text>
-          <Text style={{ color: theme.colors.text }}>
-            Gå med i ett hushåll som någon redan har skapat
-          </Text>
-        </View>
-      </TouchableRipple>
+      <Text>Inside UserHasNoHouseHold</Text>
+      <View style={styles.buttonContainer}>
+        <Image
+          // eslint-disable-next-line global-require
+          source={joinHouseholdImage}
+          style={styles.image}
+        />
+        <Text style={{ color: theme.colors.text }}>GÅ MED I ETT HUSHÅLL</Text>
+        <Text style={{ color: theme.colors.text }}>
+          Gå med i ett hushåll som någon redan har skapat
+        </Text>
+      </View>
       <TouchableRipple
         // onPress={() => console.log('Pressed')}
         style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
@@ -53,10 +49,12 @@ export default function UserHasNoHouseHoldScreenContent() {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonContainer: {
+    paddingBottom: 20,
     alignItems: 'center',
     justifyContent: 'space-between',
   },

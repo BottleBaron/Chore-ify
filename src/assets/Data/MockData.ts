@@ -90,20 +90,52 @@ export const mockUsers: User[] = [
     name: 'Sara',
     isPaused: false,
   },
+  {
+    id: '5',
+    houseHoldId: 2,
+    accountId: 5,
+    avatar: '🐬',
+    name: 'Anna',
+    isPaused: false,
+  },
+  {
+    id: '6',
+    houseHoldId: 2,
+    accountId: 6,
+    avatar: '🦉',
+    name: 'Erik',
+    isPaused: false,
+  },
+  {
+    id: '7',
+    houseHoldId: 2,
+    accountId: 7,
+    avatar: '🦄',
+    name: 'Mia',
+    isPaused: false,
+  },
+  {
+    id: '8',
+    houseHoldId: 2,
+    accountId: 8,
+    avatar: '🐔',
+    name: 'Oliver',
+    isPaused: false,
+  },
 ];
 
 export const mockHouseholds: Household[] = [
   {
     id: '1',
     adminIds: [1],
-    name: 'Johansson Hushållet',
-    accesCode: 'someGeneratedCode',
+    name: 'Frugans&Mitt Hushåll',
+    accessCode: 'someGeneratedCode',
   },
   {
     id: '2',
     adminIds: [2],
-    name: 'Andersson Hushållet',
-    accesCode: 'annanGeneratedCode',
+    name: 'Vänsterprasslets Hushåll',
+    accessCode: 'annanGeneratedCode',
   },
 ];
 

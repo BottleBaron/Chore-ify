@@ -15,9 +15,9 @@ import {
 import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
 import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
-import { RootStackScreenProps } from '../navigators/types';
-import { fetchChores } from '../redux/slices/choreSlice';
-import { useAppDispatch, useAppSelector } from '../redux/store';
+import { RootStackScreenProps } from '@src/navigators/types';
+import { fetchChores } from '@src/redux/slices/choreSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
 
 type Props = RootStackScreenProps<'Chore'>;
 
