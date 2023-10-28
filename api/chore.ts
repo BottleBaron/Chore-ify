@@ -15,13 +15,16 @@ import { Chore } from '../src/redux/slices/choreSlice';
 
 export async function createFirebaseChore(choreData: Chore) {
   const choreRef = await addDoc(collection(db, 'chores'), choreData);
-  const newChore = {...choreData, id: choreRef.id};
+  const newChore = { ...choreData, id: choreRef.id };
   updateFirebaseChore(newChore);
   return newChore;
 }
 
 export async function getFirebaseChores(householdId: string): Promise<Chore[]> {
-  const q = query(collection(db, 'chores'), where("householdId", "==", householdId));
+  const q = query(
+    collection(db, 'chores'),
+    where('householdId', '==', householdId),
+  );
   const snapshot = await getDocs(q);
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
