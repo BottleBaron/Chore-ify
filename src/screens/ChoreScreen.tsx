@@ -15,6 +15,7 @@ import {
 import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
 import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
+import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
 import { fetchChores } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
@@ -28,21 +29,22 @@ interface StatusCardProps {
 
 // eslint-disable-next-line react/prop-types
 function StatusCard({ status, daysLeft }: StatusCardProps) {
-  let backgroundColor = '#CCCCCC'; // grå
+  const theme = useAppTheme();
+  let backgroundColor = ''; // grå
   let text = 'Den här sysslan behöver fortfarande göras idag!';
 
   // eslint-disable-next-line default-case
   switch (status) {
     case 'done':
-      backgroundColor = '#4CAF50'; // grön
+      backgroundColor = theme.colors.finished; /* '#4CAF50'; // grön */
       text = 'Toppen! Den här sysslan är gjord för idag!';
       break;
     case 'pending':
-      backgroundColor = '#FFEB3B'; // gul
+      backgroundColor = theme.colors.pending; /* '#FFEB3B'; */ // gul
       text = `${daysLeft} dagar kvar tills denna syssla ska göras`;
       break;
     case 'missed':
-      backgroundColor = '#F44336'; // röd
+      backgroundColor = theme.colors.notStarted; /* '#F44336'; */ // röd
       text = `Woh, den här sysslan är ${daysLeft} dagar sen!`;
       break;
   }
@@ -173,7 +175,7 @@ export default function ChoreScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    /* backgroundColor: 'white', */
   },
   activityText: {
     fontSize: 20,
@@ -185,8 +187,8 @@ const styles = StyleSheet.create({
   header: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    backgroundColor: '#f5f5f5',
+    /*  borderBottomColor: '#ddd',
+    backgroundColor: '#f5f5f5', */
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
   footer: {
     padding: 16,
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    backgroundColor: '#f5f5f5',
+    /*  borderTopColor: '#ddd',
+    backgroundColor: '#f5f5f5', */
   },
 });

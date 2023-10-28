@@ -33,7 +33,7 @@ export const TotalPieChart: React.FC<TotalPieChartProps> = ({
         textSize={50}
       />
       <View style={styles.textContainer}>
-        <Text style={[styles.title, { color: theme.colors.textColor }]}>
+        <Text style={[styles.title, { color: theme.colors.text }]}>
           {title}
         </Text>
       </View>

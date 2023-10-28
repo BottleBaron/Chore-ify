@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   card: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     height: 55,
     width: 390,
     justifyContent: 'space-evenly',

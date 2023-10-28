@@ -25,7 +25,7 @@ export default function AuthScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
+            { backgroundColor: theme.colors.backgroundOverlay },
           ]}
         />
         <View style={styles.innerContainer}>

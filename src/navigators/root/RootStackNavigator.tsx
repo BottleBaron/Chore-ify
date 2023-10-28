@@ -5,30 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '@src/screens/Auth/AuthScreen';
 import SignInModalScreen from '@src/screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '@src/screens/Auth/SignUpModalScreen';
+import ChoreScreen from '@src/screens/ChoreScreen';
 import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
 import SettingsScreen from '@src/screens/Settings/SettingsScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import { RootStackParamList } from '../types';
 import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
-// import AuthScreen from '@src/screens/Auth/AuthScreen';
-// import SignInModalScreen from '@src/screens/Auth/SignInModalScreen';
-// import SignUpModalScreen from '@src/screens/Auth/SignUpModalScreen';
-// import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
-// import SettingsScreen from '@src/screens/Settings/SettingsScreen';
-// import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
-// import { RootStackParamList } from '../types';
-// import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
-
-// import AuthScreen from '../../screens/Auth/AuthScreen';
-// import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
-// import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
-// import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
-// // import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
-// import { RootStackParamList } from '../types';
-
-// import HouseHoldSelectorScreen from '../../screens/HouseHoldSelector/HouseHoldSelectorScreen';
-// import SettingsScreen from '../../screens/Settings/SettingsScreen';
-// import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -69,59 +51,14 @@ export default function RootStackNavigator() {
             animation: 'slide_from_bottom',
           }}
         />
-        {/* <Stack.Screen
-          name="Chore"
-          component={ChoreScreen}
-          options={{
-            headerShown: false,
-            presentation: 'fullScreenModal',
-            animation: 'slide_from_bottom',
-          }}
-        /> */}
+      </Stack.Group>
+      <Stack.Group>
         <Stack.Screen
           name="ChoreList"
           component={HouseholdDashboardTabNavigator}
         />
-      </Stack.Group>
-      <Stack.Group>
-        {/* <Stack.Screen name="ChoreList" component={ChoreListScreen} />
-        <Stack.Screen
-          name="Chore"
-          component={ChoreScreen}
-          options={
-            {
-              // headerShown: false,
-              // presentation: 'fullScreenModal',
-              // animation: 'slide_from_bottom',
-            }
-          }
-        /> */}
+        <Stack.Screen name="Chore" component={ChoreScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
 }
-
-//* Og-handle of isAuthUser:
-// return (
-//   <Stack.Navigator>
-//     <Stack.Group>
-//       {!isAuthUser ? (
-//         <Stack.Screen
-//           name="Auth"
-//           component={AuthScreen}
-//           options={{ headerShown: false }}
-//         />
-//       ) : (
-//         <Stack.Screen
-//           name="HouseholdDashboard"
-//           component={HouseHoldDashboardScreen}
-//         />
-//       )}
-//     </Stack.Group>
-//     <Stack.Group>
-//       <Stack.Screen name="SignIn" component={SignInModalScreen} />
-//       <Stack.Screen name="SignUp" component={SignUpModalScreen} />
-//       <Stack.Screen name="Chore" component={ChoreScreen} />
-//     </Stack.Group>
-//   </Stack.Navigator>
-// );}

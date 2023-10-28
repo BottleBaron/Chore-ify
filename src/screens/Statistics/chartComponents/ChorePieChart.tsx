@@ -23,7 +23,7 @@ export const ChorePieChart: React.FC<ChorePieChartProps> = ({
     <View style={styles.container}>
       <PieChart data={data} radius={widthAndHeight} labelsPosition="mid" />
       <View style={styles.textContainer}>
-        <Text style={[styles.title, { color: theme.colors.textColor }]}>
+        <Text style={[styles.title, { color: theme.colors.text }]}>
           {title}
         </Text>
       </View>

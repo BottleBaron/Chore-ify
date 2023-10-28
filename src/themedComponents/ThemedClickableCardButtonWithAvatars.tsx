@@ -40,7 +40,7 @@ export default function ThemedClickableCardButtonWithAvatars({
   const theme = useAppTheme();
   const actualIconSize = iconSize ?? 30;
   const actualWidth = width ?? 300;
-  const actualIconColor = iconColor ?? theme.colors.buttonIconColor;
+  const actualIconColor = iconColor ?? theme.colors.button;
 
   const defaultBorderStyle = {
     // Default border style if not provided
