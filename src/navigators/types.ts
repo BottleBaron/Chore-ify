@@ -5,25 +5,26 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Auth: undefined;
-  Settings: undefined;
-  HouseholdDashboard: undefined;
-  MockedHouseholdDetail: undefined;
-  HouseHoldSelectorScreen: undefined;
-  HouseHoldSelectorScreenNoHouseHold: undefined;
-  Login: undefined;
-  Profile: undefined;
   SignIn: undefined;
   SignUp: undefined;
+  Profile: undefined;
+  Settings: undefined;
+  HouseHoldSelectorScreen: undefined;
   Statistics: { period: string };
   Chore: {
     choreId: string;
   };
   ChoreList: undefined; // ska den ligga här eller i HHDTP?
+  // Login: undefined;
+  // MockedHouseholdDetail: undefined;
+  // HouseholdDashboard: undefined;
+  // HouseHoldSelectorScreen: undefined;
+  // HouseHoldSelectorScreenNoHouseHold: undefined;
 };
 
 export type HouseHoldDashboardTabParamList = {
   ChoreList: undefined; // ska den ligga här eller i RSPL?
-  MockedHouseholdDetail: undefined;
+  // MockedHouseholdDetail: undefined;
   Statistics: { period: string };
 };
 

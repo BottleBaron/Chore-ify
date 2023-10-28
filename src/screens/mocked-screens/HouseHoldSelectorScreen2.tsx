@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
+import { mockHouseholds } from '@src/assets/Data/MockData';
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { RootStackScreenProps } from '@src/navigators/types';
+import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Divider, Text, TouchableRipple } from 'react-native-paper';
-import { mockHouseholds } from '../../../assets/Data/MockData';
-import { useAppTheme } from '../../contexts/ThemeContext';
-import { RootStackScreenProps } from '../../navigators/types';
-import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
+// import { mockHouseholds } from '../../../assets/Data/MockData';
+// import { useAppTheme } from '../../contexts/ThemeContext';
+// import { RootStackScreenProps } from '../../navigators/types';
+// import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 
 type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
 

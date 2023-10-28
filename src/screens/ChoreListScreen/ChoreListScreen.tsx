@@ -1,21 +1,17 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import { useAppTheme } from '../../contexts/ThemeContext';
 // eslint-disable-next-line import/no-cycle
-import { mockChores } from '../../../assets/Data/MockData';
-import { addChore, fetchChores, Chore, setActiveChoreId } from '../../redux/slices/choreSlice';
-import { useAppSelector, useAppDispatch } from '../../redux/store';
-import { HouseholdDashboardTabScreenProps } from '../../navigators/types';
+import { mockChores } from '@src/assets/Data/MockData';
+// import { useAppTheme } from '@src/contexts/ThemeContext';
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
+import { fetchChores, setActiveChoreId } from '@src/redux/slices/choreSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import BottomButtons from './BottomButtonsComponent';
 import NoChoresPage from './NoChoresPage';
-
-// export type ChoreStackParamList = {
-// 	ChoreIndex: undefined;
-// 	Chore: undefined;
-// };
 
 type Props = HouseholdDashboardTabScreenProps<'ChoreList'>;
 
@@ -52,7 +48,7 @@ export default function ChoreListScreen({ navigation }: Props) {
   const handleChoreSelection = (id: string) => {
     dispatch(setActiveChoreId(id));
 
-    navigation.navigate('Chore');
+    navigation.navigate('Chore', { choreId: id });
   };
 
   return (
@@ -89,7 +85,7 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   card: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     height: 55,
     width: 390,
     justifyContent: 'space-evenly',

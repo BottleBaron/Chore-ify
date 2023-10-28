@@ -1,8 +1,8 @@
 // UserSettings.tsx
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 import React from 'react'; // Don't forget to import React
 import { View } from 'react-native'; // Text was missing in the import
-import { useAppTheme } from '../../contexts/ThemeContext';
-import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
 import { UserSettingsSubComponentProps } from './SettingsScreen'; // placed here for now, might be typefile later
 
 // Export the function so it can be imported elsewhere

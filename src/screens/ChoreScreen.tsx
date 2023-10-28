@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useFocusEffect } from '@react-navigation/native';
+import doneIcon from '@src/assets/doneIcon.png';
 import * as React from 'react';
 import {
   Alert,
@@ -10,18 +12,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
-import doneIcon from '../../assets/doneIcon.png';
 // eslint-disable-next-line import/no-cycle
-import { useAppSelector, useAppDispatch } from '../redux/store';
-import {
-  mockChores,
-  mockCompletedChores,
-  mockUsers,
-} from '../../assets/Data/MockData';
-import { RootStackScreenProps } from '../navigators/types';
-import { fetchChores } from '../redux/slices/choreSlice';
+import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { RootStackScreenProps } from '@src/navigators/types';
+import { fetchChores } from '@src/redux/slices/choreSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
 
 type Props = RootStackScreenProps<'Chore'>;
 
@@ -32,21 +29,22 @@ interface StatusCardProps {
 
 // eslint-disable-next-line react/prop-types
 function StatusCard({ status, daysLeft }: StatusCardProps) {
-  let backgroundColor = '#CCCCCC'; // grå
+  const theme = useAppTheme();
+  let backgroundColor = ''; // grå
   let text = 'Den här sysslan behöver fortfarande göras idag!';
 
   // eslint-disable-next-line default-case
   switch (status) {
     case 'done':
-      backgroundColor = '#4CAF50'; // grön
+      backgroundColor = theme.colors.finished; /* '#4CAF50'; // grön */
       text = 'Toppen! Den här sysslan är gjord för idag!';
       break;
     case 'pending':
-      backgroundColor = '#FFEB3B'; // gul
+      backgroundColor = theme.colors.pending; /* '#FFEB3B'; */ // gul
       text = `${daysLeft} dagar kvar tills denna syssla ska göras`;
       break;
     case 'missed':
-      backgroundColor = '#F44336'; // röd
+      backgroundColor = theme.colors.notStarted; /* '#F44336'; */ // röd
       text = `Woh, den här sysslan är ${daysLeft} dagar sen!`;
       break;
   }
@@ -58,7 +56,7 @@ function StatusCard({ status, daysLeft }: StatusCardProps) {
   );
 }
 
-export default function ChoreScreen({ navigation }) {
+export default function ChoreScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
 
   // Make sure that our choredata is relevant on page load
@@ -177,7 +175,7 @@ export default function ChoreScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    /* backgroundColor: 'white', */
   },
   activityText: {
     fontSize: 20,
@@ -189,8 +187,8 @@ const styles = StyleSheet.create({
   header: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    backgroundColor: '#f5f5f5',
+    /*  borderBottomColor: '#ddd',
+    backgroundColor: '#f5f5f5', */
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -230,7 +228,7 @@ const styles = StyleSheet.create({
   footer: {
     padding: 16,
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    backgroundColor: '#f5f5f5',
+    /*  borderTopColor: '#ddd',
+    backgroundColor: '#f5f5f5', */
   },
 });

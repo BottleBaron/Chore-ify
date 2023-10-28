@@ -1,9 +1,9 @@
 /* eslint-disable import/no-cycle */
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import ChoreListScreen from '@src/screens/ChoreList/ChoreListScreen';
+import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import * as React from 'react';
-import ChoreListScreen from '../../screens/ChoreListScreen/ChoreListScreen';
-import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
 import { HouseHoldDashboardTabParamList } from '../types';
 
 const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();

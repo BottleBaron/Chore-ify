@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Button, HelperText, TextInput, Title } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
-import initialBackground from '../../../assets/backgrounds/initial_background.png';
+import initialBackground from '@src/assets/backgrounds/initial_background.png';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import { createAccount } from '../../redux/slices/accountSlice';

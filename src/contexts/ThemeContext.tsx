@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NavigationContainer } from '@react-navigation/native';
+import { AppDarkTheme, AppLightTheme } from '@src/themes/theme';
 import React, {
   PropsWithChildren,
   createContext,
@@ -8,7 +9,6 @@ import React, {
 } from 'react';
 import { useColorScheme } from 'react-native';
 import { Provider } from 'react-native-paper';
-import { AppDarkTheme, AppLightTheme } from '../themes/theme';
 
 type ColorScheme = 'light' | 'dark' | 'auto';
 

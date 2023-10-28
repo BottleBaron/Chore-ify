@@ -1,10 +1,10 @@
-import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
 import {
   mockChores,
   mockUserToCompletedChore,
   mockUsers,
-} from '../../../assets/Data/MockData';
+} from '@src/assets/Data/MockData';
+import React from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { ChorePieChart } from './chartComponents/ChorePieChart';
 import { TotalPieChart } from './chartComponents/TotalPieChart';
 import transformer, {

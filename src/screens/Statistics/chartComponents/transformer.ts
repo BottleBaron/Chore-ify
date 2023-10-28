@@ -1,7 +1,7 @@
-import { UserToCompletedChore } from '../../../../assets/Data/types';
-import { getColorForAvatar } from '../../../../assets/avatarColorConfig';
-import { User } from '../../../data';
-import { Chore } from '../../../redux/slices/choreSlice';
+import { UserToCompletedChore } from '@src/assets/Data/types';
+import { getColorForAvatar } from '@src/assets/avatarColorConfig';
+import { User } from '@src/data';
+import { Chore } from '@src/redux/slices/choreSlice';
 
 interface Input {
   users: User[];
