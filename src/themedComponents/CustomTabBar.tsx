@@ -2,7 +2,7 @@ import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { Divider, IconButton } from 'react-native-paper';
 
 // type Props = RootStackScreenProps<'ChoreList'>;
 
@@ -56,16 +56,23 @@ function CustomTabBar({
   const currentLabel = getDisplayLabel(state.routes[state.index].name);
 
   return (
-    <SafeAreaView style={styles.rootContainer}>
-      <View style={styles.rootContainer}>
-        <View style={styles.topBarContainer}>
+    <SafeAreaView
+      style={[styles.rootContainer, { backgroundColor: theme.colors.card }]}
+    >
+      <View>
+        <View
+          style={[
+            styles.topBarContainer,
+            { backgroundColor: theme.colors.card },
+          ]}
+        >
           <IconButton
             icon="home" // replace with your actual icon name for home
             onPress={handleHomeIconPress}
             // color={theme.colors.button}
             iconColor={theme.colors.button}
           />
-          <Text style={(styles.textStyle, { color: theme.colors.text })}>
+          <Text style={[styles.topBarText, { color: theme.colors.text }]}>
             {currentHousehold}
           </Text>
           <IconButton
@@ -75,8 +82,15 @@ function CustomTabBar({
             iconColor={theme.colors.button}
           />
         </View>
-
-        <View style={styles.tabBarContainer}>
+        <Divider
+          style={[styles.divider, { backgroundColor: theme.colors.secondary }]}
+        />
+        <View
+          style={[
+            styles.bottomBarContainer,
+            { backgroundColor: theme.colors.card },
+          ]}
+        >
           <IconButton
             icon="arrow-left" // replace with your actual icon name for left arrow
             onPress={goPrevious}
@@ -84,12 +98,12 @@ function CustomTabBar({
             iconColor={theme.colors.button}
           />
           <View style={styles.textContainer}>
-            <Text style={(styles.textStyle, { color: theme.colors.text })}>
+            <Text style={[styles.bottomBarText, { color: theme.colors.text }]}>
               {currentLabel}
             </Text>
           </View>
           <IconButton
-            icon="arrow-right" // replace with your actual icon name for right arrow
+            icon="arrow-right" // replace with youAr actual icon name for right arrow
             onPress={goNext}
             // color={theme.colors.button}
             iconColor={theme.colors.button}
@@ -105,26 +119,35 @@ export default CustomTabBar;
 const styles = StyleSheet.create({
   rootContainer: {
     // backgroundColor: 'white',
+    flex: 1,
+    flexGrow: 0.2,
   },
+  container: {},
   topBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // backgroundColor: 'white',
   },
-  tabBarContainer: {
+  divider: {
+    width: '100%',
+    height: 2,
+  },
+  bottomBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // backgroundColor: 'white',
   },
   textContainer: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  textStyle: {
+  topBarText: {
+    fontSize: 20,
+    margin: 5,
+  },
+  bottomBarText: {
     fontSize: 14,
     margin: 5,
-    textAlign: 'center',
   },
 });

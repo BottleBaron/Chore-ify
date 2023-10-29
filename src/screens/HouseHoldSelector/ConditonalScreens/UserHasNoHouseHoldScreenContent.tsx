@@ -3,7 +3,8 @@ import createHouseholdImage from '@src/assets/button-images/create-household.png
 import joinHouseholdImage from '@src/assets/button-images/join-household.png';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import * as React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
+// import { styles } from 'react-native-gifted-charts/src/LineChart/styles';
 import { Text, TouchableRipple } from 'react-native-paper';
 
 // type Props = RootStackScreenProps<'UserHasNoHouseHold'>;
@@ -12,38 +13,54 @@ export default function UserHasNoHouseHoldScreenContent() {
   const theme = useAppTheme();
 
   return (
-    <View style={styles.container}>
-      <Text>Inside UserHasNoHouseHold</Text>
-      <View style={styles.buttonContainer}>
-        <Image
-          // eslint-disable-next-line global-require
-          source={joinHouseholdImage}
-          style={styles.image}
-        />
-        <Text style={{ color: theme.colors.text }}>GÅ MED I ETT HUSHÅLL</Text>
-        <Text style={{ color: theme.colors.text }}>
-          Gå med i ett hushåll som någon redan har skapat
-        </Text>
-      </View>
+    <SafeAreaView style={styles.container}>
+      {/* <View style={styles.container}> */}
       <TouchableRipple
         // onPress={() => console.log('Pressed')}
         style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
       >
         <View style={styles.buttonContainer}>
-          <Image
-            // eslint-disable-next-line global-require
-            source={createHouseholdImage}
-            style={styles.image}
-          />
-          <Text style={{ color: theme.colors.text }}>
-            SKAPA ETT NYTT HUSHÅLL
-          </Text>
-          <Text style={{ color: theme.colors.text }}>
-            Skapa ett nytt hushåll och bjud in andra att gå med
-          </Text>
+          <View style={styles.imageContainer}>
+            <Image
+              // eslint-disable-next-line global-require
+              source={joinHouseholdImage}
+              style={styles.image}
+            />
+            <View style={styles.innerTextContainer}>
+              <Text style={[styles.header, { color: theme.colors.text }]}>
+                GÅ MED I ETT HUSHÅLL
+              </Text>
+              <Text style={[styles.text, { color: theme.colors.text }]}>
+                Gå med i ett hushåll som någon redan har skapat
+              </Text>
+            </View>
+          </View>
         </View>
       </TouchableRipple>
-    </View>
+      <TouchableRipple
+        // onPress={() => console.log('Pressed')}
+        style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
+      >
+        <View style={styles.buttonContainer}>
+          <View style={styles.imageContainer}>
+            <Image
+              // eslint-disable-next-line global-require
+              source={createHouseholdImage}
+              style={styles.image}
+            />
+          </View>
+          <Text style={[styles.header, { color: theme.colors.text }]}>
+            SKAPA ETT NYTT HUSHÅLL
+          </Text>
+          <View style={styles.innerTextContainer}>
+            <Text style={[styles.text, { color: theme.colors.text }]}>
+              Skapa ett nytt hushåll och bjud in andra att gå med
+            </Text>
+          </View>
+        </View>
+      </TouchableRipple>
+      {/* </View> */}
+    </SafeAreaView>
   );
 }
 
@@ -54,17 +71,38 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    paddingBottom: 20,
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
-  image: {},
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain',
+  },
   touchableRipple: {
-    marginTop: 20,
-    minWidth: '70%',
-    minHeight: '40%',
+    // marginTop: 20,
+    // minWidth: '70%',
+    // minHeight: '40%',
     borderWidth: 1,
-    padding: 25,
+    // padding: 25,
     borderRadius: 15,
+  },
+  innerTextContainer: {
+    padding: 15,
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 15,
+  },
+  text: {
+    fontSize: 12,
+    textAlign: 'center',
+    padding: 15,
   },
 });
