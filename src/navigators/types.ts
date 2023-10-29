@@ -28,6 +28,15 @@ export type HouseHoldDashboardTabParamList = {
   Statistics: { period: string };
 };
 
+export type StatisticsTabParamList = {
+  CurrentWeek: undefined;
+  LastWeek: undefined;
+  CurrentMonth: undefined;
+  LastMonth: undefined;
+  CurrentYear: undefined;
+  LastYear: undefined;
+};
+
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
@@ -38,8 +47,22 @@ export type HouseholdDashboardTabScreenProps<
   RootStackScreenProps<keyof RootStackParamList>
 >;
 
+export type StatisticsTabScreenProps<T extends keyof StatisticsTabParamList> =
+  CompositeScreenProps<
+    MaterialTopTabScreenProps<StatisticsTabParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;
+
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
+  }
+}
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList
+      extends RootStackParamList,
+        StatisticsTabParamList {}
   }
 }

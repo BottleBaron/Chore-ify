@@ -1,20 +1,23 @@
 /* eslint-disable import/no-cycle */
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import ChoreListScreen from '@src/screens/ChoreList/ChoreListScreen';
-import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
+// import ChoreListScreen from '@src/screens/ChoreList/ChoreListScreen';
+import ChoreListScreen from '@src/screens/ChoreListScreen/ChoreListScreen';
+// import StatisticsPeriodTabNavigator from '@src/themedComponents/PeriodTabBar';
 import * as React from 'react';
 import { HouseHoldDashboardTabParamList } from '../types';
+import StatisticsPeriodTabNavigator from './StatisticsPeriodTabNavigator';
 
 const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();
+// const StatsTab = createMaterialTopTabNavigator<StatisticsTabParamList>();
 
-export default function HouseholdDashboardTabNavigator() {
+export default function AuthUserTabNavigator() {
   return (
     <Tab.Navigator /* tabBar={() =} */>
       <Tab.Screen name="ChoreList" component={ChoreListScreen} />
       <Tab.Screen
         name="Statistics"
-        component={StatisticsScreen}
+        component={StatisticsPeriodTabNavigator}
         initialParams={{ period: 'cur-week' }}
       />
       {/* <Tab.Screen
