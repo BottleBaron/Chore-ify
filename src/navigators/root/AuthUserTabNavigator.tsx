@@ -4,27 +4,50 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 // import ChoreListScreen from '@src/screens/ChoreList/ChoreListScreen';
 import ChoreListScreen from '@src/screens/ChoreListScreen/ChoreListScreen';
 // import StatisticsPeriodTabNavigator from '@src/themedComponents/PeriodTabBar';
+import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
+import PeriodTabBar from '@src/themedComponents/PeriodTabBar';
 import * as React from 'react';
 import { HouseHoldDashboardTabParamList } from '../types';
-import StatisticsPeriodTabNavigator from './StatisticsPeriodTabNavigator';
 
 const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();
 // const StatsTab = createMaterialTopTabNavigator<StatisticsTabParamList>();
 
 export default function AuthUserTabNavigator() {
   return (
-    <Tab.Navigator /* tabBar={() =} */>
+    <Tab.Navigator
+      /* tabBar={() =} */ tabBar={(props: any) => <PeriodTabBar {...props} />}
+    >
       <Tab.Screen name="ChoreList" component={ChoreListScreen} />
       <Tab.Screen
-        name="Statistics"
-        component={StatisticsPeriodTabNavigator}
+        name="CurrentWeek"
+        component={StatisticsScreen}
         initialParams={{ period: 'cur-week' }}
       />
-      {/* <Tab.Screen
-        name="Statistics1"
+      <Tab.Screen
+        name="LastWeek"
         component={StatisticsScreen}
         initialParams={{ period: 'prev-week' }}
-      /> */}
+      />
+      <Tab.Screen
+        name="CurrentMonth"
+        component={StatisticsScreen}
+        initialParams={{ period: 'cur-month' }}
+      />
+      <Tab.Screen
+        name="LastMonth"
+        component={StatisticsScreen}
+        initialParams={{ period: 'prev-month' }}
+      />
+      <Tab.Screen
+        name="CurrentYear"
+        component={StatisticsScreen}
+        initialParams={{ period: 'cur-year' }}
+      />
+      <Tab.Screen
+        name="LastYear"
+        component={StatisticsScreen}
+        initialParams={{ period: 'prev-year' }}
+      />
     </Tab.Navigator>
   );
 }

@@ -1,26 +1,87 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
-import { navigateToRoute } from '@src/redux/slices/appbarNavigationSlice';
+import { useAppTheme } from '@src/contexts/ThemeContext';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { IconButton, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { StyleSheet, Text, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
+
+function getDisplayLabel(tabName: string): string {
+  const mapping: { [key: string]: string } = {
+    Today: 'Idag',
+    CurrentWeek: 'Denna vecka',
+    LastWeek: 'Förra veckan',
+    CurrentMonth: 'Denna månad',
+    LastMonth: 'Förra månaden',
+    CurrentYear: 'Detta år',
+    LastYear: 'Förra året',
+  };
+  return mapping[tabName] || tabName; // fallback to tabName if mapping doesn't exist
+}
+
+const handleHomeIconPress = () => {
+  // Navigate to home or perform some action
+};
+
+const handleCogIconPress = () => {
+  // Navigate to settings or perform some action
+};
+
+const currentHousehold = 'Household Name'; // Replace with your actual household name
 
 function PeriodTabBar({
   state,
   descriptors,
   navigation,
 }: MaterialTopTabBarProps) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const theme = useAppTheme();
 
-  const handleIconPress = (routeName: string) => {
-    dispatch(navigateToRoute(routeName));
+  const goPrevious = () => {
+    if (state.index > 0) {
+      const previousRouteName = state.routes[state.index - 1].name;
+      navigation.navigate(previousRouteName);
+    }
   };
 
+  const goNext = () => {
+    if (state.index < state.routes.length - 1) {
+      const nextRouteName = state.routes[state.index + 1].name;
+      navigation.navigate(nextRouteName);
+    }
+  };
+
+  const currentLabel = getDisplayLabel(state.routes[state.index].name);
+
   return (
-    <View style={styles.tabBarContainer}>
-      <IconButton icon="arrow-left" onPress={() => handleIconPress('prev')} />
-      <Text style={styles.title}>Statistics</Text>
-      <IconButton icon="arrow-right" onPress={() => handleIconPress('next')} />
+    <View style={styles.rootContainer}>
+      <View style={styles.topBarContainer}>
+        <IconButton
+          icon="home" // replace with your actual icon name for home
+          onPress={handleHomeIconPress}
+          color={theme.colors.button}
+        />
+        <Text>{currentHousehold}</Text>
+        <IconButton
+          icon="cog" // replace with your actual icon name for settings
+          onPress={handleCogIconPress}
+          color={theme.colors.button}
+        />
+      </View>
+
+      <View style={styles.tabBarContainer}>
+        <IconButton
+          icon="arrow-left" // replace with your actual icon name for left arrow
+          onPress={goPrevious}
+          color={theme.colors.button}
+        />
+        <View style={styles.textContainer}>
+          <Text>{currentLabel}</Text>
+        </View>
+        <IconButton
+          icon="arrow-right" // replace with your actual icon name for right arrow
+          onPress={goNext}
+          color={theme.colors.button}
+        />
+      </View>
     </View>
   );
 }
@@ -28,15 +89,24 @@ function PeriodTabBar({
 export default PeriodTabBar;
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    backgroundColor: 'white',
+  },
+  topBarContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
   tabBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  textContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
 });
 

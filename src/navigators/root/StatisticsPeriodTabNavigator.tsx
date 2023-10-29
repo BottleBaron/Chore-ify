@@ -9,7 +9,7 @@ const StatsTab = createMaterialTopTabNavigator<StatisticsTabParamList>();
 
 export default function StatisticsPeriodTabNavigator() {
   return (
-    <StatsTab.Navigator tabBar={(props) => <PeriodTabBar {...props} />}>
+    <StatsTab.Navigator tabBar={(props: any) => <PeriodTabBar {...props} />}>
       <StatsTab.Screen
         name="CurrentWeek"
         component={StatisticsScreen}

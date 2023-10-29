@@ -25,16 +25,23 @@ export type RootStackParamList = {
 export type HouseHoldDashboardTabParamList = {
   ChoreList: undefined; // ska den ligga här eller i RSPL?
   // MockedHouseholdDetail: undefined;
-  Statistics: { period: string };
+  Today: { period: string };
+  CurrentWeek: { period: string };
+  LastWeek: { period: string };
+  CurrentMonth: { period: string };
+  LastMonth: { period: string };
+  CurrentYear: { period: string };
+  LastYear: { period: string };
 };
 
 export type StatisticsTabParamList = {
-  CurrentWeek: undefined;
-  LastWeek: undefined;
-  CurrentMonth: undefined;
-  LastMonth: undefined;
-  CurrentYear: undefined;
-  LastYear: undefined;
+  Today: { period: string };
+  CurrentWeek: { period: string };
+  LastWeek: { period: string };
+  CurrentMonth: { period: string };
+  LastMonth: { period: string };
+  CurrentYear: { period: string };
+  LastYear: { period: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
