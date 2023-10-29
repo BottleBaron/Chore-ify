@@ -6,10 +6,18 @@ import * as React from 'react';
 import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 // import { styles } from 'react-native-gifted-charts/src/LineChart/styles';
 import { Text, TouchableRipple } from 'react-native-paper';
+// import { StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types';
+import { RootStackScreenProps } from '@src/navigators/types';
 
-// type Props = RootStackScreenProps<'UserHasNoHouseHold'>;
+// this?
+// type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
 
-export default function UserHasNoHouseHoldScreenContent() {
+// or this?
+type Props = {
+  navigation: RootStackScreenProps<'HouseHoldSelectorScreen'>['navigation'];
+};
+
+export default function UserHasNoHouseHoldScreenContent({ navigation }: Props) {
   const theme = useAppTheme();
 
   return (
@@ -18,6 +26,7 @@ export default function UserHasNoHouseHoldScreenContent() {
       <TouchableRipple
         // onPress={() => console.log('Pressed')}
         style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
+        onPress={() => navigation.navigate('ChoreList')}
       >
         <View style={styles.buttonContainer}>
           <View style={styles.imageContainer}>
@@ -40,6 +49,7 @@ export default function UserHasNoHouseHoldScreenContent() {
       <TouchableRipple
         // onPress={() => console.log('Pressed')}
         style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
+        onPress={() => navigation.navigate('ChoreList')}
       >
         <View style={styles.buttonContainer}>
           <View style={styles.imageContainer}>
@@ -68,37 +78,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    justifyContent: 'space-evenly',
+  },
+  touchableRipple: {
+    width: '90%',
+    // height: '45%',
+    borderWidth: 1,
+    borderRadius: 15,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   buttonContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: '90%',
+    height: '45%',
   },
   imageContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
   },
-  touchableRipple: {
-    // marginTop: 20,
-    // minWidth: '70%',
-    // minHeight: '40%',
-    borderWidth: 1,
-    // padding: 25,
-    borderRadius: 15,
-  },
   innerTextContainer: {
-    padding: 15,
+    // padding: 15,
   },
   header: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 15,
+    // padding: 15,
   },
   text: {
     fontSize: 12,
