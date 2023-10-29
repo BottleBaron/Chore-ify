@@ -57,6 +57,7 @@ export default function RootStackNavigator() {
         <Stack.Screen
           name="ChoreList"
           component={HouseholdDashboardTabNavigator}
+          options={{ headerShown: false }}
         />
         <Stack.Screen name="Chore" component={ChoreScreen} />
       </Stack.Group>

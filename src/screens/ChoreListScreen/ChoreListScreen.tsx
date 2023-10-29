@@ -2,7 +2,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 // eslint-disable-next-line import/no-cycle
 import { mockChores } from '@src/assets/Data/MockData';
 // import { useAppTheme } from '@src/contexts/ThemeContext';
@@ -52,30 +58,37 @@ export default function ChoreListScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={styles.container}>
-      {mockChores.length === 0 ? (
-        <NoChoresPage />
-      ) : (
-        <View>
-          {dbChores.map((chore) => (
-            <View key={chore.id} style={styles.choreList}>
-              <TouchableOpacity
-                style={styles.card}
-                onPress={() => handleChoreSelection(chore.id)}
-              >
-                <Text style={styles.cardText}>{chore.title}</Text>
-                {/* Avatars */}
-              </TouchableOpacity>
-            </View>
-          ))}
-          <BottomButtons />
-        </View>
-      )}
-    </View>
+    <SafeAreaView style={styles.rootContainer}>
+      <View style={styles.container}>
+        {mockChores.length === 0 ? (
+          <NoChoresPage />
+        ) : (
+          <View>
+            {dbChores.map((chore) => (
+              <View key={chore.id} style={styles.choreList}>
+                <TouchableOpacity
+                  style={styles.card}
+                  onPress={() => handleChoreSelection(chore.id)}
+                >
+                  <Text style={styles.cardText}>{chore.title}</Text>
+                  {/* Avatars */}
+                </TouchableOpacity>
+              </View>
+            ))}
+            <BottomButtons />
+          </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
   container: {
     flex: 1,
     alignItems: 'center',

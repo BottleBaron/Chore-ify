@@ -23,8 +23,7 @@ export type RootStackParamList = {
 };
 
 export type HouseHoldDashboardTabParamList = {
-  ChoreList: undefined; // ska den ligga här eller i RSPL?
-  // MockedHouseholdDetail: undefined;
+  ChoreList: { period: string };
   Today: { period: string };
   CurrentWeek: { period: string };
   LastWeek: { period: string };

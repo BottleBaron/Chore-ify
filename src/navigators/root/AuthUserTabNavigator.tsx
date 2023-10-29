@@ -3,9 +3,8 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 // import ChoreListScreen from '@src/screens/ChoreList/ChoreListScreen';
 import ChoreListScreen from '@src/screens/ChoreListScreen/ChoreListScreen';
-// import StatisticsPeriodTabNavigator from '@src/themedComponents/PeriodTabBar';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
-import PeriodTabBar from '@src/themedComponents/PeriodTabBar';
+import CustomTabBar from '@src/themedComponents/CustomTabBar';
 import * as React from 'react';
 import { HouseHoldDashboardTabParamList } from '../types';
 
@@ -15,7 +14,7 @@ const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();
 export default function AuthUserTabNavigator() {
   return (
     <Tab.Navigator
-      /* tabBar={() =} */ tabBar={(props: any) => <PeriodTabBar {...props} />}
+      /* tabBar={() =} */ tabBar={(props: any) => <CustomTabBar {...props} />}
     >
       <Tab.Screen name="ChoreList" component={ChoreListScreen} />
       <Tab.Screen
