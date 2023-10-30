@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useFocusEffect } from '@react-navigation/native';
@@ -15,7 +16,6 @@ import NoChoresPage from './NoChoresPage';
 
 type Props = HouseholdDashboardTabScreenProps<'ChoreList'>;
 
-export default function ChoreListScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
   const activeHouseholdId = useAppSelector(
@@ -61,6 +61,7 @@ export default function ChoreListScreen({ navigation }: Props) {
             </View>
           ))}
           <BottomButtons />
+          <Button onPress={handleAddChore}>Add mock chore</Button>
         </View>
       )}
     </View>
