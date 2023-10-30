@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-boolean-value */
 import { Chore, addChore } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import React from 'react';
@@ -52,6 +53,7 @@ function BottomButtons() {
             visible={visible}
             onDismiss={hideModal}
             contentContainerStyle={containerStyle}
+            dismissableBackButton={true}
           >
             <AddChoreScreen handleAddChore={handleAddChore} />
           </Modal>
@@ -65,8 +67,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
-    position: 'absolute',
-    top: 650,
   },
   button: {
     width: 160,

@@ -1,7 +1,8 @@
+import { useAppTheme } from '@src/contexts/ThemeContext';
 import { Chore } from '@src/redux/slices/choreSlice';
-import React from 'react';
-import { Button, TextInput, View } from 'react-native';
-import { Text } from 'react-native-svg';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 
 interface AddChoreScreenProps {
   handleAddChore: (choreData: Chore) => void;
@@ -18,33 +19,90 @@ export default function AddChoreScreen({
     effortNumber: 0,
   });
 
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const theme = useAppTheme();
+
   const handleChange = (field: keyof Chore, value: string) => {
     setChoreData({ ...choreData, [field]: value });
   };
 
+  const validateValues = () => {
+    if (choreData.dayinterval > 0 && choreData.effortNumber > 0) {
+      if (choreData.title.length > 0 && choreData.description.length > 0) {
+        handleAddChore(choreData);
+        return;
+      }
+    }
+    setErrorMessage('Invalid input');
+  };
+
   return (
-    <View>
-      <Text>Titel på sysslan:</Text>
+    <View style={styles.modalContent}>
       <TextInput
+        label="Title"
+        style={styles.input}
+        placeholder="Title"
+        aria-labelledby="Title"
+        mode="outlined"
         value={choreData.title}
         onChangeText={(text) => handleChange('title', text)}
       />
-      <Text>Beskrivning av sysslan:</Text>
       <TextInput
+        label="Description"
+        style={styles.input}
+        placeholder="Description"
+        aria-labelledby="Description"
+        mode="outlined"
         value={choreData.description}
         onChangeText={(text) => handleChange('description', text)}
       />
-      <Text>Intervall (i dagar):</Text>
       <TextInput
+        label="Day Interval"
+        style={styles.input}
+        placeholder="Day interval"
+        aria-labelledby="Day interval"
+        mode="outlined"
         value={choreData.dayinterval.toString()}
         onChangeText={(text) => handleChange('dayinterval', text)}
       />
-      <Text>Hur jobbig är sysslan: </Text>
       <TextInput
+        label="Effort"
+        style={styles.input}
+        placeholder="Effort"
+        aria-labelledby="Effort"
+        mode="outlined"
         value={choreData.effortNumber.toString()}
         onChangeText={(text) => handleChange('effortNumber', text)}
       />
-      <Button title="Add Chore" onPress={() => handleAddChore(choreData)} />
+      <HelperText
+        style={[styles.helperText, { color: theme.colors.error }]}
+        type="error"
+        visible={!!errorMessage}
+      >
+        {errorMessage}
+      </HelperText>
+      <Button
+        buttonColor={theme.colors.button}
+        textColor={theme.colors.buttonText}
+        aria-label="Add Chore"
+        onPress={validateValues}
+      >
+        Add Chore
+      </Button>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  modalContent: {
+    height: 400,
+    justifyContent: 'center',
+  },
+  input: {
+    margin: 10,
+  },
+  helperText: {
+    alignSelf: 'center',
+  },
+});
