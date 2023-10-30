@@ -26,7 +26,7 @@ export default function UserHasNoHouseHoldScreenContent({ navigation }: Props) {
       <TouchableRipple
         // onPress={() => console.log('Pressed')}
         style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
-        onPress={() => navigation.navigate('ChoreList')}
+        onPress={() => navigation.navigate('CreateHouseHold')}
       >
         <View style={styles.buttonContainer}>
           <View style={styles.imageContainer}>
@@ -49,7 +49,7 @@ export default function UserHasNoHouseHoldScreenContent({ navigation }: Props) {
       <TouchableRipple
         // onPress={() => console.log('Pressed')}
         style={[styles.touchableRipple, { borderColor: theme.colors.border }]}
-        onPress={() => navigation.navigate('ChoreList')}
+        onPress={() => navigation.navigate('JoinHouseHold')}
       >
         <View style={styles.buttonContainer}>
           <View style={styles.imageContainer}>

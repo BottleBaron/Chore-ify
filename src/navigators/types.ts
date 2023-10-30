@@ -11,13 +11,16 @@ export type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   HouseHoldSelectorScreen: undefined;
-  CreateHouseHold:undefined;
-  JoinHouseHold:undefined;
+  CreateHouseHold: undefined;
+  JoinHouseHold: undefined;
   Statistics: { period: string };
   Chore: {
     choreId: string;
   };
-  ChoreList: undefined; // ska den ligga här eller i HHDTP?
+  ChoreList: {
+    householdId: string;
+    userId: string;
+  }; // ska den ligga här eller i HHDTP?
   // Login: undefined;
   // MockedHouseholdDetail: undefined;
   // HouseholdDashboard: undefined;

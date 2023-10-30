@@ -9,7 +9,7 @@ type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
 
 export default function HouseHoldSelectorScreen({ navigation, route }: Props) {
   const theme = useAppTheme();
-  const hasHouseholds = false; /* mockHouseholds.length > 0; */
+  const hasHouseholds = true; /* mockHouseholds.length > 0; */
 
   return (
     <SafeAreaView

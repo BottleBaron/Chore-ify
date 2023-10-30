@@ -26,13 +26,13 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <View style={[styles.box, { borderColor: theme.colors.border }]}>
-        <Text variant="headlineSmall" style={{ color: theme.colors.color }}>
+        <Text variant="headlineSmall" style={{ color: theme.colors.text }}>
           {' '}
           Skriv in hushållets kod{' '}
         </Text>
         <Text
           variant="bodyMedium"
-          style={[{ margin: 20 }, { color: theme.colors.color }]}
+          style={[{ margin: 20 }, { color: theme.colors.text }]}
         >
           {' '}
           Administratören för hushållet har en 4-siffrig kod som du behöver
