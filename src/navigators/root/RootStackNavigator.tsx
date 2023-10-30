@@ -9,6 +9,8 @@ import ChoreScreen from '@src/screens/ChoreScreen';
 import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
 import SettingsScreen from '@src/screens/Settings/SettingsScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
+import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
+import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
 import { RootStackParamList } from '../types';
 import HouseholdDashboardTabNavigator from './AuthUserTabNavigator';
 
@@ -30,6 +32,7 @@ export default function RootStackNavigator() {
           component={HouseHoldSelectorScreen}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen name="Statistics" component={StatisticsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Group>
@@ -51,6 +54,16 @@ export default function RootStackNavigator() {
             // presentation: 'modal',
             animation: 'slide_from_bottom',
           }}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="JoinHouseHold"
+          component={JoinHouseHoldScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CreateHouseHold"
+          component={CreateHouseHoldScreen}
         />
       </Stack.Group>
       <Stack.Group>

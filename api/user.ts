@@ -1,26 +1,38 @@
 /* eslint-disable prettier/prettier */
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import db from '../firebaseConfig';
-import { User, UserState } from '../src/redux/slices/userSlice';
+import { User } from '../src/redux/slices/userSlice';
 
 export async function createFirebaseUser(userData: User) {
-  const userRef = doc(db, 'users');
-  const newUser = { ...userData, id: userRef.id };
-  await setDoc(userRef, userData);
+  const docRef = await addDoc(collection(db, 'users'), userData);
+  const newUser = { ...userData, id: docRef.id };
+  updateFirebaseUser(newUser);
   return newUser;
 }
 
-export async function getFirebaseUsers(): Promise<UserState> {
-  const snapshot = await getDocs(collection(db, 'users'));
+export async function getFirebaseUsers(accountId: string): Promise<User[]> {
+  const q = query(collection(db, 'users'), where("accountId", "==", accountId))
+  const snapshot = await getDocs(q);
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
-  return allDocs[0] as UserState;
+  return allDocs as User[];
+}
+
+export async function getFirebaseUsersByHouseholdId(householdIds: string[]): Promise<User[]> {
+  const q = query(collection(db, 'users'), where("householdId", "in", householdIds))
+  const snapshot = await getDocs(q);
+  const allDocs = snapshot.docs.map((doc) => doc.data());
+
+  return allDocs as User[];
 }
 
 export async function updateFirebaseUser(userData: User) {

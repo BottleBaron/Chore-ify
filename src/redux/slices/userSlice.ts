@@ -2,26 +2,29 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createFirebaseUser,
   deleteFirebaseUser,
-  getFirebaseUsers,
   updateFirebaseUser,
 } from '../../../api/user';
 import createAppAsyncThunk from '../utils';
+import { fetchHouseholdsAndUsers } from './householdSlice';
 
 export interface User {
   id: string;
-  UserId: number;
-  accountId: number;
+  accountId: string;
   avatar: string;
   name: string;
   isPaused: boolean;
+  isAdmin: boolean;
+  householdId: string;
 }
 
 export interface UserState {
-  users: User[];
+  myUsers: User[];
+  allUsers: User[];
 }
 
 const initialState: UserState = {
-  users: [],
+  myUsers: [],
+  allUsers: [],
 };
 
 const userSlice = createSlice({
@@ -29,26 +32,32 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUsers: (state, action: PayloadAction<User[]>) => {
-      state.users = action.payload;
+      state.myUsers = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(addUser.fulfilled, (state, action) => {
-      state.users.push(action.payload);
+      state.myUsers.push(action.payload);
     });
-    builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      state.users = action.payload;
-    });
+    // builder.addCase(fetchUsers.fulfilled, (state, action) => {
+    //   state.users = action.payload;
+    // });
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      const updatedIndex = state.users.findIndex(
+      const updatedIndex = state.myUsers.findIndex(
         (User) => User.id === action.payload.id,
       );
       if (updatedIndex !== -1) {
-        state.users[updatedIndex] = action.payload;
+        state.myUsers[updatedIndex] = action.payload;
       }
     });
     builder.addCase(deleteUser.fulfilled, (state, action) => {
-      state.users = state.users.filter((user) => user.id !== action.payload);
+      state.myUsers = state.myUsers.filter(
+        (user) => user.id !== action.payload,
+      );
+    });
+    builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
+      state.allUsers = action.payload.allUsers;
+      state.myUsers = action.payload.myUsers;
     });
   },
 });
@@ -69,17 +78,16 @@ export const addUser = createAppAsyncThunk<User, User>(
   },
 );
 
-export const fetchUsers = createAppAsyncThunk<User[], void>(
-  'user/get',
-  async (_, thunkAPI) => {
-    try {
-      const userState = await getFirebaseUsers();
-      return userState.users;
-    } catch (e: any) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  },
-);
+// export const fetchUsers = createAppAsyncThunk<User[], void>(
+//   'user/get',
+//   async (_, thunkAPI) => {
+//     try {
+//       return await getFirebaseUsers();
+//     } catch (e: any) {
+//       return thunkAPI.rejectWithValue(e.message);
+//     }
+//   },
+// );
 
 export const updateUser = createAppAsyncThunk<User, User>(
   'user/update',

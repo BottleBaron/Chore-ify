@@ -2,6 +2,7 @@
 import type { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { UnloadFontOptions } from 'expo-font';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -10,11 +11,16 @@ export type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   HouseHoldSelectorScreen: undefined;
+  CreateHouseHold: undefined;
+  JoinHouseHold: undefined;
   Statistics: { period: string };
   Chore: {
     choreId: string;
   };
-  ChoreList: undefined; // ska den ligga här eller i HHDTP?
+  ChoreList: {
+    householdId: string;
+    userId: string;
+  }; // ska den ligga här eller i HHDTP?
   // Login: undefined;
   // MockedHouseholdDetail: undefined;
   // HouseholdDashboard: undefined;
