@@ -1,20 +1,21 @@
-import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
 import {
   mockChores,
   mockUserToCompletedChore,
   mockUsers,
-} from '../../../assets/Data/MockData';
+} from '@src/assets/Data/MockData';
+import React from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { ChorePieChart } from './chartComponents/ChorePieChart';
 import { TotalPieChart } from './chartComponents/TotalPieChart';
 import transformer, {
   transformChoreSpecific,
 } from './chartComponents/transformer';
 
-export default function StatisticsScreen() {
+export default function StatisticsScreen(/* { route } */) {
   const users = mockUsers;
   const chores = mockChores;
   const completed = mockUserToCompletedChore;
+  // console.log('period', route.params.period);
 
   // Transform the raw data into pie chart data
   const pieChartData = transformer({ users, chores, completed });
@@ -28,7 +29,7 @@ export default function StatisticsScreen() {
         {chores.map((chore) => {
           const specificPieChartData = transformChoreSpecific(
             { users, chores, completed },
-            (chore.id),
+            chore.id,
           );
           return (
             <View style={styles.gridItem} key={chore.id}>

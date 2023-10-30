@@ -1,11 +1,12 @@
 /* eslint-disable import/no-cycle */
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { RootStackScreenProps } from '@src/navigators/types';
+import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 import * as React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Title } from 'react-native-paper';
-import initialBackground from '../../../assets/backgrounds/initial_background.png';
-import { useAppTheme } from '../../contexts/ThemeContext';
-import { RootStackScreenProps } from '../../navigators/types';
-import ThemedClickableCardButton from '../../themedComponents/ThemedClickableCardButton';
+// import initialBackground from '../../../assets/backgrounds/initial_background.png';
+import initialBackground from '@src/assets/backgrounds/initial_background.png';
 
 // Ange typen för navigation prop
 
@@ -24,7 +25,7 @@ export default function AuthScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
+            { backgroundColor: theme.colors.backgroundOverlay },
           ]}
         />
         <View style={styles.innerContainer}>

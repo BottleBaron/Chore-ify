@@ -1,22 +1,24 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useFocusEffect } from '@react-navigation/native';
+import doneIcon from '@src/assets/doneIcon.png';
 import * as React from 'react';
 import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
   Alert,
+  Button,
   Image,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { Card, Title, Paragraph, IconButton } from 'react-native-paper';
-import doneIcon from '../../assets/doneIcon.png';
+import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
-import { RootStackScreenProps } from '../navigators/types';
-import {
-  mockUsers,
-  mockCompletedChores,
-  mockChores,
-} from '../../assets/Data/MockData';
+import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { RootStackScreenProps } from '@src/navigators/types';
+import { fetchChores } from '@src/redux/slices/choreSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
 
 type Props = RootStackScreenProps<'Chore'>;
 
@@ -27,21 +29,22 @@ interface StatusCardProps {
 
 // eslint-disable-next-line react/prop-types
 function StatusCard({ status, daysLeft }: StatusCardProps) {
-  let backgroundColor = '#CCCCCC'; // grå
+  const theme = useAppTheme();
+  let backgroundColor = ''; // grå
   let text = 'Den här sysslan behöver fortfarande göras idag!';
 
   // eslint-disable-next-line default-case
   switch (status) {
     case 'done':
-      backgroundColor = '#4CAF50'; // grön
+      backgroundColor = theme.colors.finished; /* '#4CAF50'; // grön */
       text = 'Toppen! Den här sysslan är gjord för idag!';
       break;
     case 'pending':
-      backgroundColor = '#FFEB3B'; // gul
+      backgroundColor = theme.colors.pending; /* '#FFEB3B'; */ // gul
       text = `${daysLeft} dagar kvar tills denna syssla ska göras`;
       break;
     case 'missed':
-      backgroundColor = '#F44336'; // röd
+      backgroundColor = theme.colors.notStarted; /* '#F44336'; */ // röd
       text = `Woh, den här sysslan är ${daysLeft} dagar sen!`;
       break;
   }
@@ -53,12 +56,34 @@ function StatusCard({ status, daysLeft }: StatusCardProps) {
   );
 }
 
-export default function ChoreScreen({ route, navigation }: Props) {
-  const { choreId } = route.params;
+export default function ChoreScreen({ navigation }: Props) {
+  const dispatch = useAppDispatch();
 
-  const chore = mockChores.find((ch) => ch.id === choreId);
+  // Make sure that our choredata is relevant on page load
+  useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
+      const handleInit = async () => {
+        await dispatch(fetchChores(activeHouseholdId));
+      };
 
-  if (!chore) {
+      handleInit();
+      return () => {
+        isActive = false;
+      };
+    }, []),
+  );
+
+  // Select our current chore based on activeChoreId,
+  const currentChore = useAppSelector((state) =>
+    state.chore.chores.find((c) => c.id === state.chore.activeChoreId),
+  );
+
+  const activeHouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+
+  if (!currentChore) {
     return <Text>Sysslan kunde inte hittas</Text>;
   }
 
@@ -86,24 +111,26 @@ export default function ChoreScreen({ route, navigation }: Props) {
       completedDate: recentCompletion.dateCompleted,
     };
   };
-  const recentActivity = getRecentActivity(choreId);
+  const recentActivity = getRecentActivity(currentChore.id);
   const recentCompleter = recentActivity ? recentActivity.user : null;
   const completedDate = recentActivity ? recentActivity.completedDate : null;
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>{chore.title}</Text>
+        <Text style={styles.headerText}>{currentChore.title}</Text>
       </View>
       <StatusCard status="done" daysLeft={5} />
       <Text style={styles.activityText}>Senast aktivitet</Text>
       <Card style={styles.card}>
         <Card.Content>
-          <Title>{chore.title}</Title>
-          <Paragraph>{chore.description}</Paragraph>
-          <Text style={styles.infoText}>Dagintervall: {chore.dayinterval}</Text>
+          <Title>{currentChore.title}</Title>
+          <Paragraph>{currentChore.description}</Paragraph>
           <Text style={styles.infoText}>
-            Ansträngningsnummer: {chore.effortNumber}
+            Dagintervall: {currentChore.dayinterval}
+          </Text>
+          <Text style={styles.infoText}>
+            Ansträngningsnummer: {currentChore.effortNumber}
           </Text>
 
           <TouchableOpacity onPress={() => {}}>
@@ -138,7 +165,7 @@ export default function ChoreScreen({ route, navigation }: Props) {
       <View style={styles.footer}>
         <Button
           title="Stäng"
-          onPress={() => navigation.navigate('HouseholdDashboard')}
+          onPress={() => navigation.navigate('ChoreList')}
         />
       </View>
     </View>
@@ -148,7 +175,7 @@ export default function ChoreScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    /* backgroundColor: 'white', */
   },
   activityText: {
     fontSize: 20,
@@ -160,8 +187,8 @@ const styles = StyleSheet.create({
   header: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    backgroundColor: '#f5f5f5',
+    /*  borderBottomColor: '#ddd',
+    backgroundColor: '#f5f5f5', */
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -201,7 +228,7 @@ const styles = StyleSheet.create({
   footer: {
     padding: 16,
     borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    backgroundColor: '#f5f5f5',
+    /*  borderTopColor: '#ddd',
+    backgroundColor: '#f5f5f5', */
   },
 });

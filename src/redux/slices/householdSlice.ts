@@ -5,31 +5,42 @@ import {
   getFirebaseHouseholds,
   updateFirebaseHousehold,
 } from '../../../api/household';
+import {
+  getFirebaseUsers,
+  getFirebaseUsersByHouseholdId,
+} from '../../../api/user';
+import { auth } from '../../../firebaseConfig';
 import createAppAsyncThunk from '../utils';
+import { User } from './userSlice';
 
 export interface Household {
-  id: string;
-  adminIds: number[];
-  name: string;
   accessCode: string;
+  id: string;
+  name: string;
 }
 
 export interface HouseholdState {
   households: Household[];
-  activeHouseHoldId: string;
+  activeHouseholdId: string;
 }
 
 const initialState: HouseholdState = {
   households: [],
-  activeHouseHoldId: '',
+  activeHouseholdId: '',
 };
+
+export interface HouseholdsAndUsersDTO {
+  myUsers: User[];
+  households: Household[];
+  allUsers: User[];
+}
 
 const householdSlice = createSlice({
   name: 'household',
   initialState,
   reducers: {
     setActiveHouseholdId: (state, action: PayloadAction<string>) => {
-      state.activeHouseHoldId = action.payload;
+      state.activeHouseholdId = action.payload;
     },
     setHouseholds: (state, action: PayloadAction<Household[]>) => {
       state.households = action.payload;
@@ -39,8 +50,9 @@ const householdSlice = createSlice({
     builder.addCase(addHousehold.fulfilled, (state, action) => {
       state.households.push(action.payload);
     });
-    builder.addCase(fetchHouseholds.fulfilled, (state, action) => {
-      state.households = action.payload;
+
+    builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
+      state.households = action.payload.households;
     });
     builder.addCase(updateHousehold.fulfilled, (state, action) => {
       const updatedIndex = state.households.findIndex(
@@ -72,18 +84,30 @@ export const addHousehold = createAppAsyncThunk<Household, Household>(
     }
   },
 );
+// Steg 1. Hämta users med account id.
+// Steg 2. Hämta hushållen med householdId som finns på user.
+// Steg 3. Hämta users igen med de householdId på household.
+export const fetchHouseholdsAndUsers = createAppAsyncThunk<
+  HouseholdsAndUsersDTO,
+  void
+>('household/get', async (_, thunkAPI) => {
+  const accountId = auth.currentUser?.uid;
 
-export const fetchHouseholds = createAppAsyncThunk(
-  'household/get',
-  async (_, thunkAPI) => {
-    try {
-      const householdState = await getFirebaseHouseholds();
-      return householdState.households;
-    } catch (e: any) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  },
-);
+  if (!accountId) return { myUsers: [], households: [], allUsers: [] };
+
+  try {
+    const myUsers = await getFirebaseUsers(accountId);
+
+    const householdIds = myUsers.map((u) => u.householdId);
+
+    const households = await getFirebaseHouseholds(householdIds);
+    const allUsers = await getFirebaseUsersByHouseholdId(householdIds);
+
+    return { myUsers, households, allUsers };
+  } catch (e: any) {
+    return thunkAPI.rejectWithValue(e.message);
+  }
+});
 
 export const updateHousehold = createAppAsyncThunk<Household, Household>(
   'household/update',

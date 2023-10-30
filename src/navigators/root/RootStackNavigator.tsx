@@ -2,78 +2,78 @@
 import * as React from 'react';
 // eslint-disable-next-line import/no-cycle
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import AuthScreen from '../../screens/Auth/AuthScreen';
-import SignInModalScreen from '../../screens/Auth/SignInModalScreen';
-import SignUpModalScreen from '../../screens/Auth/SignUpModalScreen';
-import ChoreListScreen from '../../screens/ChoreListScreen/ChoreListScreen';
-import ChoreScreen from '../../screens/ChoreScreen';
-import SettingsScreen from '../../screens/Settings/SettingsScreen';
-import StatisticsScreen from '../../screens/Statistics/StatisticsScreen';
-import HouseHoldSelectorScreen from '../../screens/mocked-screens/HouseHoldSelectorScreen';
-import HouseHoldSelectorScreenNoHouseHold from '../../screens/mocked-screens/HouseHoldSelectorScreenNoHouseHold';
+import AuthScreen from '@src/screens/Auth/AuthScreen';
+import SignInModalScreen from '@src/screens/Auth/SignInModalScreen';
+import SignUpModalScreen from '@src/screens/Auth/SignUpModalScreen';
+import ChoreScreen from '@src/screens/ChoreScreen';
+import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
+import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
+import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
+import SettingsScreen from '@src/screens/Settings/SettingsScreen';
+import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import { RootStackParamList } from '../types';
+import HouseholdDashboardTabNavigator from './AuthUserTabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  const isAuthUser = false; // You can toggle this for testing
-  const hasExistingHousehold = true; // Toogles the different screens for selecting household
+  // const isAuthUser = false; // You can toggle this for testing
+  // const hasExistingHousehold = true; // Toogles the different screens for selecting household
   return (
     <Stack.Navigator>
       <Stack.Group>
-        {!isAuthUser ? (
-          <Stack.Screen
-            name="Auth"
-            component={AuthScreen}
-            options={{ headerShown: false }}
-          />
-        ) : null}
-        {!hasExistingHousehold ? (
-          <Stack.Screen
-            name="HouseHoldSelectorScreenNoHouseHold"
-            component={HouseHoldSelectorScreenNoHouseHold}
-            options={{ headerShown: true }}
-          />
-        ) : null}
+        <Stack.Screen
+          name="Auth"
+          component={AuthScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="HouseHoldSelectorScreen"
           component={HouseHoldSelectorScreen}
+          options={{ headerShown: false }}
         />
+
         <Stack.Screen name="Statistics" component={StatisticsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Group>
       <Stack.Group>
-        <Stack.Screen name="SignIn" component={SignInModalScreen} />
-        <Stack.Screen name="SignUp" component={SignUpModalScreen} />
+        <Stack.Screen
+          name="SignIn"
+          component={SignInModalScreen}
+          options={{
+            headerShown: false,
+            // presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpModalScreen}
+          options={{
+            headerShown: false,
+            // presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="JoinHouseHold"
+          component={JoinHouseHoldScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CreateHouseHold"
+          component={CreateHouseHoldScreen}
+        />
+      </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen
+          name="ChoreList"
+          component={HouseholdDashboardTabNavigator}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Chore" component={ChoreScreen} />
-        <Stack.Screen name="ChoreList" component={ChoreListScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
 }
-
-//* Og-handle of isAuthUser:
-// return (
-//   <Stack.Navigator>
-//     <Stack.Group>
-//       {!isAuthUser ? (
-//         <Stack.Screen
-//           name="Auth"
-//           component={AuthScreen}
-//           options={{ headerShown: false }}
-//         />
-//       ) : (
-//         <Stack.Screen
-//           name="HouseholdDashboard"
-//           component={HouseHoldDashboardScreen}
-//         />
-//       )}
-//     </Stack.Group>
-//     <Stack.Group>
-//       <Stack.Screen name="SignIn" component={SignInModalScreen} />
-//       <Stack.Screen name="SignUp" component={SignUpModalScreen} />
-//       <Stack.Screen name="Chore" component={ChoreScreen} />
-//     </Stack.Group>
-//   </Stack.Navigator>
-// );}

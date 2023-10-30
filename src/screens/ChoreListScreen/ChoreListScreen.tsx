@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // eslint-disable-next-line import/no-cycle
+<<<<<<< HEAD
 import { Button } from 'react-native-paper';
 import { mockChores } from '../../../assets/Data/MockData';
 import { useAppTheme } from '../../contexts/ThemeContext';
@@ -41,17 +43,66 @@ export default function ChoreListScreen({ navigation }: any) {
     const action = await dispatch(addChore(mockedChore));
     console.log(action);
   };
+=======
+import { mockChores } from '@src/assets/Data/MockData';
+// import { useAppTheme } from '@src/contexts/ThemeContext';
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
+import { fetchChores, setActiveChoreId } from '@src/redux/slices/choreSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import BottomButtons from './BottomButtonsComponent';
+import NoChoresPage from './NoChoresPage';
+
+type Props = HouseholdDashboardTabScreenProps<'ChoreList'>;
+>>>>>>> 8fa3560c45146bdd0cf4a25b33044de83646a7ab
 
   const theme = useAppTheme();
+  const dispatch = useAppDispatch();
+  const activeHouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+  const dbChores = useAppSelector((state) => state.chore.chores);
+  // Dags att fakea lite mer data
+  const mockedChore = {
+    id: '1',
+    householdId: activeHouseholdId,
+    title: 'Diska',
+    description: 'Diska och torka all smutsig disk i köket',
+    dayinterval: 2,
+    effortNumber: 2,
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
+      const handleInit = async () => {
+        await dispatch(fetchChores(activeHouseholdId));
+      };
+
+      handleInit();
+      return () => {
+        isActive = false;
+      };
+    }, []),
+  );
+
+  const handleChoreSelection = (id: string) => {
+    dispatch(setActiveChoreId(id));
+
+    navigation.navigate('Chore', { choreId: id });
+  };
+
   return (
     <View style={styles.container}>
       {mockChores.length === 0 ? (
         <NoChoresPage />
       ) : (
         <View>
-          {mockChores.map((chore) => (
+          {dbChores.map((chore) => (
             <View key={chore.id} style={styles.choreList}>
-              <TouchableOpacity style={styles.card}>
+              <TouchableOpacity
+                style={styles.card}
+                onPress={() => handleChoreSelection(chore.id)}
+              >
                 <Text style={styles.cardText}>{chore.title}</Text>
                 {/* Avatars */}
               </TouchableOpacity>
@@ -75,7 +126,7 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   card: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     height: 55,
     width: 390,
     justifyContent: 'space-evenly',

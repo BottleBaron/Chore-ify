@@ -14,13 +14,14 @@ export interface User {
   avatar: string;
   name: string;
   isPaused: boolean;
+  isAdmin: boolean;
 }
 
 export interface Household {
   id: string;
   adminIds: number[];
   name: string;
-  accesCode: string;
+  accessCode: string;
 }
 
 export interface Chore {

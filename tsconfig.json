@@ -3,14 +3,11 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react",
-    "esModuleInterop": true,
-	"baseUrl": "./",
-	  "paths": {
-		"*": ["src/*", "assets/*"]
-	  }
-
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@root/*": ["*"] // <-- Adding this line
+    }
   },
-  "include": ["src/**/*", "assets/**/*", "types/**/*", "App.tsx", "api/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["**/*", "./firebaseConfig.ts"]
 }
-
