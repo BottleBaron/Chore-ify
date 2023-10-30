@@ -1,3 +1,5 @@
+import { addChore } from '@src/redux/slices/choreSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Modal, PaperProvider, Portal } from 'react-native-paper';
@@ -5,10 +7,20 @@ import AddChoreScreen from './AddChoreModalScreen';
 
 function BottomButtons() {
   const [visible, setVisible] = React.useState(false);
+  const ActivehouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+  const dispatch = useAppDispatch();
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: 'white', padding: 20 };
+
+  const handleAddChore = (choreData: any) => {
+    const newChore = { ...choreData, householdId: ActivehouseholdId };
+    dispatch(addChore(newChore));
+    hideModal();
+  };
 
   return (
     <PaperProvider>
@@ -41,7 +53,7 @@ function BottomButtons() {
             onDismiss={hideModal}
             contentContainerStyle={containerStyle}
           >
-            <AddChoreScreen />
+            <AddChoreScreen handleAddChore={handleAddChore} />
           </Modal>
         </Portal>
       </View>
