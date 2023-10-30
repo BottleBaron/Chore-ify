@@ -21,10 +21,12 @@ export interface Household {
 
 export interface HouseholdState {
   households: Household[];
+  activeHouseholdId: string;
 }
 
 const initialState: HouseholdState = {
   households: [],
+  activeHouseholdId: '',
 };
 
 export interface HouseholdsAndUsersDTO {
@@ -37,6 +39,9 @@ const householdSlice = createSlice({
   name: 'household',
   initialState,
   reducers: {
+    setActiveHouseholdId: (state, action: PayloadAction<string>) => {
+      state.activeHouseholdId = action.payload;
+    },
     setHouseholds: (state, action: PayloadAction<Household[]>) => {
       state.households = action.payload;
     },
@@ -65,7 +70,7 @@ const householdSlice = createSlice({
   },
 });
 
-export const { setHouseholds } = householdSlice.actions;
+export const { setHouseholds, setActiveHouseholdId } = householdSlice.actions;
 export const householdReducer = householdSlice.reducer;
 
 export const addHousehold = createAppAsyncThunk<Household, Household>(

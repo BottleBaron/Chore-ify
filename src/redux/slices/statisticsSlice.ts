@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getColorForAvatar } from '../../../assets/avatarColorConfig';
-
+// import { UserToCompletedChore } from 'assets/Data/types';
+// import { getColorForAvatar } from '../../../assets/avatarColorConfig';
+// import { getColorForAvatar } from 'assets/avatarColorConfig';
+import { getColorForAvatar } from '@src/assets/avatarColorConfig';
+import { UserToCompletedChore } from '@src/assets/Data/types';
 import { User } from './userSlice';
-import { UserToCompletedChore } from '../../../assets/Data/types';
+// import { UserToCompletedChore } from '../../../assets/Data/types';
 
 interface PieChartData {
   value: number;
@@ -57,7 +60,7 @@ const statisticsSlice = createSlice({
     generateChorePieChartData: (
       state,
       action: PayloadAction<{
-        choreId: number;
+        choreId: string;
         completedChores: UserToCompletedChore[];
         users: User[];
       }>,

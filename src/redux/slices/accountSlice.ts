@@ -15,8 +15,10 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { sendEmailVerification, signOut, UserCredential } from 'firebase/auth';
-import { auth } from '../../../firebaseConfig';
-import createAppAsyncThunk from '../utils';
+// import { auth } from '../../../firebaseConfig';
+// import { auth } from '@root/firebaseConfig';
+import { auth } from '@root/firebaseConfig';
+import createAppAsyncThunk from '@src/redux/utils';
 
 export interface LoginCredentialsDTO {
   email: string;

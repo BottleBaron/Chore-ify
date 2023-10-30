@@ -1,7 +1,7 @@
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { RootStackScreenProps } from '@src/navigators/types';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useAppTheme } from '../../contexts/ThemeContext';
-import { RootStackScreenProps } from '../../navigators/types';
 import AdminSettings from './AdminSettings';
 import UserSettings from './UserSettings';
 

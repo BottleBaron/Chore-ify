@@ -1,27 +1,34 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-shadow */
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
   setDoc,
+  query,
+  where,
 } from 'firebase/firestore';
 import db from '../firebaseConfig';
-import { Chore, ChoreState } from '../src/redux/slices/choreSlice';
+import { Chore } from '../src/redux/slices/choreSlice';
 
 export async function createFirebaseChore(choreData: Chore) {
-  const choreRef = doc(db, 'chores');
+  const choreRef = await addDoc(collection(db, 'chores'), choreData);
   const newChore = { ...choreData, id: choreRef.id };
-  await setDoc(choreRef, choreData);
+  updateFirebaseChore(newChore);
   return newChore;
 }
 
-export async function getFirebaseChores(): Promise<ChoreState> {
-  const snapshot = await getDocs(collection(db, 'chores'));
+export async function getFirebaseChores(householdId: string): Promise<Chore[]> {
+  const q = query(
+    collection(db, 'chores'),
+    where('householdId', '==', householdId),
+  );
+  const snapshot = await getDocs(q);
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
-  return allDocs[0] as ChoreState;
+  return allDocs as Chore[];
 }
 
 export async function updateFirebaseChore(choreData: Chore) {

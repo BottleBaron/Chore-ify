@@ -11,7 +11,7 @@ import createAppAsyncThunk from '../utils';
 
 export interface Chore {
   id: string;
-  householdId: number;
+  householdId: string;
   title: string;
   description: string;
   dayinterval: number;
@@ -20,16 +20,21 @@ export interface Chore {
 
 export interface ChoreState {
   chores: Chore[];
+  activeChoreId: string;
 }
 
 const initialState: ChoreState = {
   chores: [],
+  activeChoreId: '',
 };
 
 const choreSlice = createSlice({
   name: 'chore',
   initialState,
   reducers: {
+    setActiveChoreId: (state, action: PayloadAction<string>) => {
+      state.activeChoreId = action.payload;
+    },
     setChores: (state, action: PayloadAction<Chore[]>) => {
       state.chores = action.payload;
     },
@@ -61,7 +66,7 @@ const choreSlice = createSlice({
   },
 });
 
-export const { setChores } = choreSlice.actions;
+export const { setChores, setActiveChoreId } = choreSlice.actions;
 
 export const choreReducer = choreSlice.reducer;
 
@@ -77,12 +82,12 @@ export const addChore = createAppAsyncThunk<Chore, Chore>(
   },
 );
 
-export const fetchChores = createAppAsyncThunk<Chore[], void>(
+export const fetchChores = createAppAsyncThunk<Chore[], string>(
   'chore/get',
-  async (_, thunkAPI) => {
+  async (householdId, thunkAPI) => {
     try {
-      const choreState = await getFirebaseChores();
-      return choreState.chores;
+      const choreState = await getFirebaseChores(householdId);
+      return choreState;
     } catch (e: any) {
       return thunkAPI.rejectWithValue(e.message);
     }

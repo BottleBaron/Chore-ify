@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Button, HelperText, TextInput, Title } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
-import initialBackground from '../../../assets/backgrounds/initial_background.png';
+import initialBackground from '@src/assets/backgrounds/initial_background.png';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import { createAccount } from '../../redux/slices/accountSlice';
@@ -80,13 +80,11 @@ export default function SignUpModalScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
+            { backgroundColor: theme.colors.backgroundOverlay },
           ]}
         />
         <View style={styles.innerContainer}>
-          <Title
-            style={[styles.title, { color: theme.colors.themeTitleColor }]}
-          >
+          <Title style={[styles.title, { color: theme.colors.title }]}>
             Chorify
           </Title>
           <TextInput
@@ -101,12 +99,12 @@ export default function SignUpModalScreen({ navigation }: Props) {
               backgroundColor: theme.colors.background,
             }}
             // textContentType="oneTimeCode"
-            outlineColor={theme.colors.outLineColor}
-            activeOutlineColor={theme.colors.activeOutlineColor}
-            selectionColor={theme.colors.activeOutlineColor}
+            outlineColor={theme.colors.inputOutline}
+            activeOutlineColor={theme.colors.inputActiveOutline}
+            selectionColor={theme.colors.inputActiveOutline}
             // den blinkande cursorn:
             cursorColor={theme.colors.button}
-            textColor={theme.colors.textColor}
+            textColor={theme.colors.text}
           />
           <HelperText
             type="error"
@@ -133,7 +131,7 @@ export default function SignUpModalScreen({ navigation }: Props) {
             outlineColor={theme.colors.secondary}
             activeOutlineColor={theme.colors.button}
             cursorColor={theme.colors.button}
-            textColor={theme.colors.textColor}
+            textColor={theme.colors.text}
           />
           <TextInput
             label="Confirm Password"
@@ -152,7 +150,7 @@ export default function SignUpModalScreen({ navigation }: Props) {
             outlineColor={theme.colors.secondary}
             activeOutlineColor={theme.colors.button}
             cursorColor={theme.colors.button}
-            textColor={theme.colors.textColor}
+            textColor={theme.colors.text}
           />
           <HelperText
             type="error"

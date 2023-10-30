@@ -1,10 +1,11 @@
 /* eslint-disable import/no-cycle */
+import initialBackground from '@src/assets/backgrounds/initial_background.png';
 import * as React from 'react';
 import { useState } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Button, HelperText, TextInput, Title } from 'react-native-paper';
-import initialBackground from '../../../assets/backgrounds/initial_background.png';
-import { useAppTheme } from '../../contexts/ThemeContext';
+// import { useAppTheme } from '../../contexts/ThemeContext';
+import { useAppTheme } from '@root/src/contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
 import { signIntoAccount } from '../../redux/slices/accountSlice';
 import { useAppDispatch } from '../../redux/store';
@@ -69,13 +70,11 @@ export default function SignInModalScreen({ navigation }: Props) {
         <View
           style={[
             styles.overlay,
-            { backgroundColor: theme.colors.themeBackgroundOverlayTintColor },
+            { backgroundColor: theme.colors.backgroundOverlay },
           ]}
         />
         <View style={styles.innerContainer}>
-          <Title
-            style={[styles.title, { color: theme.colors.themeTitleColor }]}
-          >
+          <Title style={[styles.title, { color: theme.colors.title }]}>
             Chorify
           </Title>
           <TextInput
@@ -89,18 +88,18 @@ export default function SignInModalScreen({ navigation }: Props) {
             contentStyle={{
               backgroundColor: theme.colors.background,
             }}
-            outlineColor={theme.colors.outLineColor}
-            activeOutlineColor={theme.colors.activeOutlineColor}
-            selectionColor={theme.colors.activeOutlineColor}
+            outlineColor={theme.colors.inputOutline}
+            activeOutlineColor={theme.colors.inputActiveOutline}
+            selectionColor={theme.colors.inputActiveOutline}
             // den blinkande cursorn:
             cursorColor={theme.colors.button}
             // texten:
-            textColor={theme.colors.textColor}
+            textColor={theme.colors.text}
             // underlinjen av texten:
-            underlineColor={theme.colors.outLineColor}
+            underlineColor={theme.colors.inputOutline}
             // underlinjen när texten är aktiv:
-            activeUnderlineColor={theme.colors.outLineColor}
-            placeholderTextColor={theme.colors.color}
+            activeUnderlineColor={theme.colors.inputOutline}
+            placeholderTextColor={theme.colors.text}
           />
           <HelperText
             style={{ color: theme.colors.error }}
@@ -121,18 +120,18 @@ export default function SignInModalScreen({ navigation }: Props) {
             contentStyle={{
               backgroundColor: theme.colors.background,
             }}
-            outlineColor={theme.colors.outLineColor}
-            activeOutlineColor={theme.colors.activeOutlineColor}
-            selectionColor={theme.colors.activeOutlineColor}
+            outlineColor={theme.colors.inputOutline}
+            activeOutlineColor={theme.colors.inputActiveOutline}
+            selectionColor={theme.colors.inputActiveOutline}
             // den blinkande cursorn:
             cursorColor={theme.colors.button}
             // texten:
-            textColor={theme.colors.textColor}
+            textColor={theme.colors.text}
             // underlinjen av texten:
-            underlineColor={theme.colors.outLineColor}
+            underlineColor={theme.colors.inputOutline}
             // underlinjen när texten är aktiv:
-            activeUnderlineColor={theme.colors.outLineColor}
-            placeholderTextColor={theme.colors.color}
+            activeUnderlineColor={theme.colors.inputOutline}
+            placeholderTextColor={theme.colors.text}
           />
           <HelperText type="error" visible={!!passwordError}>
             {passwordError}

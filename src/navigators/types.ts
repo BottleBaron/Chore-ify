@@ -2,29 +2,48 @@
 import type { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { UnloadFontOptions } from 'expo-font';
 
 export type RootStackParamList = {
   Auth: undefined;
-  Chore: undefined;
-  HouseholdDashboard: undefined;
-  MockedHouseholdDetail: undefined;
-  HouseHoldSelectorScreen: undefined;
-  HouseHoldSelectorScreenNoHouseHold: undefined;
-  CreateHouseHold: undefined;
-  JoinHouseHold: undefined;
-  Login: undefined;
-  Profile: undefined;
   SignIn: undefined;
   SignUp: undefined;
-  Statistics: { period: string };
-
+  Profile: undefined;
   Settings: undefined;
+  HouseHoldSelectorScreen: undefined;
+  CreateHouseHold:undefined;
+  JoinHouseHold:undefined;
+  Statistics: { period: string };
+  Chore: {
+    choreId: string;
+  };
+  ChoreList: undefined; // ska den ligga här eller i HHDTP?
+  // Login: undefined;
+  // MockedHouseholdDetail: undefined;
+  // HouseholdDashboard: undefined;
+  // HouseHoldSelectorScreen: undefined;
+  // HouseHoldSelectorScreenNoHouseHold: undefined;
 };
 
 export type HouseHoldDashboardTabParamList = {
-  ChoreList: undefined;
-  MockedHouseholdDetail: undefined;
-  Statistics: { period: string };
+  ChoreList: { period: string };
+  Today: { period: string };
+  CurrentWeek: { period: string };
+  LastWeek: { period: string };
+  CurrentMonth: { period: string };
+  LastMonth: { period: string };
+  CurrentYear: { period: string };
+  LastYear: { period: string };
+};
+
+export type StatisticsTabParamList = {
+  Today: { period: string };
+  CurrentWeek: { period: string };
+  LastWeek: { period: string };
+  CurrentMonth: { period: string };
+  LastMonth: { period: string };
+  CurrentYear: { period: string };
+  LastYear: { period: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -37,8 +56,22 @@ export type HouseholdDashboardTabScreenProps<
   RootStackScreenProps<keyof RootStackParamList>
 >;
 
+export type StatisticsTabScreenProps<T extends keyof StatisticsTabParamList> =
+  CompositeScreenProps<
+    MaterialTopTabScreenProps<StatisticsTabParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;
+
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
+  }
+}
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList
+      extends RootStackParamList,
+        StatisticsTabParamList {}
   }
 }

@@ -1,9 +1,9 @@
 /* eslint-disable react/require-default-props, import/prefer-default-export, react/function-component-definition */
 
+import { useAppTheme } from '@src/contexts/ThemeContext';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
-import { useAppTheme } from '../../../contexts/ThemeContext';
 
 type PieChartData = { value: number };
 
@@ -23,7 +23,7 @@ export const ChorePieChart: React.FC<ChorePieChartProps> = ({
     <View style={styles.container}>
       <PieChart data={data} radius={widthAndHeight} labelsPosition="mid" />
       <View style={styles.textContainer}>
-        <Text style={[styles.title, { color: theme.colors.textColor }]}>
+        <Text style={[styles.title, { color: theme.colors.text }]}>
           {title}
         </Text>
       </View>
