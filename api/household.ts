@@ -23,9 +23,8 @@ export async function createFirebaseHousehold(householdData: Household) {
 export async function getFirebaseHouseholds(
   householdIds: string[],
 ): Promise<Household[]> {
-  const validHouseholdIds = householdIds.filter((id) => id !== null);
   const snapshot = await getDocs(
-    query(collection(db, 'households'), where('id', 'in', validHouseholdIds)),
+    query(collection(db, 'households'), where('id', 'in', householdIds)),
   );
   const allDocs = snapshot.docs.map((doc) => doc.data());
 

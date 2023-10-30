@@ -18,11 +18,13 @@ export interface User {
 }
 
 export interface UserState {
-  users: User[];
+  myUsers: User[];
+  allUsers: User[];
 }
 
 const initialState: UserState = {
-  users: [],
+  myUsers: [],
+  allUsers: [],
 };
 
 const userSlice = createSlice({
@@ -30,30 +32,33 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUsers: (state, action: PayloadAction<User[]>) => {
-      state.users = action.payload;
+      state.myUsers = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(addUser.fulfilled, (state, action) => {
-      state.users.push(action.payload);
+      state.myUsers.push(action.payload);
       console.log('USER CREATED SUCCESSFULLY');
     });
     // builder.addCase(fetchUsers.fulfilled, (state, action) => {
     //   state.users = action.payload;
     // });
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      const updatedIndex = state.users.findIndex(
+      const updatedIndex = state.myUsers.findIndex(
         (User) => User.id === action.payload.id,
       );
       if (updatedIndex !== -1) {
-        state.users[updatedIndex] = action.payload;
+        state.myUsers[updatedIndex] = action.payload;
       }
     });
     builder.addCase(deleteUser.fulfilled, (state, action) => {
-      state.users = state.users.filter((user) => user.id !== action.payload);
+      state.myUsers = state.myUsers.filter(
+        (user) => user.id !== action.payload,
+      );
     });
     builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
-      state.users = action.payload.users;
+      state.allUsers = action.payload.allUsers;
+      state.myUsers = action.payload.myUsers;
     });
   },
 });

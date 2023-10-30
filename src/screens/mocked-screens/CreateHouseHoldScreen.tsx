@@ -26,11 +26,9 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
   const households = useAppSelector((state) => state.household.households);
-  const users = useAppSelector((state) => state.user.users);
+  const users = useAppSelector((state) => state.user.myUsers);
   const account = useAppSelector((state) => state.account.authUser);
-  const lastAddedHouseholdId = useAppSelector(
-    (state) => state.household.lastAddedHouseHoldId,
-  );
+
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');

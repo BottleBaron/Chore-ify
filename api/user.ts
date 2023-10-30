@@ -27,6 +27,14 @@ export async function getFirebaseUsers(accountId: string): Promise<User[]> {
   return allDocs as User[];
 }
 
+export async function getFirebaseUsersByHouseholdId(householdIds: string[]): Promise<User[]> {
+  const q = query(collection(db, 'users'), where("householdId", "in", householdIds))
+  const snapshot = await getDocs(q);
+  const allDocs = snapshot.docs.map((doc) => doc.data());
+
+  return allDocs as User[];
+}
+
 export async function updateFirebaseUser(userData: User) {
   const userRef = doc(db, 'users', userData.id);
   await setDoc(userRef, userData);

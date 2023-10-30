@@ -24,7 +24,7 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
   );
 
   const households = useAppSelector((state) => state.household.households);
-  const usersByHouseholds = useAppSelector((state) => state.user.users);
+  const usersByHouseholds = useAppSelector((state) => state.user.allUsers);
 
   return (
     <View style={styles.container}>
