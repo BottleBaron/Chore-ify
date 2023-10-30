@@ -10,7 +10,7 @@ import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSel
 import SettingsScreen from '@src/screens/Settings/SettingsScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import { RootStackParamList } from '../types';
-import HouseholdDashboardTabNavigator from './HouseholdDashboardTabNavigator';
+import HouseholdDashboardTabNavigator from './AuthUserTabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -28,6 +28,7 @@ export default function RootStackNavigator() {
         <Stack.Screen
           name="HouseHoldSelectorScreen"
           component={HouseHoldSelectorScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen name="Statistics" component={StatisticsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
@@ -56,6 +57,7 @@ export default function RootStackNavigator() {
         <Stack.Screen
           name="ChoreList"
           component={HouseholdDashboardTabNavigator}
+          options={{ headerShown: false }}
         />
         <Stack.Screen name="Chore" component={ChoreScreen} />
       </Stack.Group>

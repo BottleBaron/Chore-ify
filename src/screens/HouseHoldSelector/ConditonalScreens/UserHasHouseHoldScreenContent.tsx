@@ -6,7 +6,8 @@ import ThemedClickableCardButtonWithAvatars from '@src/themedComponents/ThemedCl
 // import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 // import { mockHouseholds } from 'assets/Data/MockData';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StatusBar, StyleSheet } from 'react-native';
+import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Divider } from 'react-native-paper';
 
 type Props = RootStackScreenProps<'HouseHoldSelectorScreen'>;
 
@@ -36,26 +37,62 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
   }, []);
 
   return (
-    <ScrollView style={styles.scrollView}>
-      {householdsData.map((household) => (
-        <ThemedClickableCardButtonWithAvatars
-          hideTitle
-          key={household.id}
-          title={household.name}
-          content={household.name} // Add your own content
-          iconName="" // Add an appropriate icon name
-          onPress={() => navigation.navigate('ChoreList')}
-          width={280} // Custom width, you can change this
-          iconColor={theme.colors.primary} // Custom icon color, you can change this'
-          avatarList={household.avatars} // Add your own avatar list
-          // Add any other props you might need
+    <View style={styles.rootContainer}>
+      <View
+        style={[styles.textContainer, { backgroundColor: theme.colors.card }]}
+      >
+        <Text style={[styles.text, { color: theme.colors.text }]}>
+          Dina hushåll
+        </Text>
+        <Divider
+          style={[styles.divider, { backgroundColor: theme.colors.divider }]}
         />
-      ))}
-    </ScrollView>
+      </View>
+      <ScrollView
+        style={[
+          styles.scrollView /* ,
+          { backgroundColor: theme.colors.background } */,
+        ]}
+      >
+        {householdsData.map((household) => (
+          <ThemedClickableCardButtonWithAvatars
+            hideTitle
+            key={household.id}
+            title={household.name}
+            content={household.name} // Add your own content
+            iconName="" // Add an appropriate icon name
+            onPress={() => navigation.navigate('ChoreList')}
+            width={280} // Custom width, you can change this
+            iconColor={theme.colors.primary} // Custom icon color, you can change this'
+            avatarList={household.avatars} // Add your own avatar list
+            // Add any other props you might need
+          />
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  textContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 15,
+  },
+  divider: {
+    width: '100%',
+    height: 2,
+  },
   scrollView: {
     flex: 1,
     marginHorizontal: 35,

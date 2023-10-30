@@ -50,7 +50,7 @@ export default function ThemedClickableCardButton({
   };
 
   const actualBorderStyle = borderStyle ?? defaultBorderStyle;
-  const actualIconColor = iconColor ?? theme.colors.buttonIconColor;
+  const actualIconColor = iconColor ?? theme.colors.buttonIcon;
 
   return (
     <TouchableOpacity onPress={onPress}>

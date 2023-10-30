@@ -23,9 +23,24 @@ export type RootStackParamList = {
 };
 
 export type HouseHoldDashboardTabParamList = {
-  ChoreList: undefined; // ska den ligga här eller i RSPL?
-  // MockedHouseholdDetail: undefined;
-  Statistics: { period: string };
+  ChoreList: { period: string };
+  Today: { period: string };
+  CurrentWeek: { period: string };
+  LastWeek: { period: string };
+  CurrentMonth: { period: string };
+  LastMonth: { period: string };
+  CurrentYear: { period: string };
+  LastYear: { period: string };
+};
+
+export type StatisticsTabParamList = {
+  Today: { period: string };
+  CurrentWeek: { period: string };
+  LastWeek: { period: string };
+  CurrentMonth: { period: string };
+  LastMonth: { period: string };
+  CurrentYear: { period: string };
+  LastYear: { period: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -38,8 +53,22 @@ export type HouseholdDashboardTabScreenProps<
   RootStackScreenProps<keyof RootStackParamList>
 >;
 
+export type StatisticsTabScreenProps<T extends keyof StatisticsTabParamList> =
+  CompositeScreenProps<
+    MaterialTopTabScreenProps<StatisticsTabParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;
+
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
+  }
+}
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList
+      extends RootStackParamList,
+        StatisticsTabParamList {}
   }
 }

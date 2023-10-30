@@ -38,6 +38,11 @@ export const AppLightTheme = {
     */
     title: 'rgb(48, 127, 226)',
     backgroundOverlay: 'rgba(216, 216, 216, 0.7)',
+
+    /*
+    HouseHoldSelectorScreen
+    */
+    divider: 'rgb(216, 216, 216)',
   },
 };
 
@@ -69,5 +74,10 @@ export const AppDarkTheme = {
     */
     title: 'rgb(150, 150, 150)',
     backgroundOverlay: 'rgba(0, 0, 0, 0.8)',
+
+    /*
+    HouseHoldSelectorScreen
+    */
+    divider: 'rgb(81, 83, 74)',
   },
 };
