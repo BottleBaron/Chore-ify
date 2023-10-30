@@ -38,7 +38,6 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(addUser.fulfilled, (state, action) => {
       state.myUsers.push(action.payload);
-      console.log('USER CREATED SUCCESSFULLY');
     });
     // builder.addCase(fetchUsers.fulfilled, (state, action) => {
     //   state.users = action.payload;

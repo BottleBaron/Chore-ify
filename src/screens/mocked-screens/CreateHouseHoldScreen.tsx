@@ -25,9 +25,6 @@ type Props = RootStackScreenProps<'CreateHouseHold'>;
 export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
-  const households = useAppSelector((state) => state.household.households);
-  const users = useAppSelector((state) => state.user.myUsers);
-  const account = useAppSelector((state) => state.account.authUser);
 
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
@@ -37,9 +34,10 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
 
   const handleAvatarSelection = (avatar: string) => {
     setSelectedAvatar(avatar);
-    setExpanded(!expanded); // Stänger listan när en avatar väljs
+    setExpanded(!expanded);
   };
   const handlePress = () => setExpanded(!expanded);
+
   const handleCreate = async () => {
     const createdHousehold: Household = {
       id: '',
@@ -57,9 +55,6 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
     } else {
       const lastAddedHouseHold: Household = actionresult.payload;
 
-      console.log(`Skapat hushållsID: ${lastAddedHouseHold.id}`);
-      // await dispatch(fetchHouseholdsAndUsers());
-
       const accountIdfromState: string = auth.currentUser?.uid || '';
       const createdUser: User = {
         id: '',
@@ -70,8 +65,9 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
         isAdmin: true,
         householdId: lastAddedHouseHold.id,
       };
-      console.log(`HouseholdId:${createdUser.householdId}`);
+
       await dispatch(addUser(createdUser));
+      navigation.navigate('HouseHoldSelectorScreen');
     }
   };
 
@@ -99,9 +95,9 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
               title={selectedAvatar || 'Välj din avatar'}
               onPress={handlePress}
             >
-              {avatars.map((avatar, index) => (
+              {avatars.map((avatar) => (
                 <List.Item
-                  key={index}
+                  key={avatar}
                   title={avatar}
                   onPress={() => handleAvatarSelection(avatar)}
                 />

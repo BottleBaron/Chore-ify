@@ -51,8 +51,8 @@ export default function HouseHoldSelectorScreen({ navigation }: Props) {
             <View style={{ flexDirection: 'row' }}>
               {usersByHouseholds
                 .filter((user) => user.householdId === household.id)
-                .map((user, index) => (
-                  <Text key={index}>{user.avatar}</Text>
+                .map((user) => (
+                  <Text key={user.id}>{user.avatar}</Text>
                 ))}
             </View>
           </View>

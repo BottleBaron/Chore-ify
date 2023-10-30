@@ -44,14 +44,10 @@ const householdSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(addHousehold.fulfilled, (state, action) => {
       state.households.push(action.payload);
-      console.log(
-        `HOUSEHOLD CREATED SUCCESSFULLY with ID: ${action.payload.id}`,
-      );
     });
 
     builder.addCase(fetchHouseholdsAndUsers.fulfilled, (state, action) => {
       state.households = action.payload.households;
-      console.log('Households fetched SUCCESSFULLY');
     });
     builder.addCase(updateHousehold.fulfilled, (state, action) => {
       const updatedIndex = state.households.findIndex(
@@ -91,19 +87,17 @@ export const fetchHouseholdsAndUsers = createAppAsyncThunk<
   void
 >('household/get', async (_, thunkAPI) => {
   const accountId = auth.currentUser?.uid;
-  console.log('accountId', accountId);
 
   if (!accountId) return { myUsers: [], households: [], allUsers: [] };
 
   try {
-    console.log('FETCHING DATA');
     const myUsers = await getFirebaseUsers(accountId);
-    console.log(myUsers);
+
     const householdIds = myUsers.map((u) => u.householdId);
-    console.log('householdIds:', JSON.stringify(householdIds));
+
     const households = await getFirebaseHouseholds(householdIds);
     const allUsers = await getFirebaseUsersByHouseholdId(householdIds);
-    console.log(householdIds);
+
     return { myUsers, households, allUsers };
   } catch (e: any) {
     return thunkAPI.rejectWithValue(e.message);
