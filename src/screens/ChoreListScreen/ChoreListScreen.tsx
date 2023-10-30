@@ -22,15 +22,7 @@ export default function ChoreListScreen({ navigation }: Props) {
     (state) => state.household.activeHouseholdId,
   );
   const dbChores = useAppSelector((state) => state.chore.chores);
-  // Dags att fakea lite mer data
-  const mockedChore = {
-    id: '1',
-    householdId: activeHouseholdId,
-    title: 'Diska',
-    description: 'Diska och torka all smutsig disk i köket',
-    dayinterval: 2,
-    effortNumber: 2,
-  };
+
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
@@ -48,7 +40,7 @@ export default function ChoreListScreen({ navigation }: Props) {
   const handleChoreSelection = (id: string) => {
     dispatch(setActiveChoreId(id));
 
-    navigation.navigate('Chore', { choreId: id });
+    navigation.navigate('Chore');
   };
 
   return (

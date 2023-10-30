@@ -6,13 +6,13 @@ import AuthScreen from '@src/screens/Auth/AuthScreen';
 import SignInModalScreen from '@src/screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '@src/screens/Auth/SignUpModalScreen';
 import ChoreScreen from '@src/screens/ChoreScreen';
+import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
 import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
+import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
 import SettingsScreen from '@src/screens/Settings/SettingsScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
-import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
-import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
 import { RootStackParamList } from '../types';
-import HouseholdDashboardTabNavigator from './AuthUserTabNavigator';
+import AuthUserTabNavigator from './AuthUserTabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -68,8 +68,8 @@ export default function RootStackNavigator() {
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen
-          name="ChoreList"
-          component={HouseholdDashboardTabNavigator}
+          name="AuthUserTabNavigator"
+          component={AuthUserTabNavigator}
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Chore" component={ChoreScreen} />

@@ -7,6 +7,7 @@ import { householdReducer } from './slices/householdSlice';
 import { statisticsReducer } from './slices/statisticsSlice';
 import { themeReducer } from './slices/themeSlice';
 import { userReducer } from './slices/userSlice';
+import { userTochoreReducer } from './slices/userToChoreSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     chore: choreReducer,
     appbarNavigation: appbarNavigationReducer,
     statistics: statisticsReducer,
+    userToChore: userTochoreReducer,
   },
 });
 

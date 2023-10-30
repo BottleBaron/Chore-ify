@@ -7,6 +7,8 @@ import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Title } from 'react-native-paper';
 // import initialBackground from '../../../assets/backgrounds/initial_background.png';
 import initialBackground from '@src/assets/backgrounds/initial_background.png';
+import { setActiveChoreId } from '@src/redux/slices/choreSlice';
+import { useAppDispatch } from '@src/redux/store';
 
 // Ange typen för navigation prop
 
@@ -14,6 +16,11 @@ type Props = RootStackScreenProps<'Auth'>;
 
 export default function AuthScreen({ navigation }: Props) {
   const theme = useAppTheme();
+  const dispatch = useAppDispatch();
+  const handleTestEnvironment = () => {
+    dispatch(setActiveChoreId('pyjy44tam59mRCqoLHSU'));
+    navigation.navigate('Chore');
+  };
 
   return (
     <View style={styles.container}>
@@ -67,6 +74,14 @@ export default function AuthScreen({ navigation }: Props) {
             iconName="cog"
             iconColor={theme.colors.text}
             onPress={() => navigation.navigate('Settings')}
+          />
+          <ThemedClickableCardButton
+            hideTitle // or hideTitle={false}
+            title="Test"
+            content="Test"
+            iconName="cog"
+            iconColor={theme.colors.text}
+            onPress={handleTestEnvironment}
           />
         </View>
       </ImageBackground>

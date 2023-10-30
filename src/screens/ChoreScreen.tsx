@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useFocusEffect } from '@react-navigation/native';
 import doneIcon from '@src/assets/doneIcon.png';
 import * as React from 'react';
 import {
@@ -19,6 +18,7 @@ import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
 import { fetchChores } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import { useFocusEffect } from '@react-navigation/core';
 
 type Props = RootStackScreenProps<'Chore'>;
 
@@ -58,6 +58,18 @@ function StatusCard({ status, daysLeft }: StatusCardProps) {
 
 export default function ChoreScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
+  // Select our current chore based on activeChoreId,
+  const currentChore = useAppSelector((state) =>
+    state.chore.chores.find((c) => c.id === state.chore.activeChoreId),
+  );
+
+  const activeHouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+
+  const activeUser = useAppSelector((state) =>
+    state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
+  );
 
   // Make sure that our choredata is relevant on page load
   useFocusEffect(
@@ -74,18 +86,15 @@ export default function ChoreScreen({ navigation }: Props) {
     }, []),
   );
 
-  // Select our current chore based on activeChoreId,
-  const currentChore = useAppSelector((state) =>
-    state.chore.chores.find((c) => c.id === state.chore.activeChoreId),
-  );
-
-  const activeHouseholdId = useAppSelector(
-    (state) => state.household.activeHouseholdId,
-  );
+  console.log(currentChore);
 
   if (!currentChore) {
     return <Text>Sysslan kunde inte hittas</Text>;
   }
+
+  const handleChoreCompletion = () => {
+    // LOGIC HERE
+  };
 
   const handleDeleteChore = () => {
     Alert.alert(
