@@ -1,4 +1,4 @@
-import { addChore } from '@src/redux/slices/choreSlice';
+import { Chore, addChore } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -16,7 +16,7 @@ function BottomButtons() {
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: 'white', padding: 20 };
 
-  const handleAddChore = (choreData: any) => {
+  const handleAddChore = (choreData: Chore) => {
     const newChore = { ...choreData, householdId: ActivehouseholdId };
     dispatch(addChore(newChore));
     hideModal();
