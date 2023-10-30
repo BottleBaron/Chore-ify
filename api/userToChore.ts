@@ -13,10 +13,7 @@ import db from '../firebaseConfig';
 export async function createFirebaseUserToChoreTable(
   userToChoreData: UserToChoreTableDTO,
 ) {
-  const docRef = await addDoc(
-    collection(db, 'UsersToChoresTable'),
-    userToChoreData,
-  );
+  const docRef = await addDoc(collection(db, 'usersToChores'), userToChoreData);
   const newUserToChoreTable = { ...userToChoreData, id: docRef.id };
   updateFirebaseUserToChoreTable(newUserToChoreTable);
   return newUserToChoreTable;
