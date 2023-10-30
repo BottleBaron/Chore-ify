@@ -16,16 +16,21 @@ export interface Household {
 
 export interface HouseholdState {
   households: Household[];
+  activeHouseHoldId: string;
 }
 
 const initialState: HouseholdState = {
   households: [],
+  activeHouseHoldId: '',
 };
 
 const householdSlice = createSlice({
   name: 'household',
   initialState,
   reducers: {
+    setActiveHouseholdId: (state, action: PayloadAction<string>) => {
+      state.activeHouseHoldId = action.payload;
+    },
     setHouseholds: (state, action: PayloadAction<Household[]>) => {
       state.households = action.payload;
     },
@@ -53,7 +58,7 @@ const householdSlice = createSlice({
   },
 });
 
-export const { setHouseholds } = householdSlice.actions;
+export const { setHouseholds, setActiveHouseholdId } = householdSlice.actions;
 export const householdReducer = householdSlice.reducer;
 
 export const addHousehold = createAppAsyncThunk<Household, Household>(
