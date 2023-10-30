@@ -1,34 +1,51 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Modal, PaperProvider, Portal } from 'react-native-paper';
+import AddChoreScreen from './AddChoreModalScreen';
 
 function BottomButtons() {
+  const [visible, setVisible] = React.useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = { backgroundColor: 'white', padding: 20 };
+
   return (
-    <View style={styles.buttonContainer}>
-      <Button
-        style={styles.button}
-        buttonColor="white"
-        textColor="black"
-        icon="plus"
-        mode="elevated"
-        // eslint-disable-next-line no-console
-        onPress={() => console.log('Pressed')}
-      >
-        Lägg till
-      </Button>
-      <View style={styles.buttonGap} />
-      <Button
-        style={styles.button}
-        buttonColor="white"
-        textColor="black"
-        icon="pen"
-        mode="elevated"
-        // eslint-disable-next-line no-console
-        onPress={() => console.log('Pressed')}
-      >
-        Ändra
-      </Button>
-    </View>
+    <PaperProvider>
+      <View style={styles.buttonContainer}>
+        <Button
+          style={styles.button}
+          buttonColor="white"
+          textColor="black"
+          icon="plus"
+          mode="elevated"
+          onPress={showModal}
+        >
+          Lägg till
+        </Button>
+        <View style={styles.buttonGap} />
+        <Button
+          style={styles.button}
+          buttonColor="white"
+          textColor="black"
+          icon="pen"
+          mode="elevated"
+          // eslint-disable-next-line no-console
+          onPress={() => console.log('Pressed')}
+        >
+          Ändra
+        </Button>
+        <Portal>
+          <Modal
+            visible={visible}
+            onDismiss={hideModal}
+            contentContainerStyle={containerStyle}
+          >
+            <AddChoreScreen />
+          </Modal>
+        </Portal>
+      </View>
+    </PaperProvider>
   );
 }
 
