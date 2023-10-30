@@ -11,7 +11,7 @@ import SettingsScreen from '@src/screens/Settings/SettingsScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
 import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
-import JoinHouseholdConfirmation from '@src/screens/HouseHoldSelector/JoinHouseholdConfirmation';
+import JoinHouseholdConfirmationScreen from '@src/screens/HouseHoldSelector/JoinHouseholdConfirmationScreen';
 import { RootStackParamList } from '../types';
 import HouseholdDashboardTabNavigator from './AuthUserTabNavigator';
 
@@ -63,8 +63,8 @@ export default function RootStackNavigator() {
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name="JoinHouseholdConfirmation"
-          component={JoinHouseholdConfirmation}
+          name="JoinHouseHoldConfirmation"
+          component={JoinHouseholdConfirmationScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}

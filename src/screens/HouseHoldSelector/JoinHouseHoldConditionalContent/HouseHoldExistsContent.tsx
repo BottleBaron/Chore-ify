@@ -3,8 +3,7 @@
 /* eslint-disable import/no-cycle */
 import { useFocusEffect } from '@react-navigation/core';
 import React, { useCallback, useState } from 'react';
-
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Text,
   Button,
@@ -14,7 +13,7 @@ import {
   Paragraph,
 } from 'react-native-paper';
 import { useSelector } from 'react-redux';
-import { User, addUser } from '@src/redux/slices/userSlice';
+import { User, addUser, fetchUsers } from '@src/redux/slices/userSlice';
 import {
   Household,
   addHousehold,
@@ -23,13 +22,14 @@ import {
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
-import { auth } from 'firebaseConfig';
+
+import { auth } from '../../../../firebaseConfig';
 
 export default function HouseHoldExistsContent() {
   const dispatch = useAppDispatch();
 
   const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
-  const [householdName, setHouseholdName] = useState<string>('');
+
   const [nickName, setNickName] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('');
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -39,55 +39,72 @@ export default function HouseHoldExistsContent() {
     setExpanded(!expanded);
   };
 
+  const household = useAppSelector((state) => state.household.joinHousehold);
+  const householdId: string[] = [household.id];
+  const allusers = useAppSelector((state) => state.user.joinHouseholdUsers);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchUsers(householdId));
+    }, []),
+  );
+  const owners = allusers
+    .filter((user) => user.isAdmin === true)
+    .map((user) => user.name);
+
+  const members = allusers
+    .filter((user) => user.isAdmin === false)
+    .map((user) => user.name);
+
+  const usedAvatars = allusers.map((user) => user.avatar);
+  const availableAvatars = avatars.filter(
+    (avatar) => !usedAvatars.includes(avatar),
+  );
+
+  console.log({});
   const handlePress = () => setExpanded(!expanded);
 
   const handleCreate = async () => {
-    const createdHousehold: Household = {
+    const accountIdfromState: string = auth.currentUser?.uid || '';
+    const createdUser: User = {
       id: '',
-      name: householdName,
-      accessCode: '',
+      accountId: accountIdfromState,
+      avatar: selectedAvatar,
+      name: nickName,
+      isPaused: false,
+      isAdmin: false,
+      householdId: household.id,
     };
 
-    const actionresult = await dispatch(addHousehold(createdHousehold));
-
-    if (
-      actionresult.payload === undefined ||
-      typeof actionresult.payload === 'string'
-    ) {
-      throw new Error('Payload is not of type HouseHold');
-    } else {
-      const lastAddedHouseHold: Household = actionresult.payload;
-
-      const accountIdfromState: string = auth.currentUser?.uid || '';
-      const createdUser: User = {
-        id: '',
-        accountId: accountIdfromState,
-        avatar: selectedAvatar,
-        name: nickName,
-        isPaused: false,
-        isAdmin: true,
-        householdId: lastAddedHouseHold.id,
-      };
-
-      await dispatch(addUser(createdUser));
-      //   navigation.navigate('HouseHoldSelectorScreen');
-    }
+    await dispatch(addUser(createdUser));
+    //   navigation.navigate('HouseHoldSelectorScreen');
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.inputview}>
         <View>
-          <Title>Hushållets namn</Title>
+          <Title>{household.name}</Title>
         </View>
         <View>
           <Paragraph>
             {' '}
-            -Du är påväg att ansluta dig till hushållsnamnet{' '}
+            -Du är påväg att ansluta dig till hushållsnamnet: {household.name}
           </Paragraph>
-          <Text>Ägare: hushållsägarna</Text>
-          <Text>Medlemmar: medlemmarna utöver hushållsägarna</Text>
+          <Text>Ägare: {owners}</Text>
+          <Text>Medlemmar:</Text>
+          <View>
+            {members.map((member) => (
+              <Text key={member}>{member}</Text>
+            ))}
+          </View>
         </View>
+
+        {/*         {chores.map((chore) => {
+          const specificPieChartData = transformChoreSpecific(
+            { users, chores, completed },
+            chore.id,
+          ); */}
+
         <TextInput
           style={styles.textinput}
           mode="outlined"
@@ -102,7 +119,7 @@ export default function HouseHoldExistsContent() {
               title={selectedAvatar || 'Välj din avatar'}
               onPress={handlePress}
             >
-              {avatars.map((avatar) => (
+              {availableAvatars.map((avatar) => (
                 <List.Item
                   key={avatar}
                   title={avatar}
@@ -140,7 +157,6 @@ export default function HouseHoldExistsContent() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

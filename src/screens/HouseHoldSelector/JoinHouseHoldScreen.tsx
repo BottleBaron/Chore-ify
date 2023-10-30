@@ -71,8 +71,8 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
         <View style={styles.buttonview}>
           <Button
             onPress={() =>
-              navigation.navigate('JoinHouseholdConfirmation', {
-                householdCode: '1234',
+              navigation.navigate('JoinHouseHoldConfirmation', {
+                houseHoldCode: '1234',
               })
             }
             contentStyle={styles.buttoncontentstyle}

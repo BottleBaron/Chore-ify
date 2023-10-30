@@ -31,16 +31,19 @@ export async function getFirebaseHouseholds(
 }
 
 export async function getFirebaseHouseholdsByCode(
-  householdCode: string,
-): Promise<Household[]> {
+  houseHoldCode: string,
+): Promise<Household | undefined> {
   const q = query(
     collection(db, 'households'),
-    where('accessCode', '==', householdCode),
+    where('accessCode', '==', houseHoldCode),
+    // Begränsa resultatet till det första dokumentet
   );
   const snapshot = await getDocs(q);
-  const allDocs = snapshot.docs.map((doc) => doc.data());
-
-  return allDocs as Household[];
+  if (snapshot.empty) {
+    return undefined; // Om det inte finns några matchande dokument, returnera undefined
+  }
+  const firstDoc = snapshot.docs[0].data(); // Hämta det första dokumentet från snapshot
+  return firstDoc as Household; // Returnera det första dokumentet som en Household
 }
 
 export async function updateFirebaseHousehold(householdData: Household) {

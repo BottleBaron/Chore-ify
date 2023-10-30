@@ -29,7 +29,7 @@ export interface HouseholdState {
 const initialState: HouseholdState = {
   households: [],
   activeHouseholdId: '',
-  joinHousehold: ,
+  joinHousehold: { accessCode: '', id: '', name: '' },
 };
 
 export interface HouseholdsAndUsersDTO {
@@ -47,6 +47,9 @@ const householdSlice = createSlice({
     },
     setHouseholds: (state, action: PayloadAction<Household[]>) => {
       state.households = action.payload;
+    },
+    setJoinHousehold: (state, action: PayloadAction<Household>) => {
+      state.joinHousehold = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -71,12 +74,17 @@ const householdSlice = createSlice({
       );
     });
     builder.addCase(fetchHouseholdByAccesscode.fulfilled, (state, action) => {
-      state.joinHousehold = action.payload;
+      state.joinHousehold = action.payload ?? {
+        accessCode: '',
+        id: '',
+        name: '',
+      };
     });
   },
 });
 
-export const { setHouseholds, setActiveHouseholdId } = householdSlice.actions;
+export const { setHouseholds, setActiveHouseholdId, setJoinHousehold } =
+  householdSlice.actions;
 export const householdReducer = householdSlice.reducer;
 
 export const addHousehold = createAppAsyncThunk<Household, Household>(
@@ -92,16 +100,25 @@ export const addHousehold = createAppAsyncThunk<Household, Household>(
 );
 
 export const fetchHouseholdByAccesscode = createAppAsyncThunk<
-  Household,
+  Household | undefined,
   string
->('household/get', async (householdCode, thunkAPI) => {
+>('household/get', async (houseHoldCode, thunkAPI) => {
   try {
-    const foundHouseholds = await getFirebaseHouseholdsByCode(householdCode);
-    const result = foundHouseholds.find((h) => h.id === householdCode);
-    if (!result) throw new Error('No Household was foud');
+    console.log(`Här loggas vår prop med ID: ${houseHoldCode}`);
+    const foundHousehold = await getFirebaseHouseholdsByCode(houseHoldCode);
+    const result =
+      foundHousehold && foundHousehold.accessCode === houseHoldCode
+        ? foundHousehold
+        : undefined;
+    console.log(`Här loggas resultatet: ${result?.id}`);
+    if (result === undefined) {
+      throw new Error('No Household was found');
+    }
     return result;
-  } catch (e: any) {
-    return thunkAPI.rejectWithValue(e.message);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'An error occurred.',
+    );
   }
 });
 
@@ -111,7 +128,7 @@ export const fetchHouseholdByAccesscode = createAppAsyncThunk<
 export const fetchHouseholdsAndUsers = createAppAsyncThunk<
   HouseholdsAndUsersDTO,
   void
->('household/get', async (_, thunkAPI) => {
+>('household/get/code', async (_, thunkAPI) => {
   const accountId = auth.currentUser?.uid;
 
   if (!accountId) return { myUsers: [], households: [], allUsers: [] };

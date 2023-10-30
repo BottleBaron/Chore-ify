@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
 import { useFocusEffect } from '@react-navigation/core';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {
   StyleSheet,
@@ -37,25 +37,25 @@ import HouseHoldSelectorScreen from './HouseHoldSelectorScreen';
 import HouseHoldExistsContent from './JoinHouseHoldConditionalContent/HouseHoldExistsContent';
 import HouseHoldDontExistContent from './JoinHouseHoldConditionalContent/HouseHoldDontExistContent';
 
-type Props = RootStackScreenProps<'JoinHouseholdConfirmation'>;
+type Props = RootStackScreenProps<'JoinHouseHoldConfirmation'>;
 
-export default async function JoinHouseholdConfirmation({
-  navigation,
-  route,
-}: Props) {
-  const code = route.params.householdCode;
+export default function JoinHouseholdConfirmationScreen({ route }: Props) {
+  const { houseHoldCode } = route.params;
   const dispatch = useAppDispatch();
 
-  const theme = useAppTheme();
-  const result = await dispatch(fetchHouseholdByAccesscode(code));
-  if (
-    result.payload === undefined ||
-    typeof result.payload === 'string'
-  ) {
-    throw new Error('Payload is not of type HouseHold');
-    
+  let houseHoldExists = false; /* mockHouseholds.length > 0; */
 
-  const houseHoldExists = true; /* mockHouseholds.length > 0; */
+  const theme = useAppTheme();
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchHouseholdByAccesscode(houseHoldCode));
+    }, []),
+  );
+  const household = useAppSelector((state) => state.household.joinHousehold);
+
+  if (household.id === '') {
+    houseHoldExists = false;
+  } else houseHoldExists = true;
 
   return (
     <SafeAreaView
@@ -68,76 +68,12 @@ export default async function JoinHouseholdConfirmation({
         ]}
       >
         {houseHoldExists ? (
-          <HouseHoldExistsContent route={} />
+          <HouseHoldExistsContent />
         ) : (
           <HouseHoldDontExistContent />
         )}
       </View>
     </SafeAreaView>
-
-    // <View style={styles.container}>
-    //   <View style={styles.inputview}>
-    //     <View>
-    //       <Title>Hushållets namn</Title>
-    //     </View>
-    //     <View>
-    //       <Paragraph>
-    //         {' '}
-    //         -Du är påväg att ansluta dig till hushållsnamnet{' '}
-    //       </Paragraph>
-    //       <Text>Ägare: hushållsägarna</Text>
-    //       <Text>Medlemmar: medlemmarna utöver hushållsägarna</Text>
-    //     </View>
-    //     <TextInput
-    //       style={styles.textinput}
-    //       mode="outlined"
-    //       label="Ditt namn i hushållet"
-    //       value={nickName}
-    //       onChangeText={(nickName) => setNickName(nickName)}
-    //     />
-    //     <View style={styles.avatarselector}>
-    //       <Text>
-    //         <List.Accordion
-    //           expanded={expanded}
-    //           title={selectedAvatar || 'Välj din avatar'}
-    //           onPress={handlePress}
-    //         >
-    //           {avatars.map((avatar) => (
-    //             <List.Item
-    //               key={avatar}
-    //               title={avatar}
-    //               onPress={() => handleAvatarSelection(avatar)}
-    //             />
-    //           ))}
-    //         </List.Accordion>
-    //       </Text>
-    //     </View>
-    //   </View>
-    //   <View style={{ justifyContent: 'flex-end' }}>
-    //     <View style={styles.buttonview}>
-    //       <Button
-    //         contentStyle={styles.buttoncontentstyle}
-    //         style={styles.buttonstyle}
-    //         icon="plus-circle"
-    //         mode="outlined"
-    //         labelStyle={{ fontSize: 18 }}
-    //         onPress={handleCreate}
-    //       >
-    //         Anslut
-    //       </Button>
-    //       <Button
-    //         contentStyle={styles.buttoncontentstyle}
-    //         style={styles.buttonstyle}
-    //         icon="close-circle"
-    //         mode="outlined"
-    //         labelStyle={{ fontSize: 18 }}
-    //         onPress={() => navigation.navigate('HouseHoldSelectorScreen')}
-    //       >
-    //         Stäng
-    //       </Button>
-    //     </View>
-    //   </View>
-    // </View>
   );
 }
 
@@ -177,6 +113,70 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+// <View style={styles.container}>
+//   <View style={styles.inputview}>
+//     <View>
+//       <Title>Hushållets namn</Title>
+//     </View>
+//     <View>
+//       <Paragraph>
+//         {' '}
+//         -Du är påväg att ansluta dig till hushållsnamnet{' '}
+//       </Paragraph>
+//       <Text>Ägare: hushållsägarna</Text>
+//       <Text>Medlemmar: medlemmarna utöver hushållsägarna</Text>
+//     </View>
+//     <TextInput
+//       style={styles.textinput}
+//       mode="outlined"
+//       label="Ditt namn i hushållet"
+//       value={nickName}
+//       onChangeText={(nickName) => setNickName(nickName)}
+//     />
+//     <View style={styles.avatarselector}>
+//       <Text>
+//         <List.Accordion
+//           expanded={expanded}
+//           title={selectedAvatar || 'Välj din avatar'}
+//           onPress={handlePress}
+//         >
+//           {avatars.map((avatar) => (
+//             <List.Item
+//               key={avatar}
+//               title={avatar}
+//               onPress={() => handleAvatarSelection(avatar)}
+//             />
+//           ))}
+//         </List.Accordion>
+//       </Text>
+//     </View>
+//   </View>
+//   <View style={{ justifyContent: 'flex-end' }}>
+//     <View style={styles.buttonview}>
+//       <Button
+//         contentStyle={styles.buttoncontentstyle}
+//         style={styles.buttonstyle}
+//         icon="plus-circle"
+//         mode="outlined"
+//         labelStyle={{ fontSize: 18 }}
+//         onPress={handleCreate}
+//       >
+//         Anslut
+//       </Button>
+//       <Button
+//         contentStyle={styles.buttoncontentstyle}
+//         style={styles.buttonstyle}
+//         icon="close-circle"
+//         mode="outlined"
+//         labelStyle={{ fontSize: 18 }}
+//         onPress={() => navigation.navigate('HouseHoldSelectorScreen')}
+//       >
+//         Stäng
+//       </Button>
+//     </View>
+//   </View>
+// </View>
 
 // const styles = StyleSheet.create({
 //   container: {

@@ -2,7 +2,6 @@
 import type { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { UnloadFontOptions } from 'expo-font';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -13,20 +12,17 @@ export type RootStackParamList = {
   HouseHoldSelectorScreen: undefined;
   CreateHouseHold: undefined;
   JoinHouseHold: undefined;
-  JoinHouseholdConfirmation: { householdCode: string };
-  Statistics: { period: string };
+  JoinHouseHoldConfirmation: { houseHoldCode: string };
+  Statistics: {
+    period: string;
+  };
   Chore: {
     choreId: string;
   };
   ChoreList: {
     householdId: string;
     userId: string;
-  }; // ska den ligga här eller i HHDTP?
-  // Login: undefined;
-  // MockedHouseholdDetail: undefined;
-  // HouseholdDashboard: undefined;
-  // HouseHoldSelectorScreen: undefined;
-  // HouseHoldSelectorScreenNoHouseHold: undefined;
+  };
 };
 
 export type HouseHoldDashboardTabParamList = {
@@ -40,15 +36,15 @@ export type HouseHoldDashboardTabParamList = {
   LastYear: { period: string };
 };
 
-export type StatisticsTabParamList = {
-  Today: { period: string };
-  CurrentWeek: { period: string };
-  LastWeek: { period: string };
-  CurrentMonth: { period: string };
-  LastMonth: { period: string };
-  CurrentYear: { period: string };
-  LastYear: { period: string };
-};
+// export type StatisticsTabParamList = {
+//   Today: { period: string };
+//   CurrentWeek: { period: string };
+//   LastWeek: { period: string };
+//   CurrentMonth: { period: string };
+//   LastMonth: { period: string };
+//   CurrentYear: { period: string };
+//   LastYear: { period: string };
+// };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
@@ -60,11 +56,11 @@ export type HouseholdDashboardTabScreenProps<
   RootStackScreenProps<keyof RootStackParamList>
 >;
 
-export type StatisticsTabScreenProps<T extends keyof StatisticsTabParamList> =
-  CompositeScreenProps<
-    MaterialTopTabScreenProps<StatisticsTabParamList, T>,
-    RootStackScreenProps<keyof RootStackParamList>
-  >;
+// export type StatisticsTabScreenProps<T extends keyof StatisticsTabParamList> =
+//   CompositeScreenProps<
+//     MaterialTopTabScreenProps<StatisticsTabParamList, T>,
+//     RootStackScreenProps<keyof RootStackParamList>
+//   >;
 
 declare global {
   namespace ReactNavigation {
@@ -72,10 +68,10 @@ declare global {
   }
 }
 
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList
-      extends RootStackParamList,
-        StatisticsTabParamList {}
-  }
-}
+// declare global {
+//   namespace ReactNavigation {
+//     interface RootParamList
+//       extends RootStackParamList,
+//         StatisticsTabParamList {}
+//   }
+// }
