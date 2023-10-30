@@ -24,11 +24,13 @@ interface HouseholdData extends Household {
 export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
+
   useFocusEffect(
     useCallback(() => {
       dispatch(fetchHouseholdsAndUsers());
     }, []),
   );
+
   const households = useAppSelector((state) => state.household.households);
   const usersByHouseholds = useAppSelector((state) => state.user.allUsers);
   const [householdsData, setHouseholdsData] = useState<HouseholdData[]>([]);
@@ -45,7 +47,7 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
     });
     console.log('newHouseholdsData:', newHouseholdsData); // Debugging line
     setHouseholdsData(newHouseholdsData);
-  }, []);
+  }, [households, usersByHouseholds]);
 
   return (
     <View style={styles.rootContainer}>

@@ -5,7 +5,6 @@ import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCard
 import * as React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import { Title } from 'react-native-paper';
-// import initialBackground from '../../../assets/backgrounds/initial_background.png';
 import initialBackground from '@src/assets/backgrounds/initial_background.png';
 
 // Ange typen för navigation prop

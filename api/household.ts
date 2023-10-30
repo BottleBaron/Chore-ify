@@ -9,7 +9,6 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
-import firebase from 'firebase/app';
 import db from '../firebaseConfig';
 import { Household } from '../src/redux/slices/householdSlice';
 
@@ -26,6 +25,19 @@ export async function getFirebaseHouseholds(
   const snapshot = await getDocs(
     query(collection(db, 'households'), where('id', 'in', householdIds)),
   );
+  const allDocs = snapshot.docs.map((doc) => doc.data());
+
+  return allDocs as Household[];
+}
+
+export async function getFirebaseHouseholdsByCode(
+  householdCode: string,
+): Promise<Household[]> {
+  const q = query(
+    collection(db, 'households'),
+    where('accessCode', '==', householdCode),
+  );
+  const snapshot = await getDocs(q);
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
   return allDocs as Household[];

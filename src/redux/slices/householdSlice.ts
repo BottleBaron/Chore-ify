@@ -3,6 +3,7 @@ import {
   createFirebaseHousehold,
   deleteFirebaseHousehold,
   getFirebaseHouseholds,
+  getFirebaseHouseholdsByCode,
   updateFirebaseHousehold,
 } from '../../../api/household';
 import { auth } from '../../../firebaseConfig';
@@ -22,11 +23,13 @@ export interface Household {
 export interface HouseholdState {
   households: Household[];
   activeHouseholdId: string;
+  joinHousehold: Household;
 }
 
 const initialState: HouseholdState = {
   households: [],
   activeHouseholdId: '',
+  joinHousehold: ,
 };
 
 export interface HouseholdsAndUsersDTO {
@@ -67,6 +70,9 @@ const householdSlice = createSlice({
         (household) => household.id !== action.payload,
       );
     });
+    builder.addCase(fetchHouseholdByAccesscode.fulfilled, (state, action) => {
+      state.joinHousehold = action.payload;
+    });
   },
 });
 
@@ -84,6 +90,21 @@ export const addHousehold = createAppAsyncThunk<Household, Household>(
     }
   },
 );
+
+export const fetchHouseholdByAccesscode = createAppAsyncThunk<
+  Household,
+  string
+>('household/get', async (householdCode, thunkAPI) => {
+  try {
+    const foundHouseholds = await getFirebaseHouseholdsByCode(householdCode);
+    const result = foundHouseholds.find((h) => h.id === householdCode);
+    if (!result) throw new Error('No Household was foud');
+    return result;
+  } catch (e: any) {
+    return thunkAPI.rejectWithValue(e.message);
+  }
+});
+
 // Steg 1. Hämta users med account id.
 // Steg 2. Hämta hushållen med householdId som finns på user.
 // Steg 3. Hämta users igen med de householdId på household.

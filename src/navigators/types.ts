@@ -13,6 +13,7 @@ export type RootStackParamList = {
   HouseHoldSelectorScreen: undefined;
   CreateHouseHold: undefined;
   JoinHouseHold: undefined;
+  JoinHouseholdConfirmation: { householdCode: string };
   Statistics: { period: string };
   Chore: {
     choreId: string;

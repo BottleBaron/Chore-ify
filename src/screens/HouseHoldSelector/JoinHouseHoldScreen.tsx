@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
-import { useAppTheme } from '../../contexts/ThemeContext';
-import { RootStackScreenProps } from '../../navigators/types';
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { RootStackScreenProps } from '@src/navigators/types';
 
 type Props = RootStackScreenProps<'JoinHouseHold'>;
 
@@ -70,6 +70,11 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
       <View style={{ justifyContent: 'flex-end' }}>
         <View style={styles.buttonview}>
           <Button
+            onPress={() =>
+              navigation.navigate('JoinHouseholdConfirmation', {
+                householdCode: '1234',
+              })
+            }
             contentStyle={styles.buttoncontentstyle}
             style={styles.buttonstyle}
             icon="plus-circle"
