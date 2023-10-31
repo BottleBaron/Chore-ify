@@ -5,32 +5,29 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // eslint-disable-next-line import/no-cycle
-import { mockChores } from '@src/assets/Data/MockData';
 // import { useAppTheme } from '@src/contexts/ThemeContext';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
-import { fetchChores, setActiveChoreId } from '@src/redux/slices/choreSlice';
+import {
+  Chore,
+  addChore,
+  fetchChores,
+  setActiveChoreId,
+} from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
-import BottomButtons from './BottomButtonsComponent';
-import NoChoresPage from './NoChoresPage';
+import { Button, Modal, PaperProvider, Portal } from 'react-native-paper';
+import AddChoreScreen from './AddChoreModalScreen';
 
 type Props = HouseholdDashboardTabScreenProps<'ChoreList'>;
 
+export default function ChoreListScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
   const activeHouseholdId = useAppSelector(
     (state) => state.household.activeHouseholdId,
   );
   const dbChores = useAppSelector((state) => state.chore.chores);
-  // Dags att fakea lite mer data
-  const mockedChore = {
-    id: '1',
-    householdId: activeHouseholdId,
-    title: 'Diska',
-    description: 'Diska och torka all smutsig disk i köket',
-    dayinterval: 2,
-    effortNumber: 2,
-  };
+
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
@@ -48,45 +45,87 @@ type Props = HouseholdDashboardTabScreenProps<'ChoreList'>;
   const handleChoreSelection = (id: string) => {
     dispatch(setActiveChoreId(id));
 
-    navigation.navigate('Chore', { choreId: id });
+    navigation.navigate('Chore');
+  };
+
+  // Bottom buttons props
+  const [visible, setVisible] = React.useState(false);
+  const ActivehouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = { backgroundColor: 'white', padding: 20 };
+
+  const handleAddChore = (choreData: Chore) => {
+    const newChore = { ...choreData, householdId: ActivehouseholdId };
+    dispatch(addChore(newChore));
+    hideModal();
   };
 
   return (
-    <View style={styles.container}>
-      {mockChores.length === 0 ? (
-        <NoChoresPage />
-      ) : (
-        <View>
-          {dbChores.map((chore) => (
-            <View key={chore.id} style={styles.choreList}>
-              <TouchableOpacity
-                style={styles.card}
-                onPress={() => handleChoreSelection(chore.id)}
+    <PaperProvider>
+      <View style={styles.container}>
+        {dbChores.map((chore) => (
+          <View key={chore.id} style={styles.choreList}>
+            <TouchableOpacity
+              style={[styles.card, { backgroundColor: theme.colors.card }]}
+              onPress={() => handleChoreSelection(chore.id)}
+            >
+              <Text style={styles.cardText}>{chore.title}</Text>
+              {/* Avatars */}
+            </TouchableOpacity>
+          </View>
+        ))}
+        <View style={styles.outerButtonContainer}>
+          <View style={styles.buttonContainer}>
+            <Button
+              style={styles.button}
+              buttonColor="white"
+              textColor="black"
+              icon="plus"
+              mode="elevated"
+              onPress={showModal}
+            >
+              Lägg till
+            </Button>
+            <View style={styles.buttonGap} />
+            <Button
+              style={styles.button}
+              buttonColor="white"
+              textColor="black"
+              icon="pen"
+              mode="elevated"
+              // eslint-disable-next-line no-console
+              onPress={() => console.log('Pressed')}
+            >
+              Ändra
+            </Button>
+            <Portal>
+              <Modal
+                visible={visible}
+                onDismiss={hideModal}
+                contentContainerStyle={containerStyle}
               >
-                <Text style={styles.cardText}>{chore.title}</Text>
-                {/* Avatars */}
-              </TouchableOpacity>
-            </View>
-          ))}
-          <BottomButtons />
-          <Button onPress={handleAddChore}>Add mock chore</Button>
+                <AddChoreScreen handleAddChore={handleAddChore} />
+              </Modal>
+            </Portal>
+          </View>
         </View>
-      )}
-    </View>
+      </View>
+    </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    paddingTop: 20,
   },
   choreList: {
+    justifyContent: 'center',
     padding: 7,
   },
   card: {
-    // backgroundColor: 'white',
     height: 55,
     width: 390,
     justifyContent: 'space-evenly',
@@ -98,5 +137,22 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  outerButtonContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    padding: 20,
+  },
+  button: {
+    width: 160,
+    height: 40,
+  },
+  buttonGap: {
+    width: 40,
   },
 });

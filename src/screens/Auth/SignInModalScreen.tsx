@@ -79,7 +79,7 @@ export default function SignInModalScreen({ navigation }: Props) {
           </Title>
           <TextInput
             label="Email"
-            aria-labelledby="email"
+            aria-labelledby="Email"
             value={email}
             onChangeText={validateEmail}
             style={styles.input}

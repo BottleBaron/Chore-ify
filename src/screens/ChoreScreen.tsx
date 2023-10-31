@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useFocusEffect } from '@react-navigation/native';
 import doneIcon from '@src/assets/doneIcon.png';
 import * as React from 'react';
 import {
-  Alert,
   Button,
   Image,
   StyleSheet,
@@ -14,10 +12,12 @@ import {
 } from 'react-native';
 import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
+import { useFocusEffect } from '@react-navigation/core';
 import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
-import { fetchChores } from '@src/redux/slices/choreSlice';
+import { deleteChore, fetchChores } from '@src/redux/slices/choreSlice';
+import { addUserToChoreTable } from '@src/redux/slices/userToChoreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 
 type Props = RootStackScreenProps<'Chore'>;
@@ -58,6 +58,18 @@ function StatusCard({ status, daysLeft }: StatusCardProps) {
 
 export default function ChoreScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
+  // Select our current chore based on activeChoreId,
+  const currentChore = useAppSelector((state) =>
+    state.chore.chores.find((c) => c.id === state.chore.activeChoreId),
+  );
+
+  const activeHouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+
+  const activeUser = useAppSelector((state) =>
+    state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
+  );
 
   // Make sure that our choredata is relevant on page load
   useFocusEffect(
@@ -74,29 +86,37 @@ export default function ChoreScreen({ navigation }: Props) {
     }, []),
   );
 
-  // Select our current chore based on activeChoreId,
-  const currentChore = useAppSelector((state) =>
-    state.chore.chores.find((c) => c.id === state.chore.activeChoreId),
-  );
-
-  const activeHouseholdId = useAppSelector(
-    (state) => state.household.activeHouseholdId,
-  );
+  console.log(currentChore);
 
   if (!currentChore) {
     return <Text>Sysslan kunde inte hittas</Text>;
   }
 
-  const handleDeleteChore = () => {
-    Alert.alert(
-      'Ta bort syssla',
-      'All statistik gällande sysslan kommer att tas bort. Vill du arkivera istället?',
-      [
-        { text: 'Avbryt', style: 'cancel' },
-        { text: 'Arkivera', onPress: () => {} },
-        { text: 'Ta bort', onPress: () => {} },
-      ],
-    );
+  const handleChoreCompletion = async () => {
+    if (!activeUser) throw new Error('No active user could be found');
+
+    const userToChoreDTO = {
+      id: '',
+      timestamp: new Date().toISOString(),
+      userId: activeUser?.id,
+      choreId: currentChore.id,
+    };
+    await dispatch(addUserToChoreTable(userToChoreDTO));
+    console.log('CONNECTION ADDED');
+  };
+
+  const handleDeleteChore = async () => {
+    await dispatch(deleteChore(currentChore.id));
+    navigation.navigate('AuthUserTabNavigator');
+    // Alert.alert(
+    //   'Ta bort syssla',
+    //   'All statistik gällande sysslan kommer att tas bort. Vill du arkivera istället?',
+    //   [
+    //     { text: 'Avbryt', style: 'cancel' },
+    //     { text: 'Arkivera', onPress: () => {} },
+    //     { text: 'Ta bort', onPress: () => {} },
+    //   ],
+    // );
   };
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const getRecentActivity = (choreId: string) => {
@@ -133,7 +153,7 @@ export default function ChoreScreen({ navigation }: Props) {
             Ansträngningsnummer: {currentChore.effortNumber}
           </Text>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={handleChoreCompletion}>
             <Image
               source={doneIcon}
               style={{

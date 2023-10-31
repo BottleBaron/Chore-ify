@@ -3,15 +3,16 @@ import { RootStackScreenProps } from '@src/navigators/types';
 import {
   Household,
   fetchHouseholdsAndUsers,
+  setActiveHouseholdId,
 } from '@src/redux/slices/householdSlice';
-import ThemedClickableCardButtonWithAvatars from '@src/themedComponents/ThemedClickableCardButtonWithAvatars';
 import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
+import ThemedClickableCardButtonWithAvatars from '@src/themedComponents/ThemedClickableCardButtonWithAvatars';
 // import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 // import { mockHouseholds } from 'assets/Data/MockData';
-import React, { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/core';
 
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 
@@ -24,11 +25,22 @@ interface HouseholdData extends Household {
 export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
+
   useFocusEffect(
     useCallback(() => {
       dispatch(fetchHouseholdsAndUsers());
     }, []),
   );
+
+  const initiateHouseholdNavigation = (householdId: string) => {
+    dispatch(setActiveHouseholdId(householdId));
+
+    navigation.navigate('AuthUserTabNavigator', {
+      householdId,
+      userId: 'hej',
+    });
+  };
+
   const households = useAppSelector((state) => state.household.households);
   const usersByHouseholds = useAppSelector((state) => state.user.allUsers);
   const [householdsData, setHouseholdsData] = useState<HouseholdData[]>([]);
@@ -45,7 +57,7 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
     });
     console.log('newHouseholdsData:', newHouseholdsData); // Debugging line
     setHouseholdsData(newHouseholdsData);
-  }, []);
+  }, [households, usersByHouseholds]);
 
   return (
     <View style={styles.rootContainer}>
@@ -72,12 +84,7 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
             title={mappedHouseholdsData.name}
             content={mappedHouseholdsData.name} // Add your own content
             iconName="" // Add an appropriate icon name
-            onPress={() =>
-              navigation.navigate('ChoreList', {
-                householdId: mappedHouseholdsData.id,
-                userId: 'hej',
-              })
-            }
+            onPress={() => initiateHouseholdNavigation(mappedHouseholdsData.id)}
             width={280} // Custom width, you can change this
             iconColor={theme.colors.primary} // Custom icon color, you can change this'
             avatarList={mappedHouseholdsData.avatars} // Add your own avatar list
