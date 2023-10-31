@@ -12,7 +12,7 @@ import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
 import {
   Chore,
   addChore,
-  fetchChoresWithAvatars,
+  fetchDisplayChores,
   setActiveChoreId,
 } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
@@ -33,7 +33,7 @@ export default function ChoreListScreen({ navigation }: Props) {
     React.useCallback(() => {
       let isActive = true;
       const handleInit = async () => {
-        await dispatch(fetchChoresWithAvatars(activeHouseholdId));
+        await dispatch(fetchDisplayChores(activeHouseholdId));
       };
 
       handleInit();
@@ -61,7 +61,7 @@ export default function ChoreListScreen({ navigation }: Props) {
   const handleAddChore = (choreData: Chore) => {
     const newChore = { ...choreData, householdId: ActivehouseholdId };
     dispatch(addChore(newChore));
-    dispatch(fetchChoresWithAvatars(activeHouseholdId));
+    dispatch(fetchDisplayChores(activeHouseholdId));
     hideModal();
   };
 
@@ -81,8 +81,16 @@ export default function ChoreListScreen({ navigation }: Props) {
                   flexDirection: 'row',
                 }}
               >
-                {choreWithAvatar.avatars.map((avatar) => (
-                  <Text>{avatar}</Text>
+                <View
+                  style={[
+                    styles.dayscounterContainer,
+                    { backgroundColor: choreWithAvatar.color },
+                  ]}
+                >
+                  <Text>{choreWithAvatar.daysSinceLastDone}</Text>
+                </View>
+                {choreWithAvatar.avatars.map((avatar, index) => (
+                  <Text key={index}>{avatar}</Text>
                 ))}
               </View>
             </TouchableOpacity>
@@ -135,6 +143,16 @@ const styles = StyleSheet.create({
   choreList: {
     justifyContent: 'center',
     padding: 7,
+  },
+  dayscounterContainer: {
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    marginHorizontal: 10,
   },
   card: {
     height: 55,
