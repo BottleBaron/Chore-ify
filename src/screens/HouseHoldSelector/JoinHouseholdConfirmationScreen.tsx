@@ -43,20 +43,33 @@ export default function JoinHouseholdConfirmationScreen({ route }: Props) {
   const { houseHoldCode } = route.params;
   const dispatch = useAppDispatch();
 
-  let houseHoldExists = false; /* mockHouseholds.length > 0; */
+  const [houseHoldExists, setHouseHoldExists] = useState(false); // Uppdaterad rad
 
   const theme = useAppTheme();
   useFocusEffect(
     useCallback(() => {
-      dispatch(fetchHouseholdByAccesscode(houseHoldCode));
-    }, []),
+      const fetchData = async () => {
+        const result = await dispatch(
+          fetchHouseholdByAccesscode(houseHoldCode),
+        );
+        if (
+          result.payload === undefined ||
+          typeof result.payload === 'string'
+        ) {
+          setHouseHoldExists(false);
+        } else {
+          setHouseHoldExists(true);
+        }
+      };
+
+      fetchData();
+
+      return () => {
+        // Clean up or any necessary actions when the screen loses focus
+      };
+    }, [dispatch, houseHoldCode]),
   );
-  const household = useAppSelector((state) => state.household.joinHousehold);
-
-  if (household.id === '') {
-    houseHoldExists = false;
-  } else houseHoldExists = true;
-
+  console.log(`Householdexist? ${{ houseHoldExists }}`);
   return (
     <SafeAreaView
       style={[styles.rootContainer, { backgroundColor: theme.colors.card }]}

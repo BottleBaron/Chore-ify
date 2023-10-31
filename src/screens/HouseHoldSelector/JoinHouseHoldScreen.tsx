@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { useAppTheme } from '@src/contexts/ThemeContext';
@@ -23,6 +23,13 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
     setHouseHoldCode(updatedHouseHoldCode);
   };
 
+  const inputRefs = [
+    React.createRef<typeof TextInput>(),
+    React.createRef<typeof TextInput>(),
+    React.createRef<typeof TextInput>(),
+    React.createRef<typeof TextInput>(),
+  ];
+
   return (
     <View style={styles.container}>
       <View style={[styles.box, { borderColor: theme.colors.border }]}>
@@ -41,28 +48,51 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
 
         <View style={styles.inputfields}>
           <TextInput
+            ref={inputRefs[0]}
             style={styles.textinput}
             mode="outlined"
             value={houseHoldCode[0]}
-            onChangeText={(text) => handleInputChange(text, 0)}
+            onChangeText={(text) => {
+              handleInputChange(text, 0);
+              if (text.length === 1) {
+                inputRefs[1].current.focus();
+              }
+            }}
+            maxLength={1}
           />
           <TextInput
+            ref={inputRefs[1]}
             style={styles.textinput}
             mode="outlined"
             value={houseHoldCode[1]}
-            onChangeText={(text) => handleInputChange(text, 1)}
+            onChangeText={(text) => {
+              handleInputChange(text, 1);
+              if (text.length === 1) {
+                inputRefs[2].current.focus();
+              }
+            }}
+            maxLength={1}
           />
           <TextInput
+            ref={inputRefs[2]}
             style={styles.textinput}
             mode="outlined"
             value={houseHoldCode[2]}
-            onChangeText={(text) => handleInputChange(text, 2)}
+            onChangeText={(text) => {
+              handleInputChange(text, 2);
+              if (text.length === 1) {
+                inputRefs[3].current.focus();
+              }
+            }}
+            maxLength={1}
           />
           <TextInput
+            ref={inputRefs[3]}
             style={styles.textinput}
             mode="outlined"
             value={houseHoldCode[3]}
             onChangeText={(text) => handleInputChange(text, 3)}
+            maxLength={1}
           />
         </View>
       </View>
@@ -72,7 +102,7 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
           <Button
             onPress={() =>
               navigation.navigate('JoinHouseHoldConfirmation', {
-                houseHoldCode: '1234',
+                houseHoldCode: houseHoldCode.join(''),
               })
             }
             contentStyle={styles.buttoncontentstyle}
