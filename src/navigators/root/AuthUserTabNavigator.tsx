@@ -1,26 +1,26 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable import/no-cycle */
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// import ChoreListScreen from '@src/screens/ChoreList/ChoreListScreen';
-import ChoreListScreen from '@src/screens/ChoreListScreen/ChoreListScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import CustomTabBar from '@src/themedComponents/CustomTabBar';
 import * as React from 'react';
-import { HouseHoldDashboardTabParamList } from '../types';
+import { AuthUserTabParamList } from '../types';
+import ChoreStackNavigator from './ChoreStackNavigator';
 
-const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();
-// const StatsTab = createMaterialTopTabNavigator<StatisticsTabParamList>();
+const Tab = createMaterialTopTabNavigator<AuthUserTabParamList>();
 
 export default function AuthUserTabNavigator() {
   return (
     <Tab.Navigator
       /* tabBar={() =} */ tabBar={(props: any) => <CustomTabBar {...props} />}
     >
-      <Tab.Screen name="ChoreList" component={ChoreListScreen} />
       <Tab.Screen
-        name="CurrentWeek"
-        component={StatisticsScreen}
-        initialParams={{ period: 'cur-week' }}
+        name="ChoreStack"
+        component={ChoreStackNavigator}
+        initialParams={{ period: 'today' }}
+        options={{}}
       />
       <Tab.Screen
         name="LastWeek"

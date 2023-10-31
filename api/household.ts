@@ -9,13 +9,20 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
-import firebase from 'firebase/app';
 import db from '../firebaseConfig';
 import { Household } from '../src/redux/slices/householdSlice';
 
 export async function createFirebaseHousehold(householdData: Household) {
   const docRef = await addDoc(collection(db, 'households'), householdData);
-  const newHousehold = { ...householdData, id: docRef.id };
+  const householdaccessCode = docRef.id.slice(-4);
+  // console.log('Detta ska vara householdAccesscode: ${householdaccessCode}');
+  console.log(`Här loggas householdaccesscode: ${householdaccessCode}`);
+
+  const newHousehold = {
+    ...householdData,
+    id: docRef.id,
+    accessCode: householdaccessCode,
+  };
   updateFirebaseHousehold(newHousehold);
   return newHousehold;
 }
@@ -29,6 +36,22 @@ export async function getFirebaseHouseholds(
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
   return allDocs as Household[];
+}
+
+export async function getFirebaseHouseholdsByCode(
+  houseHoldCode: string,
+): Promise<Household | undefined> {
+  const q = query(
+    collection(db, 'households'),
+    where('accessCode', '==', houseHoldCode),
+    // Begränsa resultatet till det första dokumentet
+  );
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) {
+    return undefined; // Om det inte finns några matchande dokument, returnera undefined
+  }
+  const firstDoc = snapshot.docs[0].data(); // Hämta det första dokumentet från snapshot
+  return firstDoc as Household; // Returnera det första dokumentet som en Household
 }
 
 export async function updateFirebaseHousehold(householdData: Household) {

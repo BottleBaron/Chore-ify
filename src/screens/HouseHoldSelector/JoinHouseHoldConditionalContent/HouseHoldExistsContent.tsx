@@ -1,24 +1,30 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
+import { useFocusEffect } from '@react-navigation/core';
 import avatars from '@src/assets/Avatars/avatars';
-import React, { useState } from 'react';
+import { User, addUser, fetchUsers } from '@src/redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, List, Text, TextInput } from 'react-native-paper';
-import { auth } from '../../../firebaseConfig';
-import { useAppTheme } from '../../contexts/ThemeContext';
-import { RootStackScreenProps } from '../../navigators/types';
-import { Household, addHousehold } from '../../redux/slices/householdSlice';
-import { User, addUser } from '../../redux/slices/userSlice';
-import { useAppDispatch } from '../../redux/store';
+import {
+  Button,
+  List,
+  Paragraph,
+  Snackbar,
+  Text,
+  TextInput,
+  Title,
+} from 'react-native-paper';
 
-type Props = RootStackScreenProps<'CreateHouseHold'>;
+import { RootStackScreenProps } from '@src/navigators/types';
+import { auth } from '../../../../firebaseConfig';
 
-export default function CreateHouseHoldScreen({ navigation }: Props) {
-  const theme = useAppTheme();
+type Props = RootStackScreenProps<'JoinHouseHoldConfirmation'>;
+
+export default function HouseHoldExistsContent({ navigation }: Props) {
   const dispatch = useAppDispatch();
-
-  const [householdName, setHouseholdName] = useState<string>('');
+  const [visible, setVisible] = React.useState(false);
   const [nickName, setNickName] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('');
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -27,51 +33,80 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
     setSelectedAvatar(avatar);
     setExpanded(!expanded);
   };
+  const onDismissSnackBar = () => setVisible(false);
+  const household = useAppSelector((state) => state.household.joinHousehold);
+  const householdId: string[] = [household.id];
+  const allusers = useAppSelector((state) => state.user.joinHouseholdUsers);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchUsers(householdId));
+    }, []),
+  );
+  const owners = allusers
+    .filter((user) => user.isAdmin === true)
+    .map((user) => user.name);
+
+  const members = allusers
+    .filter((user) => user.isAdmin === false)
+    .map((user) => user.name);
+
+  const usedAvatars = allusers.map((user) => user.avatar);
+  const availableAvatars = avatars.filter(
+    (avatar) => !usedAvatars.includes(avatar),
+  );
+
   const handlePress = () => setExpanded(!expanded);
 
   const handleCreate = async () => {
-    const createdHousehold: Household = {
+    const accountIdfromState: string = auth.currentUser?.uid || '';
+    const createdUser: User = {
       id: '',
-      name: householdName,
-      accessCode: '',
+      accountId: accountIdfromState,
+      avatar: selectedAvatar,
+      name: nickName,
+      isPaused: false,
+      isAdmin: false,
+      householdId: household.id,
     };
 
-    const actionresult = await dispatch(addHousehold(createdHousehold));
-
-    if (
-      actionresult.payload === undefined ||
-      typeof actionresult.payload === 'string'
-    ) {
-      throw new Error('Payload is not of type HouseHold');
-    } else {
-      const lastAddedHouseHold: Household = actionresult.payload;
-
-      const accountIdfromState: string = auth.currentUser?.uid || '';
-      const createdUser: User = {
-        id: '',
-        accountId: accountIdfromState,
-        avatar: selectedAvatar,
-        name: nickName,
-        isPaused: false,
-        isAdmin: true,
-        householdId: lastAddedHouseHold.id,
-      };
-
-      await dispatch(addUser(createdUser));
-      navigation.navigate('HouseHoldSelectorScreen');
-    }
+    if (createdUser.avatar === '') {
+      setVisible(true);
+    } else await dispatch(addUser(createdUser));
+    navigation.navigate('HouseHoldSelectorScreen');
   };
 
   return (
     <View style={styles.container}>
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Undo',
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        Alla avatarer är redan valda.
+      </Snackbar>
       <View style={styles.inputview}>
-        <TextInput
-          style={styles.textinput}
-          mode="outlined"
-          label="Hushållets namn"
-          value={householdName}
-          onChangeText={(householdName) => setHouseholdName(householdName)}
-        />
+        <View>
+          <Title>{household.name}</Title>
+        </View>
+        <View>
+          <Paragraph>
+            {' '}
+            -Du är påväg att ansluta dig till hushållsnamnet: {household.name}
+          </Paragraph>
+          <Text>Ägare: {owners}</Text>
+          <Text>Medlemmar:</Text>
+          <View>
+            {members.map((member) => (
+              <Text key={member}>{member}</Text>
+            ))}
+          </View>
+        </View>
+
         <TextInput
           style={styles.textinput}
           mode="outlined"
@@ -86,7 +121,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
               title={selectedAvatar || 'Välj din avatar'}
               onPress={handlePress}
             >
-              {avatars.map((avatar) => (
+              {availableAvatars.map((avatar) => (
                 <List.Item
                   key={avatar}
                   title={avatar}
@@ -107,7 +142,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
             labelStyle={{ fontSize: 18 }}
             onPress={handleCreate}
           >
-            Skapa
+            Anslut
           </Button>
           <Button
             contentStyle={styles.buttoncontentstyle}
@@ -115,7 +150,7 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
             icon="close-circle"
             mode="outlined"
             labelStyle={{ fontSize: 18 }}
-            onPress={() => navigation.navigate('HouseHoldSelectorScreen')}
+            // onPress={() => navigation.navigate('HouseHoldSelectorScreen')}
           >
             Stäng
           </Button>
@@ -124,7 +159,6 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

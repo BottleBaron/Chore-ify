@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
+import { useAppTheme } from '@src/contexts/ThemeContext';
+import { RootStackScreenProps } from '@src/navigators/types';
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
-import { Text, Button, TextInput } from 'react-native-paper';
-import { useAppTheme } from '../../contexts/ThemeContext';
-import { RootStackScreenProps } from '../../navigators/types';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Button, Paragraph, TextInput, Title } from 'react-native-paper';
 
 type Props = RootStackScreenProps<'JoinHouseHold'>;
 
@@ -23,73 +23,127 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
     setHouseHoldCode(updatedHouseHoldCode);
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={[styles.box, { borderColor: theme.colors.border }]}>
-        <Text variant="headlineSmall" style={{ color: theme.colors.text }}>
-          {' '}
-          Skriv in hushållets kod{' '}
-        </Text>
-        <Text
-          variant="bodyMedium"
-          style={[{ margin: 20 }, { color: theme.colors.text }]}
-        >
-          {' '}
-          Administratören för hushållet har en 4-siffrig kod som du behöver
-          fylla i för att gå med i ett existerande hushåll{' '}
-        </Text>
+  const inputRefs: React.RefObject<any>[] = [
+    React.createRef(),
+    React.createRef(),
+    React.createRef(),
+    React.createRef(),
+  ];
 
-        <View style={styles.inputfields}>
-          <TextInput
-            style={styles.textinput}
-            mode="outlined"
-            value={houseHoldCode[0]}
-            onChangeText={(text) => handleInputChange(text, 0)}
-          />
-          <TextInput
-            style={styles.textinput}
-            mode="outlined"
-            value={houseHoldCode[1]}
-            onChangeText={(text) => handleInputChange(text, 1)}
-          />
-          <TextInput
-            style={styles.textinput}
-            mode="outlined"
-            value={houseHoldCode[2]}
-            onChangeText={(text) => handleInputChange(text, 2)}
-          />
-          <TextInput
-            style={styles.textinput}
-            mode="outlined"
-            value={houseHoldCode[3]}
-            onChangeText={(text) => handleInputChange(text, 3)}
-          />
+  return (
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.buttonIcon }]}
+    >
+      <View style={styles.headerContainer}>
+        <Title style={styles.headerTitleStyle}>Gå med i hushåll</Title>
+      </View>
+      <View
+        style={[styles.bodyContainer, { backgroundColor: theme.colors.border }]}
+      >
+        <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
+          <View style={styles.titleContainer}>
+            <Title style={[styles.titleStyle, { color: theme.colors.text }]}>
+              Skriv in hushållets kod
+            </Title>
+          </View>
+          <View style={styles.paragraphContainer}>
+            <Paragraph>
+              Administratören för hushållet har en 4-siffrig kod som du behöver
+              fylla i för att gå med i ett existerande hushåll.
+            </Paragraph>
+          </View>
+          <View style={styles.inputContainer}>
+            <View style={styles.inputfields}>
+              <TextInput
+                ref={inputRefs[0]}
+                style={styles.textinput}
+                mode="outlined"
+                value={houseHoldCode[0]}
+                onChangeText={(text) => {
+                  handleInputChange(text, 0);
+                  if (text.length === 1) {
+                    inputRefs[1].current?.focus();
+                  }
+                }}
+                maxLength={1}
+              />
+              <TextInput
+                ref={inputRefs[1]}
+                style={styles.textinput}
+                mode="outlined"
+                value={houseHoldCode[1]}
+                onChangeText={(text) => {
+                  handleInputChange(text, 1);
+                  if (text.length === 1) {
+                    inputRefs[2].current?.focus();
+                  }
+                }}
+                maxLength={1}
+              />
+              <TextInput
+                ref={inputRefs[2]}
+                style={styles.textinput}
+                mode="outlined"
+                value={houseHoldCode[2]}
+                onChangeText={(text) => {
+                  handleInputChange(text, 2);
+                  if (text.length === 1) {
+                    inputRefs[3].current?.focus();
+                  }
+                }}
+                maxLength={1}
+              />
+              <TextInput
+                ref={inputRefs[3]}
+                style={styles.textinput}
+                mode="outlined"
+                value={houseHoldCode[3]}
+                onChangeText={(text) => handleInputChange(text, 3)}
+                maxLength={1}
+              />
+            </View>
+          </View>
         </View>
       </View>
-
-      <View style={{ justifyContent: 'flex-end' }}>
-        <View style={styles.buttonview}>
+      <View
+        style={[
+          styles.buttonContainer,
+          { backgroundColor: theme.colors.border },
+        ]}
+      >
+        <View
+          style={[
+            styles.innerButtonContainer,
+            { backgroundColor: theme.colors.border },
+          ]}
+        >
           <Button
-            contentStyle={styles.buttoncontentstyle}
-            style={styles.buttonstyle}
+            onPress={() =>
+              navigation.navigate('JoinHouseHoldConfirmation', {
+                houseHoldCode: houseHoldCode.join(''),
+              })
+            }
+            // contentStyle={styles.buttoncontentstyle}
+            style={styles.buttonStyle}
             icon="plus-circle"
-            mode="outlined"
+            mode="elevated"
             labelStyle={{ fontSize: 18 }}
+            buttonColor={theme.colors.buttonIcon}
           >
             Ansök
           </Button>
-          <Button
-            contentStyle={styles.buttoncontentstyle}
-            style={styles.buttonstyle}
-            icon="close-circle"
-            mode="outlined"
-            labelStyle={{ fontSize: 18 }}
-          >
-            Stäng
-          </Button>
+          {/* <Button
+          contentStyle={styles.buttoncontentstyle}
+          style={styles.buttonstyle}
+          icon="close-circle"
+          mode="outlined"
+          labelStyle={{ fontSize: 18 }}
+        >
+          Stäng
+        </Button> */}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -99,35 +153,124 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     alignContent: 'center',
-  },
-  box: {
-    marginVertical: '40%',
-    maxWidth: '80%',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    alignContent: 'center',
     borderWidth: 3,
-    minHeight: '40%',
+    borderColor: 'red',
+  },
+
+  headerContainer: {
+    // flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '10%',
+    borderWidth: 3,
+    borderColor: 'yellow',
+  },
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
+
+  bodyContainer: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: 'lime',
+  },
+
+  card: {
+    justifyContent: 'space-evenly',
+    maxWidth: '100%',
+    minHeight: '35%',
     borderRadius: 15,
+    elevation: 10,
+    padding: 3,
+  },
+
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: 'red',
+    maxHeight: '25%',
+  },
+  titleStyle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    // textAlign: 'center',
+    // padding: 15,
+    // verticalAlign: 'center',
+    // variant="headlineSmall"
+  },
+
+  paragraphContainer: {
+    width: '100%',
+    textAlign: 'center',
+    borderWidth: 3,
+    borderColor: 'lime',
+    paddingHorizontal: '1%',
+    fontWeight: 'bold',
+  },
+  inputContainer: {
+    maxHeight: '50%',
+    // flex: 1,
+    // alignItems: 'center',
+    verticalAlign: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: 'blue',
   },
   inputfields: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+
   textinput: {
     marginHorizontal: '1%',
     borderRadius: 150,
+    borderColor: 'blue',
+    borderWidth: 3,
   },
-  buttonview: {
+
+  buttonContainer: {
+    maxHeight: '25%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: 'black',
+    // flexDirection: 'row',
+    // paddingBottom: '10%',
+  },
+
+  innerButtonContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
-    minWidth: '80%',
+    // paddingBottom: '10%',
   },
-  buttonstyle: {
-    borderRadius: 0,
-    minWidth: '45%',
-    minHeight: '10%',
+
+  buttonStyle: {
+    flex: 1,
+    borderRadius: 15,
+    maxWidth: '85%',
+    minHeight: '60%',
+    borderWidth: 1,
+    borderColor: 'rgb(28, 28, 30)',
+    // maxHeight: '30%',
+    // width: 'auto',
+    // textAlignVertical: 'center',
+    // verticalAlign: 'center',
+    alignContent: 'center',
   },
+
   buttoncontentstyle: {
-    paddingVertical: '10%',
+    // verticalAlign: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // paddingVertical: '10%',
   },
 });

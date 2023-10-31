@@ -8,26 +8,21 @@ export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
   Profile: undefined;
-  Settings: undefined;
   HouseHoldSelectorScreen: undefined;
   CreateHouseHold: undefined;
   JoinHouseHold: undefined;
-  Statistics: { period: string };
-  Chore: undefined;
-  AuthUserTabNavigator: {
+  JoinHouseHoldConfirmation: { houseHoldCode: string };
+  Statistics: {
+    period: string;
+  };
+  AuthTab: {
     householdId: string;
     userId: string;
   };
-  // ska den ligga här eller i HHDTP?
-  // Login: undefined;
-  // MockedHouseholdDetail: undefined;
-  // HouseholdDashboard: undefined;
-  // HouseHoldSelectorScreen: undefined;
-  // HouseHoldSelectorScreenNoHouseHold: undefined;
 };
 
-export type HouseHoldDashboardTabParamList = {
-  ChoreList: { period: string };
+export type AuthUserTabParamList = {
+  ChoreStack: { period: string };
   Today: { period: string };
   CurrentWeek: { period: string };
   LastWeek: { period: string };
@@ -37,42 +32,27 @@ export type HouseHoldDashboardTabParamList = {
   LastYear: { period: string };
 };
 
-// export type StatisticsTabParamList = {
-//   Today: { period: string };
-//   CurrentWeek: { period: string };
-//   LastWeek: { period: string };
-//   CurrentMonth: { period: string };
-//   LastMonth: { period: string };
-//   CurrentYear: { period: string };
-//   LastYear: { period: string };
-// };
+export type ChoreStackParamList = {
+  ChoreList: { period: string };
+  Chore: undefined;
+  Settings: undefined;
+};
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
-export type HouseholdDashboardTabScreenProps<
-  T extends keyof HouseHoldDashboardTabParamList,
-> = CompositeScreenProps<
-  MaterialTopTabScreenProps<HouseHoldDashboardTabParamList, T>,
-  RootStackScreenProps<keyof RootStackParamList>
->;
-
-export type StatisticsTabScreenProps<T extends keyof StatisticsTabParamList> =
+// og entension of props
+export type AuthUserTabScreenProps<T extends keyof AuthUserTabParamList> =
   CompositeScreenProps<
-    MaterialTopTabScreenProps<StatisticsTabParamList, T>,
+    MaterialTopTabScreenProps<AuthUserTabParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
   >;
+
+export type ChoreStackScreenProps<T extends keyof ChoreStackParamList> =
+  NativeStackScreenProps<ChoreStackParamList, T>;
 
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
-  }
-}
-
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList
-      extends RootStackParamList,
-        StatisticsTabParamList {}
   }
 }

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { UserToCompletedChore } from 'assets/Data/types';
 // import { getColorForAvatar } from '../../../assets/avatarColorConfig';
 // import { getColorForAvatar } from 'assets/avatarColorConfig';
-import { getColorForAvatar } from '@src/assets/avatarColorConfig';
+import { getColorForAvatar } from '@src/assets/Avatars/avatarColorConfig';
 import { UserToCompletedChore } from '@src/assets/Data/types';
 import { User } from './userSlice';
 // import { UserToCompletedChore } from '../../../assets/Data/types';

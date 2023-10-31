@@ -31,16 +31,14 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
       dispatch(fetchHouseholdsAndUsers());
     }, []),
   );
-
   const initiateHouseholdNavigation = (householdId: string) => {
     dispatch(setActiveHouseholdId(householdId));
 
-    navigation.navigate('AuthUserTabNavigator', {
+    navigation.navigate('AuthTab', {
       householdId,
       userId: 'hej',
     });
   };
-
   const households = useAppSelector((state) => state.household.households);
   const usersByHouseholds = useAppSelector((state) => state.user.allUsers);
   const [householdsData, setHouseholdsData] = useState<HouseholdData[]>([]);

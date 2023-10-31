@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createFirebaseUser,
   deleteFirebaseUser,
+  getFirebaseUsersByHouseholdId,
   updateFirebaseUser,
 } from '../../../api/user';
 import createAppAsyncThunk from '../utils';
@@ -20,11 +21,13 @@ export interface User {
 export interface UserState {
   myUsers: User[];
   allUsers: User[];
+  joinHouseholdUsers: User[];
 }
 
 const initialState: UserState = {
   myUsers: [],
   allUsers: [],
+  joinHouseholdUsers: [],
 };
 
 const userSlice = createSlice({
@@ -59,6 +62,9 @@ const userSlice = createSlice({
       state.allUsers = action.payload.allUsers;
       state.myUsers = action.payload.myUsers;
     });
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.joinHouseholdUsers = action.payload;
+    });
   },
 });
 
@@ -78,16 +84,16 @@ export const addUser = createAppAsyncThunk<User, User>(
   },
 );
 
-// export const fetchUsers = createAppAsyncThunk<User[], void>(
-//   'user/get',
-//   async (_, thunkAPI) => {
-//     try {
-//       return await getFirebaseUsers();
-//     } catch (e: any) {
-//       return thunkAPI.rejectWithValue(e.message);
-//     }
-//   },
-// );
+export const fetchUsers = createAppAsyncThunk<User[], string[]>(
+  'user/get',
+  async (householdId, thunkAPI) => {
+    try {
+      return await getFirebaseUsersByHouseholdId(householdId);
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  },
+);
 
 export const updateUser = createAppAsyncThunk<User, User>(
   'user/update',

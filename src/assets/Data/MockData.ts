@@ -62,8 +62,9 @@ export const mockUsers: User[] = [
     id: '1',
     houseHoldId: 1,
     accountId: 1,
-    avatar: '🐙',
+    avatar: '🐸',
     name: 'Jens',
+    isAdmin: false,
     isPaused: false,
   },
   {
@@ -72,6 +73,7 @@ export const mockUsers: User[] = [
     accountId: 2,
     avatar: '🐸',
     name: 'John',
+    isAdmin: false,
     isPaused: false,
   },
   {
@@ -80,6 +82,7 @@ export const mockUsers: User[] = [
     accountId: 3,
     avatar: '🦊', // Ingen kollision med tidigare avatars
     name: 'Kalle',
+    isAdmin: false,
     isPaused: false,
   },
   {
@@ -88,6 +91,7 @@ export const mockUsers: User[] = [
     accountId: 4,
     avatar: '🐷', // Ingen kollision med tidigare avatars
     name: 'Sara',
+    isAdmin: false,
     isPaused: false,
   },
   {
@@ -96,30 +100,34 @@ export const mockUsers: User[] = [
     accountId: 5,
     avatar: '🐬',
     name: 'Anna',
+    isAdmin: false,
     isPaused: false,
   },
   {
     id: '6',
     houseHoldId: 2,
     accountId: 6,
-    avatar: '🦉',
+    avatar: '🐳',
     name: 'Erik',
+    isAdmin: false,
     isPaused: false,
   },
   {
     id: '7',
     houseHoldId: 2,
     accountId: 7,
-    avatar: '🦄',
+    avatar: '🐷',
     name: 'Mia',
+    isAdmin: false,
     isPaused: false,
   },
   {
     id: '8',
     houseHoldId: 2,
     accountId: 8,
-    avatar: '🐔',
+    avatar: '🐥',
     name: 'Oliver',
+    isAdmin: false,
     isPaused: false,
   },
 ];
