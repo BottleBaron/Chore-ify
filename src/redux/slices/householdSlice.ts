@@ -6,12 +6,12 @@ import {
   getFirebaseHouseholdsByCode,
   updateFirebaseHousehold,
 } from '../../../api/household';
-import { auth } from '../../../firebaseConfig';
-import createAppAsyncThunk from '../utils';
 import {
   getFirebaseUsers,
   getFirebaseUsersByHouseholdId,
 } from '../../../api/user';
+import { auth } from '../../../firebaseConfig';
+import createAppAsyncThunk from '../utils';
 import { User } from './userSlice';
 
 export interface Household {

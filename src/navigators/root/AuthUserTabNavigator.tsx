@@ -8,9 +8,9 @@ import ChoreListScreen from '@src/screens/ChoreListScreen/ChoreListScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import CustomTabBar from '@src/themedComponents/CustomTabBar';
 import * as React from 'react';
-import { HouseHoldDashboardTabParamList } from '../types';
+import { AuthUserTabParamList } from '../types';
 
-const Tab = createMaterialTopTabNavigator<HouseHoldDashboardTabParamList>();
+const Tab = createMaterialTopTabNavigator<AuthUserTabParamList>();
 // const StatsTab = createMaterialTopTabNavigator<StatisticsTabParamList>();
 
 export default function AuthUserTabNavigator() {

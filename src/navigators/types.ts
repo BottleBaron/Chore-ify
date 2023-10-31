@@ -19,13 +19,13 @@ export type RootStackParamList = {
   Chore: {
     choreId: string;
   };
-  ChoreList: {
+  AuthTab: {
     householdId: string;
     userId: string;
   };
 };
 
-export type HouseHoldDashboardTabParamList = {
+export type AuthUserTabParamList = {
   ChoreList: { period: string };
   Today: { period: string };
   CurrentWeek: { period: string };
@@ -36,31 +36,15 @@ export type HouseHoldDashboardTabParamList = {
   LastYear: { period: string };
 };
 
-// export type StatisticsTabParamList = {
-//   Today: { period: string };
-//   CurrentWeek: { period: string };
-//   LastWeek: { period: string };
-//   CurrentMonth: { period: string };
-//   LastMonth: { period: string };
-//   CurrentYear: { period: string };
-//   LastYear: { period: string };
-// };
-
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
 export type HouseholdDashboardTabScreenProps<
-  T extends keyof HouseHoldDashboardTabParamList,
+  T extends keyof AuthUserTabParamList,
 > = CompositeScreenProps<
-  MaterialTopTabScreenProps<HouseHoldDashboardTabParamList, T>,
+  MaterialTopTabScreenProps<AuthUserTabParamList, T>,
   RootStackScreenProps<keyof RootStackParamList>
 >;
-
-// export type StatisticsTabScreenProps<T extends keyof StatisticsTabParamList> =
-//   CompositeScreenProps<
-//     MaterialTopTabScreenProps<StatisticsTabParamList, T>,
-//     RootStackScreenProps<keyof RootStackParamList>
-//   >;
 
 declare global {
   namespace ReactNavigation {
