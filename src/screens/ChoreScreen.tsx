@@ -17,7 +17,11 @@ import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
 import { deleteChore, fetchChores } from '@src/redux/slices/choreSlice';
-import { addUserToChoreTable } from '@src/redux/slices/userToChoreSlice';
+import {
+  addUserToChoreTable,
+  deleteUserToChoreTable,
+  fetchUserToChoreTables,
+} from '@src/redux/slices/userToChoreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 
 type Props = RootStackScreenProps<'Chore'>;
@@ -71,6 +75,10 @@ export default function ChoreScreen({ navigation }: Props) {
     state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
   );
 
+  const userToChores = useAppSelector(
+    (state) => state.userToChore.userToChoreTable,
+  );
+
   // Make sure that our choredata is relevant on page load
   useFocusEffect(
     React.useCallback(() => {
@@ -94,15 +102,39 @@ export default function ChoreScreen({ navigation }: Props) {
 
   const handleChoreCompletion = async () => {
     if (!activeUser) throw new Error('No active user could be found');
+    await dispatch(fetchUserToChoreTables(currentChore.id));
 
-    const userToChoreDTO = {
-      id: '',
-      timestamp: new Date().toISOString(),
-      userId: activeUser?.id,
-      choreId: currentChore.id,
-    };
-    await dispatch(addUserToChoreTable(userToChoreDTO));
-    console.log('CONNECTION ADDED');
+    let loggedDate: Date;
+    if (
+      userToChores.some((connection) => {
+        loggedDate = new Date(connection.timestamp);
+        const today = new Date();
+
+        const isCheckedToday =
+          loggedDate.getFullYear() === today.getFullYear() &&
+          loggedDate.getMonth() === today.getMonth() &&
+          loggedDate.getDate() === today.getDate() &&
+          connection.userId === activeUser.id;
+
+        return isCheckedToday;
+      })
+    ) {
+      const match = userToChores.find(
+        (item) =>
+          item.timestamp === loggedDate.toISOString() &&
+          item.choreId === currentChore.id,
+      );
+      if (match) dispatch(deleteUserToChoreTable(match.id));
+    } else {
+      const userToChoreDTO = {
+        id: '',
+        timestamp: new Date().toISOString(),
+        userId: activeUser.id,
+        choreId: currentChore.id,
+      };
+      await dispatch(addUserToChoreTable(userToChoreDTO));
+      console.log('CONNECTION ADDED');
+    }
   };
 
   const handleDeleteChore = async () => {

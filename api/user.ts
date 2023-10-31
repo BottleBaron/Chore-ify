@@ -4,6 +4,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
@@ -20,15 +21,27 @@ export async function createFirebaseUser(userData: User) {
 }
 
 export async function getFirebaseUsers(accountId: string): Promise<User[]> {
-  const q = query(collection(db, 'users'), where("accountId", "==", accountId))
+  const q = query(collection(db, 'users'), where('accountId', '==', accountId));
   const snapshot = await getDocs(q);
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
   return allDocs as User[];
 }
 
-export async function getFirebaseUsersByHouseholdId(householdIds: string[]): Promise<User[]> {
-  const q = query(collection(db, 'users'), where("householdId", "in", householdIds))
+export async function getFirebaseUserById(id: string): Promise<User> {
+  const docRef = doc(db, 'users', id);
+  const snapshot = await getDoc(docRef);
+  const document = snapshot.data();
+
+  return document as User;
+}
+export async function getFirebaseUsersByHouseholdId(
+  householdIds: string[],
+): Promise<User[]> {
+  const q = query(
+    collection(db, 'users'),
+    where('householdId', 'in', householdIds),
+  );
   const snapshot = await getDocs(q);
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
