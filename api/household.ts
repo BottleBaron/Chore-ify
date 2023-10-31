@@ -14,7 +14,15 @@ import { Household } from '../src/redux/slices/householdSlice';
 
 export async function createFirebaseHousehold(householdData: Household) {
   const docRef = await addDoc(collection(db, 'households'), householdData);
-  const newHousehold = { ...householdData, id: docRef.id };
+  const householdaccessCode = docRef.id.slice(-4);
+  // console.log('Detta ska vara householdAccesscode: ${householdaccessCode}');
+  console.log(`Här loggas householdaccesscode: ${householdaccessCode}`);
+
+  const newHousehold = {
+    ...householdData,
+    id: docRef.id,
+    accessCode: householdaccessCode,
+  };
   updateFirebaseHousehold(newHousehold);
   return newHousehold;
 }

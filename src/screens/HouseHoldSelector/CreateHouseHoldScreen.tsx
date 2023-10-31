@@ -1,24 +1,16 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
-import { useFocusEffect } from '@react-navigation/core';
-import React, { useCallback, useState } from 'react';
-
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
-import { Text, Button, TextInput, List } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import avatars from '@src/assets/Avatars/avatars';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, List, Text, TextInput } from 'react-native-paper';
 import { auth } from '../../../firebaseConfig';
-import { User, addUser } from '../../redux/slices/userSlice';
-import {
-  Household,
-  addHousehold,
-  fetchHouseholdsAndUsers,
-} from '../../redux/slices/householdSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useAppTheme } from '../../contexts/ThemeContext';
 import { RootStackScreenProps } from '../../navigators/types';
-
-import HouseHoldSelectorScreen from './HouseHoldSelectorScreen';
+import { Household, addHousehold } from '../../redux/slices/householdSlice';
+import { User, addUser } from '../../redux/slices/userSlice';
+import { useAppDispatch } from '../../redux/store';
 
 type Props = RootStackScreenProps<'CreateHouseHold'>;
 
@@ -26,7 +18,6 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
 
-  const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
   const [householdName, setHouseholdName] = useState<string>('');
   const [nickName, setNickName] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('');

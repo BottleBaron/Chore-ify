@@ -2,34 +2,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
 import { useFocusEffect } from '@react-navigation/core';
+import avatars from '@src/assets/Avatars/avatars';
+import { User, addUser, fetchUsers } from '@src/redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import React, { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
-  Text,
   Button,
-  TextInput,
   List,
-  Title,
   Paragraph,
+  Snackbar,
+  Text,
+  TextInput,
+  Title,
 } from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import { User, addUser, fetchUsers } from '@src/redux/slices/userSlice';
-import {
-  Household,
-  addHousehold,
-  fetchHouseholdsAndUsers,
-} from '@src/redux/slices/householdSlice';
-import { useAppDispatch, useAppSelector } from '@src/redux/store';
-import { useAppTheme } from '@src/contexts/ThemeContext';
-import { RootStackScreenProps } from '@src/navigators/types';
 
+import { RootStackScreenProps } from '@src/navigators/types';
 import { auth } from '../../../../firebaseConfig';
 
-export default function HouseHoldExistsContent() {
+type Props = RootStackScreenProps<'JoinHouseHoldConfirmation'>;
+
+export default function HouseHoldExistsContent({ navigation }: Props) {
   const dispatch = useAppDispatch();
-
-  const avatars: string[] = ['🐳', '🦊', '🐙', '🐥', '🐷', '🐸'];
-
+  const [visible, setVisible] = React.useState(false);
   const [nickName, setNickName] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('');
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -38,7 +33,7 @@ export default function HouseHoldExistsContent() {
     setSelectedAvatar(avatar);
     setExpanded(!expanded);
   };
-
+  const onDismissSnackBar = () => setVisible(false);
   const household = useAppSelector((state) => state.household.joinHousehold);
   const householdId: string[] = [household.id];
   const allusers = useAppSelector((state) => state.user.joinHouseholdUsers);
@@ -60,7 +55,6 @@ export default function HouseHoldExistsContent() {
     (avatar) => !usedAvatars.includes(avatar),
   );
 
-  console.log({});
   const handlePress = () => setExpanded(!expanded);
 
   const handleCreate = async () => {
@@ -75,12 +69,26 @@ export default function HouseHoldExistsContent() {
       householdId: household.id,
     };
 
-    await dispatch(addUser(createdUser));
-    //   navigation.navigate('HouseHoldSelectorScreen');
+    if (createdUser.avatar === '') {
+      setVisible(true);
+    } else await dispatch(addUser(createdUser));
+    navigation.navigate('HouseHoldSelectorScreen');
   };
 
   return (
     <View style={styles.container}>
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Undo',
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        Alla avatarer är redan valda.
+      </Snackbar>
       <View style={styles.inputview}>
         <View>
           <Title>{household.name}</Title>
@@ -98,12 +106,6 @@ export default function HouseHoldExistsContent() {
             ))}
           </View>
         </View>
-
-        {/*         {chores.map((chore) => {
-          const specificPieChartData = transformChoreSpecific(
-            { users, chores, completed },
-            chore.id,
-          ); */}
 
         <TextInput
           style={styles.textinput}

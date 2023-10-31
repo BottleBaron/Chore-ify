@@ -2,44 +2,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-cycle */
 import { useFocusEffect } from '@react-navigation/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
-import {
-  Text,
-  Button,
-  TextInput,
-  List,
-  Title,
-  Paragraph,
-} from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import {
-  Household,
-  addHousehold,
-  fetchHouseholdByAccesscode,
-  fetchHouseholdsAndUsers,
-} from '@src/redux/slices/householdSlice';
-import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
-import { User, addUser } from '@src/redux/slices/userSlice';
-import { auth } from 'firebaseConfig';
-import RootStackNavigator from '@src/navigators/root/RootStackNavigator';
-import HouseHoldSelectorScreen from './HouseHoldSelectorScreen';
-import HouseHoldExistsContent from './JoinHouseHoldConditionalContent/HouseHoldExistsContent';
+import { fetchHouseholdByAccesscode } from '@src/redux/slices/householdSlice';
+import { useAppDispatch } from '@src/redux/store';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import HouseHoldDontExistContent from './JoinHouseHoldConditionalContent/HouseHoldDontExistContent';
+import HouseHoldExistsContent from './JoinHouseHoldConditionalContent/HouseHoldExistsContent';
 
 type Props = RootStackScreenProps<'JoinHouseHoldConfirmation'>;
 
-export default function JoinHouseholdConfirmationScreen({ route }: Props) {
+export default function JoinHouseholdConfirmationScreen({
+  navigation,
+  route,
+}: Props) {
   const { houseHoldCode } = route.params;
   const dispatch = useAppDispatch();
 
@@ -81,7 +59,7 @@ export default function JoinHouseholdConfirmationScreen({ route }: Props) {
         ]}
       >
         {houseHoldExists ? (
-          <HouseHoldExistsContent />
+          <HouseHoldExistsContent navigation={navigation} route={route} />
         ) : (
           <HouseHoldDontExistContent />
         )}

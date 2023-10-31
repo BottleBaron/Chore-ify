@@ -6,12 +6,12 @@ import AuthScreen from '@src/screens/Auth/AuthScreen';
 import SignInModalScreen from '@src/screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '@src/screens/Auth/SignUpModalScreen';
 import ChoreScreen from '@src/screens/ChoreScreen';
+import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
 import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
+import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
+import JoinHouseholdConfirmationScreen from '@src/screens/HouseHoldSelector/JoinHouseholdConfirmationScreen';
 import SettingsScreen from '@src/screens/Settings/SettingsScreen';
 import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
-import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
-import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
-import JoinHouseholdConfirmationScreen from '@src/screens/HouseHoldSelector/JoinHouseholdConfirmationScreen';
 import { RootStackParamList } from '../types';
 import HouseholdDashboardTabNavigator from './AuthUserTabNavigator';
 

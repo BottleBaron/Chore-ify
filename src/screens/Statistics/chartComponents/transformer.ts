@@ -1,5 +1,5 @@
+import { getColorForAvatar } from '@src/assets/Avatars/avatarColorConfig';
 import { UserToCompletedChore } from '@src/assets/Data/types';
-import { getColorForAvatar } from '@src/assets/avatarColorConfig';
 import { User } from '@src/data';
 import { Chore } from '@src/redux/slices/choreSlice';
 
