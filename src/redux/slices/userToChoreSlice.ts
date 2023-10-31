@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createFirebaseUserToChoreTable,
   deleteFirebaseUserToChoreTable,
-  getFirebaseUserToChoreTable as getFirebaseUserToChoreTables,
+  getFirebaseUserToChoreTables,
   updateFirebaseUserToChoreTable,
 } from '@root/api/userToChore';
 import createAppAsyncThunk from '../utils';

@@ -21,7 +21,7 @@ export async function createFirebaseUserToChoreTable(
   return newUserToChoreTable;
 }
 
-export async function getFirebaseUserToChoreTable(
+export async function getFirebaseUserToChoreTables(
   choreId: string,
 ): Promise<UserToChoreTableDTO[]> {
   const q = query(

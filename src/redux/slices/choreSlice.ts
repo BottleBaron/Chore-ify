@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getFirebaseUserById } from '@root/api/user';
-import { getFirebaseUserToChoreTable as getFirebaseUserToChoreTables } from '@root/api/userToChore';
+import { getFirebaseUserToChoreTables } from '@root/api/userToChore';
 import {
   createFirebaseChore,
   deleteFirebaseChore,
@@ -20,15 +20,17 @@ export interface Chore {
   effortNumber: number;
 }
 
-interface ChoreWithAvatars {
+interface DisplayChore {
   chore: Chore;
   avatars: string[];
+  daysSinceLastDone: number;
+  color: string;
 }
 
 export interface ChoreState {
   chores: Chore[];
   activeChoreId: string;
-  choresWithAvatars: ChoreWithAvatars[];
+  choresWithAvatars: DisplayChore[];
 }
 
 const initialState: ChoreState = {
@@ -72,7 +74,7 @@ const choreSlice = createSlice({
     //   (action) => action.type.endsWith('/rejected'),
     //   //handleRejected,
     // );
-    builder.addCase(fetchChoresWithAvatars.fulfilled, (state, action) => {
+    builder.addCase(fetchDisplayChores.fulfilled, (state, action) => {
       state.choresWithAvatars = action.payload;
     });
   },
@@ -133,37 +135,75 @@ export const deleteChore = createAppAsyncThunk<string, string>(
   },
 );
 
-export const fetchChoresWithAvatars = createAppAsyncThunk<
-  ChoreWithAvatars[],
-  string
->('chore/whodidwhat', async (householdId, thunkAPI) => {
-  try {
-    const date = new Date();
-    const activeChores = await getFirebaseChores(householdId);
+export const fetchDisplayChores = createAppAsyncThunk<DisplayChore[], string>(
+  'chore/whodidwhat',
+  async (householdId, thunkAPI) => {
+    try {
+      const date = new Date();
+      const activeChores = await getFirebaseChores(householdId);
 
-    const choreWithAvatarList: ChoreWithAvatars[] = [];
-    await Promise.all(
-      activeChores.map(async (chore) => {
-        const tableResult = await getFirebaseUserToChoreTables(chore.id);
-        const filteredTable = tableResult.filter((utc) => {
-          const parsedDate = new Date(utc.timestamp);
-          return parsedDate.getDay() === date.getDay();
-        });
+      // Logic to find all avatars for a specific chore
+      const choreWithAvatarList: DisplayChore[] = [];
+      await Promise.all(
+        activeChores.map(async (chore) => {
+          const tableResult = await getFirebaseUserToChoreTables(chore.id);
+          const filteredTable = tableResult.filter((utc) => {
+            const parsedDate = new Date(utc.timestamp);
+            return parsedDate.getDay() === date.getDay();
+          });
 
-        const avatarList = await Promise.all(
-          filteredTable.map(async (item) => {
-            const user = await getFirebaseUserById(item.userId);
-            return user.avatar;
-          }),
-        );
+          const avatarList = await Promise.all(
+            filteredTable.map(async (item) => {
+              const user = await getFirebaseUserById(item.userId);
+              return user.avatar;
+            }),
+          );
 
-        const choreWithAvatar = { chore, avatars: avatarList };
-        choreWithAvatarList.push(choreWithAvatar);
-      }),
-    );
+          // Logic to find days since last completed
+          let daysSinceDoneParameter = 0;
+          const result = await getFirebaseUserToChoreTables(chore.id);
 
-    return choreWithAvatarList;
-  } catch (e: any) {
-    return thunkAPI.rejectWithValue(e.message);
-  }
-});
+          let currentHighestDate: Date = new Date(0);
+          result.forEach((table) => {
+            const newDate = new Date(table.timestamp);
+            if (!currentHighestDate || newDate > currentHighestDate) {
+              currentHighestDate = newDate;
+            }
+          });
+
+          console.log(currentHighestDate);
+          if (currentHighestDate && currentHighestDate.getFullYear() > 1970) {
+            // Calculate the difference in days
+            const today = new Date();
+            const timeDifference =
+              today.getTime() - currentHighestDate.getTime();
+            const daysSinceLastDone = Math.floor(
+              timeDifference / (1000 * 3600 * 24),
+            );
+
+            console.log(daysSinceLastDone);
+            if (daysSinceLastDone > 0)
+              daysSinceDoneParameter = daysSinceLastDone;
+          }
+
+          let color = '#67E25D';
+          const doubleInterval = chore.dayinterval * 2;
+          if (daysSinceDoneParameter > doubleInterval) color = '#D3334D';
+          else if (daysSinceDoneParameter > chore.dayinterval)
+            color = '#FFFF5B';
+          const displayChore = {
+            chore,
+            avatars: avatarList,
+            daysSinceLastDone: daysSinceDoneParameter,
+            color,
+          };
+          choreWithAvatarList.push(displayChore);
+        }),
+      );
+
+      return choreWithAvatarList;
+    } catch (e: any) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  },
+);
