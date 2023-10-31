@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createFirebaseUserToChoreTable,
@@ -71,17 +72,17 @@ export const addUserToChoreTable = createAppAsyncThunk<
   }
 });
 
-export const fetchUserToChoreTables = createAppAsyncThunk(
-  'usersToChores/get',
-  async (_, thunkAPI) => {
-    try {
-      const table = getFirebaseUserToChoreTables();
-      return table;
-    } catch (e: any) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  },
-);
+export const fetchUserToChoreTables = createAppAsyncThunk<
+  UserToChoreTableDTO[],
+  string
+>('usersToChores/get', async (choreId, thunkAPI) => {
+  try {
+    const table = await getFirebaseUserToChoreTables(choreId);
+    return table;
+  } catch (e: any) {
+    return thunkAPI.rejectWithValue(e.message);
+  }
+});
 
 export const updateUserToChoreTable = createAppAsyncThunk<
   UserToChoreTableDTO,

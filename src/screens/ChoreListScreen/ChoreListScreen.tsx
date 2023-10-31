@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -11,7 +12,7 @@ import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
 import {
   Chore,
   addChore,
-  fetchChores,
+  fetchChoresWithAvatars,
   setActiveChoreId,
 } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
@@ -26,13 +27,13 @@ export default function ChoreListScreen({ navigation }: Props) {
   const activeHouseholdId = useAppSelector(
     (state) => state.household.activeHouseholdId,
   );
-  const dbChores = useAppSelector((state) => state.chore.chores);
+  const dbChores = useAppSelector((state) => state.chore.choresWithAvatars);
 
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
       const handleInit = async () => {
-        await dispatch(fetchChores(activeHouseholdId));
+        await dispatch(fetchChoresWithAvatars(activeHouseholdId));
       };
 
       handleInit();
@@ -60,20 +61,30 @@ export default function ChoreListScreen({ navigation }: Props) {
   const handleAddChore = (choreData: Chore) => {
     const newChore = { ...choreData, householdId: ActivehouseholdId };
     dispatch(addChore(newChore));
+    dispatch(fetchChoresWithAvatars(activeHouseholdId));
     hideModal();
   };
 
   return (
     <PaperProvider>
       <View style={styles.container}>
-        {dbChores.map((chore) => (
-          <View key={chore.id} style={styles.choreList}>
+        {dbChores.map((choreWithAvatar, index) => (
+          <View key={index} style={styles.choreList}>
             <TouchableOpacity
               style={[styles.card, { backgroundColor: theme.colors.card }]}
-              onPress={() => handleChoreSelection(chore.id)}
+              onPress={() => handleChoreSelection(choreWithAvatar.chore.id)}
             >
-              <Text style={styles.cardText}>{chore.title}</Text>
-              {/* Avatars */}
+              <Text style={styles.cardText}>{choreWithAvatar.chore.title}</Text>
+              <View
+                style={{
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
+              >
+                {choreWithAvatar.avatars.map((avatar) => (
+                  <Text>{avatar}</Text>
+                ))}
+              </View>
             </TouchableOpacity>
           </View>
         ))}
@@ -128,7 +139,8 @@ const styles = StyleSheet.create({
   card: {
     height: 55,
     width: 390,
-    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     elevation: 8,
     borderRadius: 10,
     paddingVertical: 10,

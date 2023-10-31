@@ -6,7 +6,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import db from '../firebaseConfig';
 
@@ -19,14 +21,14 @@ export async function createFirebaseUserToChoreTable(
   return newUserToChoreTable;
 }
 
-export async function getFirebaseUserToChoreTable(): Promise<
-  UserToChoreTableDTO[]
-> {
-  //   const q = query(
-  //     collection(db, 'usersToChores'),
-  //     where('householdId', 'in', householdIds),
-  //   );
-  const snapshot = await getDocs(collection(db, 'usersToChores'));
+export async function getFirebaseUserToChoreTable(
+  choreId: string,
+): Promise<UserToChoreTableDTO[]> {
+  const q = query(
+    collection(db, 'usersToChores'),
+    where('choreId', '==', choreId),
+  );
+  const snapshot = await getDocs(q);
   const allDocs = snapshot.docs.map((doc) => doc.data());
 
   return allDocs as UserToChoreTableDTO[];

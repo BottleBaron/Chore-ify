@@ -1,6 +1,8 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { getFirebaseUserById } from '@root/api/user';
+import { getFirebaseUserToChoreTable as getFirebaseUserToChoreTables } from '@root/api/userToChore';
 import {
   createFirebaseChore,
   deleteFirebaseChore,
@@ -18,14 +20,21 @@ export interface Chore {
   effortNumber: number;
 }
 
+interface ChoreWithAvatars {
+  chore: Chore;
+  avatars: string[];
+}
+
 export interface ChoreState {
   chores: Chore[];
   activeChoreId: string;
+  choresWithAvatars: ChoreWithAvatars[];
 }
 
 const initialState: ChoreState = {
   chores: [],
   activeChoreId: '',
+  choresWithAvatars: [],
 };
 
 const choreSlice = createSlice({
@@ -63,6 +72,9 @@ const choreSlice = createSlice({
     //   (action) => action.type.endsWith('/rejected'),
     //   //handleRejected,
     // );
+    builder.addCase(fetchChoresWithAvatars.fulfilled, (state, action) => {
+      state.choresWithAvatars = action.payload;
+    });
   },
 });
 
@@ -120,3 +132,38 @@ export const deleteChore = createAppAsyncThunk<string, string>(
     }
   },
 );
+
+export const fetchChoresWithAvatars = createAppAsyncThunk<
+  ChoreWithAvatars[],
+  string
+>('chore/whodidwhat', async (householdId, thunkAPI) => {
+  try {
+    const date = new Date();
+    const activeChores = await getFirebaseChores(householdId);
+
+    const choreWithAvatarList: ChoreWithAvatars[] = [];
+    await Promise.all(
+      activeChores.map(async (chore) => {
+        const tableResult = await getFirebaseUserToChoreTables(chore.id);
+        const filteredTable = tableResult.filter((utc) => {
+          const parsedDate = new Date(utc.timestamp);
+          return parsedDate.getDay() === date.getDay();
+        });
+
+        const avatarList = await Promise.all(
+          filteredTable.map(async (item) => {
+            const user = await getFirebaseUserById(item.userId);
+            return user.avatar;
+          }),
+        );
+
+        const choreWithAvatar = { chore, avatars: avatarList };
+        choreWithAvatarList.push(choreWithAvatar);
+      }),
+    );
+
+    return choreWithAvatarList;
+  } catch (e: any) {
+    return thunkAPI.rejectWithValue(e.message);
+  }
+});
