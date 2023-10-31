@@ -8,7 +8,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // eslint-disable-next-line import/no-cycle
 // import { useAppTheme } from '@src/contexts/ThemeContext';
 import { useAppTheme } from '@src/contexts/ThemeContext';
-import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
+// import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
+import { ChoreStackScreenProps } from '@src/navigators/types';
 import {
   Chore,
   addChore,
@@ -19,7 +20,7 @@ import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import { Button, Modal, PaperProvider, Portal } from 'react-native-paper';
 import AddChoreScreen from './AddChoreModalScreen';
 
-type Props = HouseholdDashboardTabScreenProps<'ChoreList'>;
+type Props = ChoreStackScreenProps<'ChoreList'>;
 
 export default function ChoreListScreen({ navigation }: Props) {
   const theme = useAppTheme();

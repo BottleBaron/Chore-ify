@@ -5,21 +5,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '@src/screens/Auth/AuthScreen';
 import SignInModalScreen from '@src/screens/Auth/SignInModalScreen';
 import SignUpModalScreen from '@src/screens/Auth/SignUpModalScreen';
-import ChoreScreen from '@src/screens/ChoreScreen';
 import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHoldScreen';
 import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
 import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
 import JoinHouseholdConfirmationScreen from '@src/screens/HouseHoldSelector/JoinHouseholdConfirmationScreen';
-import SettingsScreen from '@src/screens/Settings/SettingsScreen';
-import StatisticsScreen from '@src/screens/Statistics/StatisticsScreen';
 import { RootStackParamList } from '../types';
 import AuthUserTabNavigator from './AuthUserTabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
-  // const isAuthUser = false; // You can toggle this for testing
-  // const hasExistingHousehold = true; // Toogles the different screens for selecting household
   return (
     <Stack.Navigator>
       <Stack.Group>
@@ -33,9 +28,6 @@ export default function RootStackNavigator() {
           component={HouseHoldSelectorScreen}
           options={{ headerShown: false }}
         />
-
-        <Stack.Screen name="Statistics" component={StatisticsScreen} />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen
@@ -78,7 +70,6 @@ export default function RootStackNavigator() {
           component={AuthUserTabNavigator}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Chore" component={ChoreScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

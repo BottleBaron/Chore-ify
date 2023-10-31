@@ -15,7 +15,7 @@ import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/core';
 import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
 import { useAppTheme } from '@src/contexts/ThemeContext';
-import { RootStackScreenProps } from '@src/navigators/types';
+import { ChoreStackScreenProps } from '@src/navigators/types';
 import { deleteChore, fetchChores } from '@src/redux/slices/choreSlice';
 import {
   addUserToChoreTable,
@@ -24,7 +24,7 @@ import {
 } from '@src/redux/slices/userToChoreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 
-type Props = RootStackScreenProps<'Chore'>;
+type Props = ChoreStackScreenProps<'Chore'>;
 
 interface StatusCardProps {
   status: string;
@@ -139,7 +139,7 @@ export default function ChoreScreen({ navigation }: Props) {
 
   const handleDeleteChore = async () => {
     await dispatch(deleteChore(currentChore.id));
-    navigation.navigate('AuthUserTabNavigator');
+    navigation.navigate('ChoreList', { period: 'today' });
     // Alert.alert(
     //   'Ta bort syssla',
     //   'All statistik gällande sysslan kommer att tas bort. Vill du arkivera istället?',
@@ -150,6 +150,7 @@ export default function ChoreScreen({ navigation }: Props) {
     //   ],
     // );
   };
+
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const getRecentActivity = (choreId: string) => {
     const recentCompletion = mockCompletedChores.find(
@@ -215,10 +216,7 @@ export default function ChoreScreen({ navigation }: Props) {
       </View>
 
       <View style={styles.footer}>
-        <Button
-          title="Stäng"
-          onPress={() => navigation.navigate('ChoreList')}
-        />
+        <Button title="Stäng" onPress={() => navigation.navigate('Chore')} />
       </View>
     </View>
   );

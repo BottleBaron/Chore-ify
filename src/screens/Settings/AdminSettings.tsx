@@ -17,7 +17,7 @@ export default function AdminSettings({
         content="Profile Settings"
         iconName="user"
         iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
+        onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
         hideTitle
@@ -25,7 +25,7 @@ export default function AdminSettings({
         content="Handle Users"
         iconName="edit"
         iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
+        onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
         hideTitle
@@ -33,7 +33,7 @@ export default function AdminSettings({
         content="Show Access Code"
         iconName="key"
         iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
+        onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
         hideTitle
@@ -41,7 +41,7 @@ export default function AdminSettings({
         content="Show QR Code"
         iconName="qrcode"
         iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
+        onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
         hideTitle
@@ -49,7 +49,7 @@ export default function AdminSettings({
         content="Edit Household"
         iconName="edit"
         iconColor={theme.colors.text}
-        onPress={() => navigation.navigate('Statistics', { period: 'today' })}
+        onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
     </View>
   );

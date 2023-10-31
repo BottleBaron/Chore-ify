@@ -8,16 +8,12 @@ export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
   Profile: undefined;
-  Settings: undefined;
   HouseHoldSelectorScreen: undefined;
   CreateHouseHold: undefined;
   JoinHouseHold: undefined;
   JoinHouseHoldConfirmation: { houseHoldCode: string };
   Statistics: {
     period: string;
-  };
-  Chore: {
-    choreId: string;
   };
   AuthTab: {
     householdId: string;
@@ -26,7 +22,7 @@ export type RootStackParamList = {
 };
 
 export type AuthUserTabParamList = {
-  ChoreList: { period: string };
+  ChoreStack: { period: string };
   Today: { period: string };
   CurrentWeek: { period: string };
   LastWeek: { period: string };
@@ -36,26 +32,27 @@ export type AuthUserTabParamList = {
   LastYear: { period: string };
 };
 
+export type ChoreStackParamList = {
+  ChoreList: { period: string };
+  Chore: undefined;
+  Settings: undefined;
+};
+
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
-export type HouseholdDashboardTabScreenProps<
-  T extends keyof AuthUserTabParamList,
-> = CompositeScreenProps<
-  MaterialTopTabScreenProps<AuthUserTabParamList, T>,
-  RootStackScreenProps<keyof RootStackParamList>
->;
+// og entension of props
+export type AuthUserTabScreenProps<T extends keyof AuthUserTabParamList> =
+  CompositeScreenProps<
+    MaterialTopTabScreenProps<AuthUserTabParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;
+
+export type ChoreStackScreenProps<T extends keyof ChoreStackParamList> =
+  NativeStackScreenProps<ChoreStackParamList, T>;
 
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
   }
 }
-
-// declare global {
-//   namespace ReactNavigation {
-//     interface RootParamList
-//       extends RootStackParamList,
-//         StatisticsTabParamList {}
-//   }
-// }

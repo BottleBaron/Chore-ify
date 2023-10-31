@@ -1,11 +1,11 @@
 import { useAppTheme } from '@src/contexts/ThemeContext';
-import { RootStackScreenProps } from '@src/navigators/types';
+import { ChoreStackScreenProps } from '@src/navigators/types';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import AdminSettings from './AdminSettings';
 import UserSettings from './UserSettings';
 
-type Props = RootStackScreenProps<'Settings'>;
+type Props = ChoreStackScreenProps<'Settings'>;
 
 export type AdminSettingsSubComponentProps = {
   navigation: Props['navigation'];

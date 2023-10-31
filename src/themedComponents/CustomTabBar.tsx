@@ -8,7 +8,7 @@ import { Divider, IconButton } from 'react-native-paper';
 
 function getDisplayLabel(tabName: string): string {
   const mapping: { [key: string]: string } = {
-    ChoreList: 'Idag',
+    ChoreStack: 'Idag',
     CurrentWeek: 'Denna vecka',
     LastWeek: 'Förra veckan',
     CurrentMonth: 'Denna månad',
