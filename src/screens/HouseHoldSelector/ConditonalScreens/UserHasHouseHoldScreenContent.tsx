@@ -58,13 +58,36 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
   }, [households, usersByHouseholds]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.rootContainer}>
-        <View style={styles.topContainer}>
-          <Text style={styles.text}>DINA HUSHÅLL</Text>
-          <Divider style={styles.divider} />
+    <SafeAreaView style={[{ flex: 1 }]}>
+      <View
+        style={[
+          styles.rootContainer,
+          { backgroundColor: theme.colors.divider },
+        ]}
+      >
+        <View
+          style={[
+            styles.topContainer,
+            { backgroundColor: theme.colors.background, zIndex: 2 },
+          ]}
+        >
+          <Text style={[styles.text, { color: theme.colors.text }]}>
+            DINA HUSHÅLL
+          </Text>
+          <Divider
+            style={[styles.divider, { backgroundColor: theme.colors.divider }]}
+          />
         </View>
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView
+          contentContainerStyle={[
+            styles.scrollView,
+            {
+              paddingTop: 50,
+              paddingBottom: 150,
+              backgroundColor: theme.colors.divider,
+            },
+          ]}
+        >
           {householdsData.map(
             (
               mappedHouseholdsData, // Debugging line
@@ -86,22 +109,35 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
             ),
           )}
         </ScrollView>
-        <View style={styles.buttonContainer}>
+        <View
+          style={[
+            styles.buttonContainer,
+            { backgroundColor: theme.colors.transparency, zIndex: 2 },
+          ]}
+        >
           <ThemedClickableCardButton
-            hideTitle
+            hideTitle // or hideTitle={false}
             title="SKAPA HUSHÅLL"
             content="SKAPA HUSHÅLL"
+            iconName="plus-circle"
             onPress={() => navigation.navigate('CreateHouseHold')}
             width={325}
-            showRightIcon={false}
+            // leftIconColor={theme.colors.primary}
+            // rightIconColor={theme.colors.text}
+            // showLeftIcon={false} // New prop, default to true
+            showRightIcon={false} // New prop, default to true
           />
           <ThemedClickableCardButton
             hideTitle
             title="GÅ MED I HUSHÅLL"
             content="GÅ MED I HUSHÅLL"
+            iconName="plus-circle"
             onPress={() => navigation.navigate('JoinHouseHold')}
             width={325}
-            showRightIcon={false}
+            // leftIconColor={theme.colors.primary}
+            // rightIconColor={theme.colors.text}
+            // showLeftIcon={false} // New prop, default to true
+            showRightIcon={false} // New prop, default to true
           />
         </View>
       </View>
@@ -110,14 +146,44 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  rootContainer: { flex: 1, flexDirection: 'column' },
-  topContainer: {
-    /* remove absolute positioning */
+  rootContainer: {
+    flexGrow: 1,
   },
-  text: { fontSize: 28, textAlign: 'center' },
-  divider: { width: '100%' },
-  scrollView: { flex: 1, alignItems: 'center' }, // make sure its parent has flex: 1
+  topContainer: {
+    position: 'absolute', // Added
+    top: 0, // Added
+    left: 0, // Added
+    right: 0, // Added
+    // borderWidth: 2,
+    // borderColor: 'red',
+  },
+  text: {
+    // flexWrap: 'wrap',
+    fontSize: 28,
+    // fontWeight: 'bold',
+    textAlign: 'center',
+    // borderWidth: 2,
+    // borderColor: 'yellow',
+  },
+  divider: {
+    flexWrap: 'wrap',
+    width: '100%',
+  },
+  scrollView: {
+    flexGrow: 1,
+    alignItems: 'center',
+    zIndex: 1, // Added
+  },
   buttonContainer: {
-    /* remove absolute positioning, and bottom: 10 */
+    position: 'absolute', // Added
+    bottom: 10, // Added
+    left: 0, // Added
+    right: 0, // Added
+    width: '100%',
+    alignItems: 'center',
+    // justifyContent: 'center',
+    // flexDirection: 'column',
+    // alignItems: 'center',
+    // zIndex: 10,
   },
 });
