@@ -5,6 +5,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Chore } from '@src/redux/slices/choreSlice';
 
 export type RootStackParamList = {
+  Splash: undefined;
   Auth: undefined;
   SignIn: undefined;
   SignUp: undefined;
