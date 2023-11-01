@@ -122,9 +122,6 @@ export const fetchHouseholdByAccesscode = createAppAsyncThunk<
   }
 });
 
-// Steg 1. Hämta users med account id.
-// Steg 2. Hämta hushållen med householdId som finns på user.
-// Steg 3. Hämta users igen med de householdId på household.
 export const fetchHouseholdsAndUsers = createAppAsyncThunk<
   HouseholdsAndUsersDTO,
   void

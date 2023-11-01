@@ -1,16 +1,64 @@
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
-import React from 'react'; // Don't forget to import React
+import React from 'react';
 import { View, StyleSheet } from 'react-native'; // Text was missing in the import
-import { Snackbar, Text, TextInput } from 'react-native-paper';
+import { TextInput, Text } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import { updateHousehold, Household } from '@src/redux/slices/householdSlice';
+
 import { AdminSettingsSubComponentProps } from './SettingsScreen';
 
 function ChangeHouseHoldName() {
+  const householdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+  const household = useAppSelector((state) =>
+    state.household.households.find(
+      (household) => household.id === householdId,
+    ),
+  );
+  const dispatch = useAppDispatch();
+  const [text, setText] = React.useState(household?.name || '');
+  const [nameChanged, setNameChanged] = React.useState(false);
   const theme = useAppTheme();
+  const changeName = async () => {
+    if (household) {
+      const modifiedHousehold: Household = { ...household, name: text };
+      console.log(modifiedHousehold);
+      const result = await dispatch(updateHousehold(modifiedHousehold));
+      if (updateHousehold.fulfilled.match(result)) {
+        // Om ändringen lyckades
+        setNameChanged(true);
+      } else if (updateHousehold.rejected.match(result)) {
+        // Om det uppstod ett fel
+        console.log('Det uppstod ett fel:', result.error);
+      }
+    }
+  };
+
   return (
     <View>
-      <TextInput />
+      {nameChanged ? (
+        <Text>Namnändringen lyckades</Text>
+      ) : (
+        <>
+          <TextInput
+            label="New name"
+            value={text}
+            onChangeText={(text) => setText(text)}
+          />
+          <ThemedClickableCardButton
+            hideTitle
+            title="SaveHouseholdname"
+            content="Ändra namn"
+            iconName="save"
+            leftIconColor={theme.colors.buttonIcon}
+            rightIconColor={theme.colors.buttonIcon}
+            onPress={changeName}
+            showRightIcon={false}
+          />
+        </>
+      )}
     </View>
   );
 }
@@ -20,28 +68,35 @@ export default function AdminSettings({
 }: AdminSettingsSubComponentProps) {
   const theme = useAppTheme();
 
-  const activeHouseholdId = useAppSelector(
+  const householdCode = useAppSelector(
     (state) => state.household.activeHouseholdId,
-  );
+  ).slice(-4);
   // State for showing the dialog
-  const [visible, setVisible] = React.useState(false);
-  const [householdNameChangeVisible, setHouseholdNameChangeVisible] =
-    React.useState(false);
-  const onToggleSnackBar = () => setVisible(!visible);
+  const [buttonText, setButtonText] = React.useState('Visa hushållskod');
+  const [showCode, setShowCode] = React.useState(false);
+  const [showChangeForm, setShowChangeForm] = React.useState(false);
 
-  const onDismissSnackBar = () => setVisible(false);
-  const onToogleChangeName = () =>
-    setHouseholdNameChangeVisible(!householdNameChangeVisible);
+  const toogleCode = () => {
+    setShowCode(!showCode);
+    if (showCode === true) {
+      setButtonText(householdCode);
+    } else {
+      setButtonText('Visa hushållskod');
+    }
+  };
+
+  const toogleChangeForm = () => setShowChangeForm(!showChangeForm);
+
   return (
     <View>
       <ThemedClickableCardButton
         hideTitle
         title="ShowAccessCode"
-        content="Visa hushållskod"
+        content={buttonText}
         iconName="key"
         leftIconColor={theme.colors.buttonIcon}
         rightIconColor={theme.colors.buttonIcon}
-        onPress={onToggleSnackBar}
+        onPress={toogleCode}
         showRightIcon={false}
       />
       <ThemedClickableCardButton
@@ -51,31 +106,11 @@ export default function AdminSettings({
         iconName="edit"
         leftIconColor={theme.colors.buttonIcon}
         rightIconColor={theme.colors.buttonIcon}
-        onPress={onToogleChangeName}
+        onPress={toogleChangeForm}
         showRightIcon={false}
       />
 
-      <Snackbar
-        // icon="arrow-left"
-        visible={visible}
-        elevation={5}
-        onDismiss={onDismissSnackBar}
-        style={styles.snackBarStyle}
-        wrapperStyle={[styles.wrapperStyle]}
-      >
-        <Text
-          style={[
-            {
-              textAlign: 'center',
-              fontSize: 14,
-              fontWeight: 'bold',
-              letterSpacing: 4,
-            },
-          ]}
-        >
-          Detta är hushållskoden: {activeHouseholdId.slice(-4)}{' '}
-        </Text>
-      </Snackbar>
+      {showChangeForm && <ChangeHouseHoldName />}
     </View>
   );
 }
