@@ -142,48 +142,49 @@ export const fetchDisplayChores = createAppAsyncThunk<DisplayChore[], string>(
       const date = new Date();
       const activeChores = await getFirebaseChores(householdId);
 
-      // Logic to find all avatars for a specific chore
-      const choreWithAvatarList: DisplayChore[] = [];
-      await Promise.all(
+      const choreWithAvatarList: DisplayChore[] = await Promise.all(
         activeChores.map(async (chore) => {
           const tableResult = await getFirebaseUserToChoreTables(chore.id);
           const filteredTable = tableResult.filter((utc) => {
             const parsedDate = new Date(utc.timestamp);
-            return parsedDate.getDay() === date.getDay();
+            return parsedDate.toDateString() === date.toDateString();
           });
 
-          const avatarList = await Promise.all(
-            filteredTable.map(async (item) => {
-              const user = await getFirebaseUserById(item.userId);
-              return user.avatar;
-            }),
-          );
+          let avatarList: string[] = [];
+          if (filteredTable.length > 0) {
+            avatarList = await Promise.all(
+              filteredTable.map(async (item) => {
+                const user = await getFirebaseUserById(item.userId);
+                return user.avatar;
+              }),
+            );
+          }
 
           // Logic to find days since last completed
+          const currentHighestDate = tableResult.reduce(
+            (highestDate, table) => {
+              const newDate = new Date(table.timestamp);
+              return newDate > highestDate ? newDate : highestDate;
+            },
+            new Date(0),
+          );
+
+          console.log(currentHighestDate + chore.title + chore.id);
           let daysSinceDoneParameter = 0;
-          const result = await getFirebaseUserToChoreTables(chore.id);
-
-          let currentHighestDate: Date = new Date(0);
-          result.forEach((table) => {
-            const newDate = new Date(table.timestamp);
-            if (!currentHighestDate || newDate > currentHighestDate) {
-              currentHighestDate = newDate;
-            }
-          });
-
-          console.log(currentHighestDate);
-          if (currentHighestDate && currentHighestDate.getFullYear() > 1970) {
+          if (
+            currentHighestDate.getFullYear() > 1970 &&
+            currentHighestDate < date
+          ) {
             // Calculate the difference in days
-            const today = new Date();
             const timeDifference =
-              today.getTime() - currentHighestDate.getTime();
+              date.getTime() - currentHighestDate.getTime();
             const daysSinceLastDone = Math.floor(
               timeDifference / (1000 * 3600 * 24),
             );
 
-            console.log(daysSinceLastDone);
-            if (daysSinceLastDone > 0)
+            if (daysSinceLastDone > 0) {
               daysSinceDoneParameter = daysSinceLastDone;
+            }
           }
 
           let color = '#67E25D';
@@ -191,13 +192,13 @@ export const fetchDisplayChores = createAppAsyncThunk<DisplayChore[], string>(
           if (daysSinceDoneParameter > doubleInterval) color = '#D3334D';
           else if (daysSinceDoneParameter > chore.dayinterval)
             color = '#FFFF5B';
-          const displayChore = {
+
+          return {
             chore,
             avatars: avatarList,
             daysSinceLastDone: daysSinceDoneParameter,
             color,
           };
-          choreWithAvatarList.push(displayChore);
         }),
       );
 

@@ -27,7 +27,7 @@ export default function AuthUserTabNavigator() {
         component={StatisticsScreen}
         initialParams={{ period: 'prev-week' }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="CurrentMonth"
         component={StatisticsScreen}
         initialParams={{ period: 'cur-month' }}
@@ -46,7 +46,7 @@ export default function AuthUserTabNavigator() {
         name="LastYear"
         component={StatisticsScreen}
         initialParams={{ period: 'prev-year' }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
