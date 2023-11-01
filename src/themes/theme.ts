@@ -8,6 +8,7 @@ const commonColors = {
   finished: 'rgb(0, 255, 0)',
   pending: 'rgb(255, 255, 0)',
   notStarted: 'rgb(255, 0, 0)',
+  sharedTransparency: 'rgba(255, 255, 255, 0)',
 };
 
 export const AppLightTheme = {
@@ -24,9 +25,9 @@ export const AppLightTheme = {
     /*
     Buttons
     */
-    button: 'rgb(48, 127, 226)',
+    button: 'rgb(255, 255, 255)',
     buttonText: 'rgb(0, 0, 0)',
-    buttonIcon: 'rgb(255, 255, 255)',
+    buttonIcon: 'rgb(48, 127, 226)',
     /*
     TextInputFields
     */
@@ -43,6 +44,7 @@ export const AppLightTheme = {
     HouseHoldSelectorScreen
     */
     divider: 'rgb(216, 216, 216)',
+    transparency: 'rgba(242, 242, 242, 0.3)',
   },
 };
 
@@ -79,5 +81,6 @@ export const AppDarkTheme = {
     HouseHoldSelectorScreen
     */
     divider: 'rgb(81, 83, 74)',
+    transparency: 'rgba(0, 0, 0, 0.5)',
   },
 };

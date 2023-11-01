@@ -1,74 +1,72 @@
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import * as React from 'react';
-import {
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import { Card, Paragraph, Title } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { Card, Title } from 'react-native-paper';
 
 type CardButtonProps = {
   title: string;
   content: string;
-  iconName: string;
   onPress: () => void;
-  iconSize?: number;
-  iconColor?: string;
   hideTitle?: boolean;
   width?: number;
+  height?: number;
   borderStyle?: ViewStyle;
-  rotateIcon?: number;
   avatarList?: string[];
 };
 
 export default function ThemedClickableCardButtonWithAvatars({
   title,
   content,
-  iconName,
   onPress,
-  iconSize,
-  iconColor,
   hideTitle,
   width,
+  height,
   borderStyle,
-  rotateIcon,
   avatarList,
 }: CardButtonProps) {
   const theme = useAppTheme();
-  const actualIconSize = iconSize ?? 30;
   const actualWidth = width ?? 300;
-  const actualIconColor = iconColor ?? theme.colors.button;
+  const actualHeight = height ?? 100;
 
   const defaultBorderStyle = {
-    // Default border style if not provided
     borderWidth: 1,
-    borderColor: 'transparent', // or any default color you'd like
+    borderColor: 'transparent',
   };
 
   const actualBorderStyle = borderStyle ?? defaultBorderStyle;
+
+  // console.log('avatarList:', avatarList); // Debugging line
 
   // Function to render avatars
   const renderAvatars = () => {
     if (avatarList) {
       return (
-        <FlatList
-          horizontal
-          data={avatarList}
-          renderItem={({ item }) => (
-            <Text
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          {avatarList.map((item, index) => (
+            <View
+              key={index.toString()}
               style={{
-                fontSize: 20, // Adjust size as needed
-                marginRight: 10, // Add some margin to separate the items
+                marginHorizontal: 2,
+                // borderWidth: 1,
+                // borderColor: 'teal',
+                alignItems: 'center', // Added
+                justifyContent: 'center', // Added
+                width: 40, // Added
+                height: 40, // Added
               }}
             >
-              {item}
-            </Text>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
+              <Text
+                style={{
+                  fontSize: 20,
+                  textAlign: 'center', // Added
+                  lineHeight: 40, // Added
+                }}
+              >
+                {item}
+              </Text>
+            </View>
+          ))}
+        </View>
       );
     }
     return null;
@@ -78,78 +76,42 @@ export default function ThemedClickableCardButtonWithAvatars({
     <TouchableOpacity onPress={onPress}>
       <Card
         style={{
-          margin: 10,
-          backgroundColor: theme.colors.background,
+          ...actualBorderStyle,
           width: actualWidth,
-          borderWidth: 1,
-          borderColor: 'transparent',
-          ...actualBorderStyle, // Spread the default border style
+          height: actualHeight,
+          backgroundColor: theme.colors.background,
+          margin: 2,
         }}
       >
         <Card.Content
           style={{
-            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-between', // Adjusted alignment to space-between
+            // borderWidth: 2,
+            // borderColor: 'yellow',
           }}
         >
-          <View>
-            {!hideTitle && <Title>{title}</Title>}
-            <Paragraph
+          {!hideTitle && <Title style={{ alignSelf: 'center' }}>{title}</Title>}
+          <View
+            style={{
+              flexGrow: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              // borderWidth: 2,
+              // borderColor: 'yellow',
+            }}
+          >
+            <Title
               style={{
                 color: theme.colors.text,
-                marginStart: 10,
-                fontSize: 18,
+                textAlign: 'center',
               }}
             >
               {content}
-            </Paragraph>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                marginTop: 5,
-              }}
-            >
-              <Text
-                style={{
-                  alignItems: 'center',
-                  color: theme.colors.text,
-                  marginStart: 10,
-                  fontSize: 18,
-                }}
-              >
-                {renderAvatars()} {/* Render avatars here */}
-              </Text>
-            </View>
+            </Title>
           </View>
-
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Icon
-              name={iconName}
-              size={actualIconSize}
-              color={actualIconColor}
-              style={{
-                transform: rotateIcon
-                  ? [{ rotate: `${rotateIcon}deg` }]
-                  : undefined,
-              }}
-            />
-            {/* <Paragraph
-              style={{
-                color: theme.colors.text,
-                marginStart: 10,
-                fontSize: 18,
-              }}
-            >
-              {avatarList}
-            </Paragraph> */}
-          </View>
+          <Text>
+            {renderAvatars()} {/* Render avatars here */}
+          </Text>
         </Card.Content>
       </Card>
     </TouchableOpacity>

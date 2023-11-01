@@ -2,9 +2,11 @@
 /* eslint-disable import/no-cycle */
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
+import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { Button, Paragraph, TextInput, Title } from 'react-native-paper';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { TextInput, Title } from 'react-native-paper';
+// import { styles } from '../Settings/SettingsScreen';
 
 type Props = RootStackScreenProps<'JoinHouseHold'>;
 
@@ -31,12 +33,18 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
   ];
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.buttonIcon }]}
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <View style={styles.headerContainer}>
-        <Title style={styles.headerTitleStyle}>Gå med i hushåll</Title>
-      </View>
+      <SafeAreaView
+        style={[
+          { flexGrow: 0, backgroundColor: theme.colors.background, zIndex: 3 },
+        ]}
+      >
+        <View style={styles.headerContainer}>
+          <Title style={styles.headerTitleStyle}>Gå med i hushåll</Title>
+        </View>
+      </SafeAreaView>
       <View
         style={[styles.bodyContainer, { backgroundColor: theme.colors.border }]}
       >
@@ -46,11 +54,12 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
               Skriv in hushållets kod
             </Title>
           </View>
+
           <View style={styles.paragraphContainer}>
-            <Paragraph>
+            <Text style={[{ textAlign: 'center' }]}>
               Administratören för hushållet har en 4-siffrig kod som du behöver
               fylla i för att gå med i ett existerande hushåll.
-            </Paragraph>
+            </Text>
           </View>
           <View style={styles.inputContainer}>
             <View style={styles.inputfields}>
@@ -111,39 +120,21 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
           { backgroundColor: theme.colors.border },
         ]}
       >
-        <View
-          style={[
-            styles.innerButtonContainer,
-            { backgroundColor: theme.colors.border },
-          ]}
-        >
-          <Button
-            onPress={() =>
-              navigation.navigate('JoinHouseHoldConfirmation', {
-                houseHoldCode: houseHoldCode.join(''),
-              })
-            }
-            // contentStyle={styles.buttoncontentstyle}
-            style={styles.buttonStyle}
-            icon="plus-circle"
-            mode="elevated"
-            labelStyle={{ fontSize: 18 }}
-            buttonColor={theme.colors.buttonIcon}
-          >
-            Ansök
-          </Button>
-          {/* <Button
-          contentStyle={styles.buttoncontentstyle}
-          style={styles.buttonstyle}
-          icon="close-circle"
-          mode="outlined"
-          labelStyle={{ fontSize: 18 }}
-        >
-          Stäng
-        </Button> */}
-        </View>
+        <ThemedClickableCardButton
+          hideTitle // or hideTitle={false}
+          title="Abslut"
+          content="Anslut till hushåll"
+          iconName="home"
+          onPress={() =>
+            navigation.navigate('JoinHouseHoldConfirmation', {
+              houseHoldCode: houseHoldCode.join(''),
+            })
+          }
+          showLeftIcon={false}
+          showRightIcon={false}
+        />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -153,8 +144,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     alignContent: 'center',
-    borderWidth: 3,
-    borderColor: 'red',
+    // borderWidth: 3,
+    // borderColor: 'red',
   },
 
   headerContainer: {
@@ -162,12 +153,13 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '10%',
-    borderWidth: 3,
-    borderColor: 'yellow',
+    // marginTop: '10%',
+    // borderWidth: 3,
+    // borderColor: 'yellow',
   },
   headerTitleStyle: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontSize: 28,
   },
 
   bodyContainer: {
@@ -176,8 +168,8 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: 'lime',
+    // borderWidth: 3,
+    // borderColor: 'lime',
   },
 
   card: {
@@ -192,8 +184,8 @@ const styles = StyleSheet.create({
   titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: 'red',
+    // borderWidth: 3,
+    // borderColor: 'red',
     maxHeight: '25%',
   },
   titleStyle: {
@@ -208,10 +200,12 @@ const styles = StyleSheet.create({
   paragraphContainer: {
     width: '100%',
     textAlign: 'center',
-    borderWidth: 3,
-    borderColor: 'lime',
     paddingHorizontal: '1%',
     fontWeight: 'bold',
+    // borderWidth: 3,
+    // borderColor: 'lime',
+    // varför funkar inte detta?
+    textAlignVertical: 'center',
   },
   inputContainer: {
     maxHeight: '50%',
@@ -219,8 +213,8 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     verticalAlign: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: 'blue',
+    // borderWidth: 3,
+    // borderColor: 'blue',
   },
   inputfields: {
     flexDirection: 'row',
@@ -230,17 +224,21 @@ const styles = StyleSheet.create({
   textinput: {
     marginHorizontal: '1%',
     borderRadius: 150,
-    borderColor: 'blue',
-    borderWidth: 3,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    // borderColor: 'blue',
+    // borderWidth: 3,
   },
 
   buttonContainer: {
+    height: '25%',
     maxHeight: '25%',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: 'black',
+    // borderWidth: 3,
+    // borderColor: 'red',
+    zIndex: 3,
     // flexDirection: 'row',
     // paddingBottom: '10%',
   },
@@ -251,26 +249,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     // paddingBottom: '10%',
-  },
-
-  buttonStyle: {
-    flex: 1,
-    borderRadius: 15,
-    maxWidth: '85%',
-    minHeight: '60%',
-    borderWidth: 1,
-    borderColor: 'rgb(28, 28, 30)',
-    // maxHeight: '30%',
-    // width: 'auto',
-    // textAlignVertical: 'center',
-    // verticalAlign: 'center',
-    alignContent: 'center',
-  },
-
-  buttoncontentstyle: {
-    // verticalAlign: 'center',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // paddingVertical: '10%',
   },
 });
