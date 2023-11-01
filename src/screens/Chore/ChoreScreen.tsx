@@ -3,61 +3,40 @@
 import doneIcon from '@src/assets/doneIcon.png';
 import * as React from 'react';
 import {
+  Modal,
   Button,
   Image,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Card, IconButton, Paragraph, Title } from 'react-native-paper';
+import { Card, IconButton, Paragraph, Title, Text } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
 import { useFocusEffect } from '@react-navigation/core';
 import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { ChoreStackScreenProps } from '@src/navigators/types';
-import { deleteChore, fetchChores } from '@src/redux/slices/choreSlice';
+import {
+  Chore,
+  deleteChore,
+  fetchChores,
+  updateChore,
+} from '@src/redux/slices/choreSlice';
 import {
   addUserToChoreTable,
   deleteUserToChoreTable,
   fetchUserToChoreTables,
 } from '@src/redux/slices/userToChoreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
+// eslint-disable-next-line import/no-duplicates
+// import EditChoreModalScreen from './EditChoreModalScreen';
+import StatusCard from './StatusCard';
 
 type Props = ChoreStackScreenProps<'Chore'>;
 
 interface StatusCardProps {
   status: string;
   daysLeft: number;
-}
-
-// eslint-disable-next-line react/prop-types
-function StatusCard({ status, daysLeft }: StatusCardProps) {
-  const theme = useAppTheme();
-  let backgroundColor = ''; // grå
-  let text = 'Den här sysslan behöver fortfarande göras idag!';
-
-  // eslint-disable-next-line default-case
-  switch (status) {
-    case 'done':
-      backgroundColor = theme.colors.finished; /* '#4CAF50'; // grön */
-      text = 'Toppen! Den här sysslan är gjord för idag!';
-      break;
-    case 'pending':
-      backgroundColor = theme.colors.pending; /* '#FFEB3B'; */ // gul
-      text = `${daysLeft} dagar kvar tills denna syssla ska göras`;
-      break;
-    case 'missed':
-      backgroundColor = theme.colors.notStarted; /* '#F44336'; */ // röd
-      text = `Woh, den här sysslan är ${daysLeft} dagar sen!`;
-      break;
-  }
-
-  return (
-    <View style={{ ...styles.statusCard, backgroundColor }}>
-      <Text>{text}</Text>
-    </View>
-  );
 }
 
 export default function ChoreScreen({ navigation }: Props) {
@@ -71,6 +50,8 @@ export default function ChoreScreen({ navigation }: Props) {
     (state) => state.household.activeHouseholdId,
   );
 
+  // const [isEditModalVisible, setEditModalVisible] = React.useState(false);
+
   const activeUser = useAppSelector((state) =>
     state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
   );
@@ -78,6 +59,17 @@ export default function ChoreScreen({ navigation }: Props) {
   const userToChores = useAppSelector(
     (state) => state.userToChore.userToChoreTable,
   );
+
+  const handleEditPress = () => {
+    // setEditModalVisible(true);
+    if (typeof currentChore !== 'undefined') {
+      navigation.navigate('EditChoreModal', { chore: currentChore });
+    }
+  };
+
+  const handleUpdateChore = (updatedChore: Chore) => {
+    dispatch(updateChore(updatedChore));
+  };
 
   // Make sure that our choredata is relevant on page load
   useFocusEffect(
@@ -94,8 +86,10 @@ export default function ChoreScreen({ navigation }: Props) {
     }, []),
   );
 
+  // ta bort dessa två sen:
+  // ta bort
   console.log(currentChore);
-
+  // ta bort
   if (!currentChore) {
     return <Text>Sysslan kunde inte hittas</Text>;
   }
@@ -140,6 +134,7 @@ export default function ChoreScreen({ navigation }: Props) {
   const handleDeleteChore = async () => {
     await dispatch(deleteChore(currentChore.id));
     navigation.navigate('ChoreList', { period: 'today' });
+    // här bör det vara en koppling till någon snackbar eller dylikt annars skippa och ta bort alertkoden nedanför
     // Alert.alert(
     //   'Ta bort syssla',
     //   'All statistik gällande sysslan kommer att tas bort. Vill du arkivera istället?',
@@ -213,10 +208,33 @@ export default function ChoreScreen({ navigation }: Props) {
 
       <View style={styles.actionButtons}>
         <IconButton icon="delete" size={20} onPress={handleDeleteChore} />
+        <Button
+          title="Redigera"
+          onPress={() =>
+            navigation.navigate('EditChoreModal', { chore: currentChore })
+          }
+        />
       </View>
-
+      {/*       <Modal
+        visible={isEditModalVisible}
+        onRequestClose={() => setEditModalVisible(false)}
+        animationType="slide"
+        transparent
+      >
+        <View style={styles.modalView}>
+          <EditChoreModalScreen
+            chore={currentChore}
+            handleUpdateChore={handleUpdateChore}
+            navigation={navigation}
+          />
+        </View>
+      </Modal>
+ */}
       <View style={styles.footer}>
-        <Button title="Stäng" onPress={() => navigation.navigate('Chore')} />
+        <Button
+          title="Stäng"
+          onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
+        />
       </View>
     </View>
   );
@@ -226,6 +244,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     /* backgroundColor: 'white', */
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   activityText: {
     fontSize: 20,

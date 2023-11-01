@@ -2,6 +2,7 @@
 import type { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Chore } from '@src/redux/slices/choreSlice';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -35,6 +36,7 @@ export type AuthUserTabParamList = {
 export type ChoreStackParamList = {
   ChoreList: { period: string };
   Chore: undefined;
+  EditChoreModal: { chore: Chore };
   Settings: undefined;
 };
 
