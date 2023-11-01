@@ -11,7 +11,7 @@ import ThemedClickableCardButtonWithAvatars from '@src/themedComponents/ThemedCl
 // import { mockHouseholds } from 'assets/Data/MockData';
 import { useFocusEffect } from '@react-navigation/core';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Divider } from 'react-native-paper';
 
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
@@ -48,101 +48,142 @@ export default function UserHasHouseHoldScreenContent({ navigation }: Props) {
       const householdUsers = usersByHouseholds.filter(
         (user) => user.householdId === String(household.id),
       );
-      console.log('householdUsers for id', household.id, ':', householdUsers); // Debugging line
+      // console.log('householdUsers for id', household.id, ':', householdUsers); // Debugging line
       const avatars = householdUsers.map((user) => user.avatar);
-      console.log('avatars:', avatars); // Debugging line
+      // console.log('avatars:', avatars); // Debugging line
       return { ...household, avatars };
     });
-    console.log('newHouseholdsData:', newHouseholdsData); // Debugging line
+    // console.log('newHouseholdsData:', newHouseholdsData); // Debugging line
     setHouseholdsData(newHouseholdsData);
   }, [households, usersByHouseholds]);
 
   return (
-    <View style={styles.rootContainer}>
+    <SafeAreaView style={[{ flex: 1 }]}>
       <View
-        style={[styles.textContainer, { backgroundColor: theme.colors.card }]}
-      >
-        <Text style={[styles.text, { color: theme.colors.text }]}>
-          Dina hushåll
-        </Text>
-        <Divider
-          style={[styles.divider, { backgroundColor: theme.colors.divider }]}
-        />
-      </View>
-      <ScrollView
         style={[
-          styles.scrollView /* ,
-          { backgroundColor: theme.colors.background } */,
+          styles.rootContainer,
+          { backgroundColor: theme.colors.divider },
         ]}
       >
-        {householdsData.map((mappedHouseholdsData) => (
-          <ThemedClickableCardButtonWithAvatars
-            hideTitle
-            key={mappedHouseholdsData.id}
-            title={mappedHouseholdsData.name}
-            content={mappedHouseholdsData.name} // Add your own content
-            iconName="" // Add an appropriate icon name
-            onPress={() => initiateHouseholdNavigation(mappedHouseholdsData.id)}
-            width={280} // Custom width, you can change this
-            iconColor={theme.colors.primary} // Custom icon color, you can change this'
-            avatarList={mappedHouseholdsData.avatars} // Add your own avatar list
-            // Add any other props you might need
+        <View
+          style={[
+            styles.topContainer,
+            { backgroundColor: theme.colors.background, zIndex: 2 },
+          ]}
+        >
+          <Text style={[styles.text, { color: theme.colors.text }]}>
+            DINA HUSHÅLL
+          </Text>
+          <Divider
+            style={[styles.divider, { backgroundColor: theme.colors.divider }]}
           />
-        ))}
-      </ScrollView>
-      <View style={styles.bottomButtons}>
-        <ThemedClickableCardButton
-          hideTitle // or hideTitle={false}
-          title="SKAPA HUSHÅLL"
-          content="SKAPA HUSHÅLL"
-          iconName="plus-circle"
-          onPress={() => navigation.navigate('CreateHouseHold')}
-        />
-        <ThemedClickableCardButton
-          hideTitle // or hideTitle={false}
-          title="GÅ MED I HUSHÅLL"
-          content="GÅ MED I HUSHÅLL"
-          iconName="plus-circle"
-          onPress={() => navigation.navigate('JoinHouseHold')}
-        />
+        </View>
+        <ScrollView
+          contentContainerStyle={[
+            styles.scrollView,
+            {
+              paddingTop: 50,
+              paddingBottom: 150,
+              backgroundColor: theme.colors.divider,
+            },
+          ]}
+        >
+          {householdsData.map(
+            (
+              mappedHouseholdsData, // Debugging line
+            ) => (
+              <View style={{ marginBottom: 10 }}>
+                <ThemedClickableCardButtonWithAvatars
+                  hideTitle
+                  key={mappedHouseholdsData.id}
+                  title={mappedHouseholdsData.name}
+                  content={mappedHouseholdsData.name} // Add your own content
+                  onPress={() =>
+                    initiateHouseholdNavigation(mappedHouseholdsData.id)
+                  }
+                  width={300} // Custom width, you can change this manually
+                  height={100} // Custom height, you can change this manually
+                  avatarList={mappedHouseholdsData.avatars} // Add your own avatar list
+                />
+              </View>
+            ),
+          )}
+        </ScrollView>
+        <View
+          style={[
+            styles.buttonContainer,
+            { backgroundColor: theme.colors.transparency, zIndex: 2 },
+          ]}
+        >
+          <ThemedClickableCardButton
+            hideTitle // or hideTitle={false}
+            title="SKAPA HUSHÅLL"
+            content="SKAPA HUSHÅLL"
+            iconName="plus-circle"
+            onPress={() => navigation.navigate('CreateHouseHold')}
+            width={325}
+            // leftIconColor={theme.colors.primary}
+            // rightIconColor={theme.colors.text}
+            // showLeftIcon={false} // New prop, default to true
+            showRightIcon={false} // New prop, default to true
+          />
+          <ThemedClickableCardButton
+            hideTitle
+            title="GÅ MED I HUSHÅLL"
+            content="GÅ MED I HUSHÅLL"
+            iconName="plus-circle"
+            onPress={() => navigation.navigate('JoinHouseHold')}
+            width={325}
+            // leftIconColor={theme.colors.primary}
+            // rightIconColor={theme.colors.text}
+            // showLeftIcon={false} // New prop, default to true
+            showRightIcon={false} // New prop, default to true
+          />
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    flexGrow: 1,
   },
-  textContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  topContainer: {
+    position: 'absolute', // Added
+    top: 0, // Added
+    left: 0, // Added
+    right: 0, // Added
+    // borderWidth: 2,
+    // borderColor: 'red',
   },
   text: {
+    // flexWrap: 'wrap',
     fontSize: 28,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     textAlign: 'center',
-    padding: 15,
+    // borderWidth: 2,
+    // borderColor: 'yellow',
   },
   divider: {
+    flexWrap: 'wrap',
     width: '100%',
-    height: 2,
   },
   scrollView: {
-    flex: 1,
-    marginHorizontal: 35,
-    marginTop: StatusBar.currentHeight,
-  },
-  item: {
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  bottomButtons: {
-    width: '100%',
-    flexDirection: 'column',
+    flexGrow: 1,
     alignItems: 'center',
+    zIndex: 1, // Added
+  },
+  buttonContainer: {
+    position: 'absolute', // Added
+    bottom: 10, // Added
+    left: 0, // Added
+    right: 0, // Added
+    width: '100%',
+    alignItems: 'center',
+    // justifyContent: 'center',
+    // flexDirection: 'column',
+    // alignItems: 'center',
+    // zIndex: 10,
   },
 });

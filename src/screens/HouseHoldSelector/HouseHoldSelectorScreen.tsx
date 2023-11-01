@@ -1,7 +1,7 @@
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
 import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import UserHasHouseHoldContent from './ConditonalScreens/UserHasHouseHoldScreenContent';
 import UserHasNoHouseHold from './ConditonalScreens/UserHasNoHouseHoldScreenContent';
 
@@ -12,7 +12,7 @@ export default function HouseHoldSelectorScreen({ navigation, route }: Props) {
   const hasHouseholds = true; /* mockHouseholds.length > 0; */
 
   return (
-    <SafeAreaView
+    <View
       style={[styles.rootContainer, { backgroundColor: theme.colors.card }]}
     >
       <View
@@ -24,7 +24,7 @@ export default function HouseHoldSelectorScreen({ navigation, route }: Props) {
           <UserHasNoHouseHold navigation={navigation} />
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

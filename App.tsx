@@ -1,6 +1,6 @@
 /* eslint-disable react/style-prop-object */
-import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ReduxProvider } from 'react-redux';
 import ThemeProvider from './src/contexts/ThemeContext';

@@ -8,7 +8,7 @@ import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
 import { fetchHouseholdByAccesscode } from '@src/redux/slices/householdSlice';
 import { useAppDispatch } from '@src/redux/store';
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import HouseHoldDontExistContent from './JoinHouseHoldConditionalContent/HouseHoldDontExistContent';
 import HouseHoldExistsContent from './JoinHouseHoldConditionalContent/HouseHoldExistsContent';
 
@@ -49,22 +49,22 @@ export default function JoinHouseholdConfirmationScreen({
   );
   console.log(`Householdexist? ${{ houseHoldExists }}`);
   return (
-    <SafeAreaView
-      style={[styles.rootContainer, { backgroundColor: theme.colors.card }]}
+    // <SafeAreaView
+    //   style={[styles.rootContainer, { backgroundColor: theme.colors.card }]}
+    // >
+    <View
+      style={[
+        styles.rootContainer,
+        { backgroundColor: theme.colors.background },
+      ]}
     >
-      <View
-        style={[
-          styles.rootContainer,
-          { backgroundColor: theme.colors.background },
-        ]}
-      >
-        {houseHoldExists ? (
-          <HouseHoldExistsContent navigation={navigation} route={route} />
-        ) : (
-          <HouseHoldDontExistContent />
-        )}
-      </View>
-    </SafeAreaView>
+      {houseHoldExists ? (
+        <HouseHoldExistsContent navigation={navigation} route={route} />
+      ) : (
+        <HouseHoldDontExistContent />
+      )}
+    </View>
+    // </SafeAreaView>
   );
 }
 
@@ -104,6 +104,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+//Denna styling bör appliceras i denna fil!
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     alignContent: 'center',
+//   },
+//   inputview: {
+//     marginVertical: '40%',
+//     flexDirection: 'column',
+//     alignContent: 'center',
+//   },
+//   avatarselector: {
+//     minWidth: '90%',
+//     marginVertical: '10%',
+//     borderWidth: 1,
+//     borderRadius: 15,
+//   },
+//   inputfields: {
+//     marginVertical: '10%',
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//   },
+//   textinput: {
+//     minWidth: '90%',
+//     marginVertical: '10%',
+//     borderRadius: 0,
+//   },
+//   buttonview: {
+//     flexDirection: 'row',
+//     minWidth: '80%',
+//   },
+//   buttonstyle: {
+//     borderRadius: 0,
+//     minWidth: '45%',
+//     minHeight: '10%',
+//   },
+//   buttoncontentstyle: {
+//     paddingVertical: '10%',
+//   },
+// });
 
 // <View style={styles.container}>
 //   <View style={styles.inputview}>

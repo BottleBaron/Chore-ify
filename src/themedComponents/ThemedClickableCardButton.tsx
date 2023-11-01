@@ -11,11 +11,15 @@ type CardButtonProps = {
   iconName: string;
   onPress: () => void;
   iconSize?: number;
-  iconColor?: string;
   hideTitle?: boolean; // Add this line
   width?: number;
+  height?: number;
   borderStyle?: ViewStyle;
   rotateIcon?: number; // Add this line
+  leftIconColor?: string;
+  rightIconColor?: string;
+  showLeftIcon?: boolean; // Add this line
+  showRightIcon?: boolean; // Add this line
 };
 
 export default function ThemedClickableCardButton({
@@ -24,11 +28,15 @@ export default function ThemedClickableCardButton({
   iconName,
   onPress,
   iconSize,
-  iconColor,
   hideTitle,
   width,
+  height,
   borderStyle,
   rotateIcon,
+  showLeftIcon = true, // New prop, default to true
+  showRightIcon = true, // New prop, default to true
+  leftIconColor,
+  rightIconColor,
 }: CardButtonProps) {
   const theme = useAppTheme(); // get the theme
   const actualIconSize = iconSize ?? 30; // Use 30 if `iconSize` is not provided
@@ -38,7 +46,9 @@ export default function ThemedClickableCardButton({
     }
     return null;
   };
+
   const actualWidth = width ?? 300;
+  const actualHeight = height ?? 70;
   const rotationStyle = rotateIcon
     ? { transform: [{ rotate: `${rotateIcon}deg` }] }
     : {};
@@ -48,54 +58,87 @@ export default function ThemedClickableCardButton({
     borderWidth: 1,
     borderColor: 'transparent', // or any default color you'd like
   };
-
+  const transparentColor = 'transparent';
   const actualBorderStyle = borderStyle ?? defaultBorderStyle;
-  const actualIconColor = iconColor ?? theme.colors.buttonIcon;
+  const actualLeftIconColor = leftIconColor ?? theme.colors.buttonIcon;
+  const actualRightIconColor = rightIconColor ?? theme.colors.buttonIcon;
 
   return (
     <TouchableOpacity onPress={onPress}>
       <Card
         style={{
-          margin: 10,
+          margin: 2,
           backgroundColor: theme.colors.background,
           width: actualWidth,
-          ...actualBorderStyle, // Spread the default border style
+          height: actualHeight,
+          ...actualBorderStyle,
+          // borderWidth: 1,
+          // borderColor: 'red',
         }}
       >
         <Card.Content
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'space-between', // Add this to space the items
+            // borderWidth: 1,
+            // borderColor: 'lime',
           }}
         >
+          {/* {showLeftIcon && ( */}
           <View
             style={{
-              width: 50,
-              height: 30,
-              borderRadius: 25,
-              backgroundColor: theme.colors.background,
               justifyContent: 'center',
               alignItems: 'center',
+              // borderWidth: 1,
+              // borderColor: 'red',
             }}
           >
             <Icon
               name={iconName}
               size={actualIconSize}
-              color={actualIconColor} // Use the actualIconColor here
-              style={[{ marginRight: 15 }, rotationStyle]} // Add rotation here
+              color={showLeftIcon ? actualLeftIconColor : transparentColor} // <-- Change here
+              style={[{ marginRight: 15 }, rotationStyle]}
             />
           </View>
-          <View>
+          {/* )} */}
+          <View
+            style={{
+              flexGrow: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              maxHeight: 70,
+              // borderWidth: 1,
+              // borderColor: 'teal',
+            }}
+          >
             {renderTitle()}
             <Paragraph
               style={{
-                color: theme.colors.text,
-                marginStart: 10,
-                fontSize: 18,
+                color: theme.colors.title,
+                fontSize: 20,
+                lineHeight: 30,
+                // borderWidth: 1,
+                // borderColor: 'red',
               }}
             >
               {content}
             </Paragraph>
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              // borderWidth: 1,
+              // borderColor: 'yellow',
+            }}
+          >
+            <Icon
+              name={iconName}
+              size={actualIconSize}
+              color={showRightIcon ? actualRightIconColor : transparentColor}
+              style={[{ marginLeft: 15 }, rotationStyle]}
+            />
           </View>
         </Card.Content>
       </Card>

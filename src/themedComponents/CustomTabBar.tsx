@@ -23,7 +23,7 @@ const currentHousehold = 'Household Name'; // Replace with your actual household
 
 function CustomTabBar({
   state,
-  descriptors,
+  // descriptors,
   navigation,
 }: MaterialTopTabBarProps) {
   // const dispatch = useDispatch();
@@ -63,14 +63,18 @@ function CustomTabBar({
         <View
           style={[
             styles.topBarContainer,
-            { backgroundColor: theme.colors.card },
+            {
+              backgroundColor: theme.colors.card,
+              borderWidth: 2,
+              borderColor: theme.colors.error,
+            },
           ]}
         >
           <IconButton
-            icon="home" // replace with your actual icon name for home
+            icon="arrow-left" // replace with your actual icon name for home
             onPress={handleHomeIconPress}
             // color={theme.colors.button}
-            iconColor={theme.colors.button}
+            iconColor={theme.colors.buttonIcon}
           />
           <Text style={[styles.topBarText, { color: theme.colors.text }]}>
             {currentHousehold}
@@ -79,7 +83,7 @@ function CustomTabBar({
             icon="cog" // replace with your actual icon name for settings
             onPress={handleCogIconPress}
             // color={theme.colors.button}
-            iconColor={theme.colors.button}
+            iconColor={theme.colors.buttonIcon}
           />
         </View>
         <Divider
@@ -88,16 +92,25 @@ function CustomTabBar({
         <View
           style={[
             styles.bottomBarContainer,
-            { backgroundColor: theme.colors.card },
+            {
+              backgroundColor: theme.colors.card,
+              borderWidth: 2,
+              borderColor: theme.colors.error,
+            },
           ]}
         >
           <IconButton
             icon="arrow-left" // replace with your actual icon name for left arrow
             onPress={goPrevious}
             // color={theme.colors.button}
-            iconColor={theme.colors.button}
+            iconColor={theme.colors.buttonIcon}
           />
-          <View style={styles.textContainer}>
+          <View
+            style={[
+              styles.textContainer,
+              { borderWidth: 2, borderColor: theme.colors.error },
+            ]}
+          >
             <Text style={[styles.bottomBarText, { color: theme.colors.text }]}>
               {currentLabel}
             </Text>
@@ -106,7 +119,7 @@ function CustomTabBar({
             icon="arrow-right" // replace with youAr actual icon name for right arrow
             onPress={goNext}
             // color={theme.colors.button}
-            iconColor={theme.colors.button}
+            iconColor={theme.colors.buttonIcon}
           />
         </View>
       </View>
@@ -119,8 +132,8 @@ export default CustomTabBar;
 const styles = StyleSheet.create({
   rootContainer: {
     // backgroundColor: 'white',
-    flex: 1,
-    flexGrow: 0.2,
+    // flex: 1,
+    flexGrow: 0,
   },
   container: {},
   topBarContainer: {
