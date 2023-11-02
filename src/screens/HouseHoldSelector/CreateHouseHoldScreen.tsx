@@ -64,37 +64,83 @@ export default function CreateHouseHoldScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputview}>
+      <View
+        style={(styles.inputview, { backgroundColor: theme.colors.background })}
+      >
         <TextInput
           style={styles.textinput}
           mode="outlined"
           label="Hushållets namn"
           value={householdName}
           onChangeText={(householdName) => setHouseholdName(householdName)}
+          contentStyle={{
+            backgroundColor: theme.colors.transparency,
+          }}
+          placeholder="Skriv hushållets namn här" // Lägg till ditt placeholder-text här
+          placeholderTextColor={theme.colors.text} // Ange färgen för placeholder-text
+          outlineColor={theme.colors.inputOutline}
+          activeOutlineColor={theme.colors.inputActiveOutline}
+          selectionColor={theme.colors.inputActiveOutline}
+          // den blinkande cursorn:
+          cursorColor={theme.colors.button}
+          // texten:
+          textColor={theme.colors.text}
+          // underlinjen av texten:
+          underlineColor={theme.colors.inputOutline}
+          // underlinjen när texten är aktiv:
+          activeUnderlineColor={theme.colors.inputOutline}
         />
         <TextInput
-          style={styles.textinput}
           mode="outlined"
+          style={styles.textinput}
           label="Ditt namn i hushållet"
-          value={nickName}
           onChangeText={(nickName) => setNickName(nickName)}
+          contentStyle={{
+            backgroundColor: theme.colors.transparency,
+          }}
+          outlineColor={theme.colors.inputOutline}
+          activeOutlineColor={theme.colors.inputActiveOutline}
+          selectionColor={theme.colors.inputActiveOutline}
+          cursorColor={theme.colors.button}
+          placeholder="Skriv ditt namn här" // Lägg till ditt placeholder-text här
+          placeholderTextColor={theme.colors.text} // Ange färgen för placeholder-text
+          textColor={theme.colors.inputText}
+          underlineColor={theme.colors.inputOutline}
+          activeUnderlineColor={theme.colors.inputOutline}
+          theme={{
+            colors: {
+              text: 'red', // Ändra färgen här till den önskade färgen för etiketten
+            },
+          }}
         />
-        <View style={styles.avatarselector}>
-          <Text>
-            <List.Accordion
-              expanded={expanded}
-              title={selectedAvatar || 'Välj din avatar'}
-              onPress={handlePress}
-            >
-              {avatars.map((avatar) => (
-                <List.Item
-                  key={avatar}
-                  title={avatar}
-                  onPress={() => handleAvatarSelection(avatar)}
-                />
-              ))}
-            </List.Accordion>
-          </Text>
+
+        <View
+          style={[
+            styles.avatarselector,
+            { backgroundColor: theme.colors.card },
+          ]}
+        >
+          <List.Accordion
+            titleStyle={{ color: theme.colors.text }} // Anpassa färgen för titeln
+            style={{
+              backgroundColor: theme.colors.card, // Anpassa bakgrundsfärgen för listan
+              borderBottomWidth: 1,
+              borderColor: theme.colors.text, // Anpassa färgen för underkanten
+            }}
+            expanded={expanded}
+            title={selectedAvatar || 'Välj din avatar'}
+            onPress={handlePress}
+          >
+            {avatars.map((avatar) => (
+              <List.Item
+                titleStyle={{ color: theme.colors.text }} // Anpassa färgen för listobjektets titel
+                style={{ backgroundColor: theme.colors.card }} // Anpassa bakgrundsfärgen för listobjektet
+                key={avatar}
+                title={avatar}
+                onPress={() => handleAvatarSelection(avatar)}
+              />
+            ))}
+          </List.Accordion>
         </View>
       </View>
       <View style={{ justifyContent: 'flex-end' }}>

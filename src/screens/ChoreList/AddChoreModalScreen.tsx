@@ -54,7 +54,12 @@ export default function AddChoreScreen({
   };
 
   return (
-    <View style={styles.modalContent}>
+    <View
+      style={[
+        styles.modalContent,
+        { backgroundColor: theme.colors.background },
+      ]}
+    >
       <TextInput
         label="Sysslans titel"
         style={styles.input}
@@ -99,7 +104,6 @@ export default function AddChoreScreen({
 
 const styles = StyleSheet.create({
   modalContent: {
-    height: 400,
     justifyContent: 'center',
   },
   input: {

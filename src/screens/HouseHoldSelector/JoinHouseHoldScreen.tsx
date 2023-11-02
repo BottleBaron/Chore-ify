@@ -42,11 +42,18 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
         ]}
       >
         <View style={styles.headerContainer}>
-          <Title style={styles.headerTitleStyle}>Gå med i hushåll</Title>
+          <Title
+            style={[styles.headerTitleStyle, { color: theme.colors.text }]}
+          >
+            Gå med i hushåll
+          </Title>
         </View>
       </SafeAreaView>
       <View
-        style={[styles.bodyContainer, { backgroundColor: theme.colors.border }]}
+        style={[
+          styles.bodyContainer,
+          { backgroundColor: theme.colors.background },
+        ]}
       >
         <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
           <View style={styles.titleContainer}>
@@ -56,7 +63,7 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
           </View>
 
           <View style={styles.paragraphContainer}>
-            <Text style={[{ textAlign: 'center' }]}>
+            <Text style={[{ textAlign: 'center', color: theme.colors.text }]}>
               Administratören för hushållet har en 4-siffrig kod som du behöver
               fylla i för att gå med i ett existerande hushåll.
             </Text>
@@ -75,6 +82,7 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
                   }
                 }}
                 maxLength={1}
+                textColor={theme.colors.text}
               />
               <TextInput
                 ref={inputRefs[1]}
@@ -88,6 +96,7 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
                   }
                 }}
                 maxLength={1}
+                textColor={theme.colors.text}
               />
               <TextInput
                 ref={inputRefs[2]}
@@ -101,6 +110,7 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
                   }
                 }}
                 maxLength={1}
+                textColor={theme.colors.text}
               />
               <TextInput
                 ref={inputRefs[3]}
@@ -109,6 +119,7 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
                 value={houseHoldCode[3]}
                 onChangeText={(text) => handleInputChange(text, 3)}
                 maxLength={1}
+                textColor={theme.colors.text}
               />
             </View>
           </View>
@@ -117,7 +128,7 @@ export default function JoinHouseHoldScreen({ navigation }: Props) {
       <View
         style={[
           styles.buttonContainer,
-          { backgroundColor: theme.colors.border },
+          { backgroundColor: theme.colors.background },
         ]}
       >
         <ThemedClickableCardButton

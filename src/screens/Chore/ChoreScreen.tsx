@@ -9,7 +9,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Card, IconButton, Paragraph, Text, Title } from 'react-native-paper';
+import {
+  Card,
+  IconButton,
+  Paragraph,
+  Text,
+  Title,
+  Icon,
+} from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
 import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
 import { ChoreStackScreenProps } from '@src/navigators/types';
@@ -27,6 +34,8 @@ import {
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 // eslint-disable-next-line import/no-duplicates
 // import EditChoreModalScreen from './EditChoreModalScreen';
+import { useAppTheme } from '@src/contexts/ThemeContext';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 import StatusCard from './StatusCard';
 
 type Props = ChoreStackScreenProps<'Chore'>;
@@ -37,6 +46,7 @@ interface StatusCardProps {
 }
 
 export default function ChoreScreen({ navigation }: Props) {
+  const theme = useAppTheme();
   const dispatch = useAppDispatch();
   // Select our current chore based on activeChoreId,
   const currentChore = useAppSelector((state) =>
@@ -166,35 +176,47 @@ export default function ChoreScreen({ navigation }: Props) {
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: theme.colors.background },
+          ]}
+        >
           <View style={styles.header}>
-            <Text style={styles.headerText}>{currentChore.chore.title}</Text>
+            <Text style={[styles.headerText, { color: theme.colors.text }]}>
+              {currentChore.chore.title}
+            </Text>
           </View>
           <StatusCard status={choreStatus} />
-          <Text style={styles.activityText}>Senast aktivitet</Text>
+          <Text style={[styles.activityText, { color: theme.colors.text }]}>
+            Senast aktivitet
+          </Text>
           <Card style={styles.card}>
             <Card.Content>
-              <Title>{currentChore.chore.title}</Title>
-              <Paragraph>{currentChore.chore.description}</Paragraph>
+              <Title style={[styles.cardTitle, { color: theme.colors.text }]}>
+                {currentChore.chore.title}
+              </Title>
+              <Text style={[styles.infoText, { color: theme.colors.text }]}>
+                Beskrivning: {currentChore.chore.description}
+              </Text>
               <Text style={styles.infoText}>
                 Dagintervall: {currentChore.chore.dayinterval}
               </Text>
               <Text style={styles.infoText}>
                 Ansträngningsnummer: {currentChore.chore.effortNumber}
               </Text>
-
-              <TouchableOpacity onPress={handleChoreCompletion}>
-                <Image
-                  source={doneIcon}
-                  style={{
-                    width: 100,
-                    height: 100,
-                    position: 'absolute',
-                    bottom: -350,
-                    alignSelf: 'center',
-                  }}
-                />
-              </TouchableOpacity>
+              <View style={styles.doneIconContainer}>
+                <TouchableOpacity
+                  style={styles.doneIcon}
+                  onPress={handleChoreCompletion}
+                >
+                  <Icon
+                    source="check-circle"
+                    size={100}
+                    color={theme.colors.finished}
+                  />
+                </TouchableOpacity>
+              </View>
               {recentCompleter && completedDate && (
                 <View style={{ marginTop: 16 }}>
                   <Text style={styles.infoText}>
@@ -228,21 +250,6 @@ export default function ChoreScreen({ navigation }: Props) {
               </>
             )}
           </View>
-          {/*       <Modal
-        visible={isEditModalVisible}
-        onRequestClose={() => setEditModalVisible(false)}
-        animationType="slide"
-        transparent
-      >
-        <View style={styles.modalView}>
-          <EditChoreModalScreen
-            chore={currentChore}
-            handleUpdateChore={handleUpdateChore}
-            navigation={navigation}
-          />
-        </View>
-      </Modal>
- */}
           <View style={styles.footer}>
             <Button
               title="Stäng"
@@ -260,25 +267,9 @@ export default function ChoreScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    /* backgroundColor: 'white', */
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   activityText: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     marginHorizontal: 16,
     marginTop: 16,
@@ -287,48 +278,49 @@ const styles = StyleSheet.create({
   header: {
     padding: 16,
     borderBottomWidth: 1,
-    /*  borderBottomColor: '#ddd',
-    backgroundColor: '#f5f5f5', */
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
   },
-  statusCard: {
-    margin: 16,
-    padding: 16,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  statusCard: {},
   activityContainer: {
-    padding: 16,
+    // padding: 16,
   },
   card: {
     flex: 1,
     marginHorizontal: 16,
-    marginBottom: 16,
+    justifyContent: 'space-evenly',
+  },
+  cardTitle: {
+    minHeight: '10%',
+    display: 'flex',
+    margin: 5,
+    fontSize: 30,
   },
   infoText: {
-    marginTop: 8,
+    textAlignVertical: 'center',
     fontSize: 16,
+    margin: 10,
   },
   actionButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
-  },
-  statusText: {
-    fontSize: 18,
-    textAlign: 'center',
+    padding: 5,
   },
   footer: {
     padding: 16,
-    borderTopWidth: 1,
-    /*  borderTopColor: '#ddd',
-    backgroundColor: '#f5f5f5', */
+  },
+  doneIconContainer: {
+    flexShrink: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  doneIcon: {
+    justifyContent: 'flex-end',
+    maxHeight: '100%',
   },
 });

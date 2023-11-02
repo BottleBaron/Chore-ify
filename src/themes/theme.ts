@@ -64,7 +64,7 @@ export const AppDarkTheme = {
     */
     button: 'rgb(83, 86, 90)',
     buttonText: 'rgb(117, 120, 123)',
-    buttonIcon: 'rgb(0, 0, 0)',
+    buttonIcon: 'rgb(150, 150, 150)',
     /*
     TextInputFields
     */
