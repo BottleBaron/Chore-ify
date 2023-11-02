@@ -34,10 +34,9 @@ export default function ChoreListScreen({ navigation }: Props) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(activeHouseholdId);
         const action = await dispatch(fetchDisplayChores(activeHouseholdId));
         if (fetchDisplayChores.fulfilled.match(action)) {
-          console.log('Chore fetch succeeded');
+          console.log('DisplayChores fetched Successfully');
         } else console.error(action.payload);
         setLoading(false); // Data has been fetched
       } catch (error) {

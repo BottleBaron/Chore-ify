@@ -169,7 +169,6 @@ export const fetchDisplayChores = createAppAsyncThunk<DisplayChore[], string>(
             new Date(0),
           );
 
-          console.log(currentHighestDate + chore.title + chore.id);
           let daysSinceDoneParameter = 0;
           if (
             currentHighestDate.getFullYear() > 1970 &&
