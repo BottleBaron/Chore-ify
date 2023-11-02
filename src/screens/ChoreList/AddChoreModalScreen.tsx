@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
 import EffortIndicator from './EffortIndicator';
+import IntervalIndicator from './IntervalIndicator';
 
 interface AddChoreScreenProps {
   handleAddChore: (choreData: Chore) => void;
@@ -22,9 +23,14 @@ export default function AddChoreScreen({
 
   const [errorMessage, setErrorMessage] = useState('');
   const [effortValue, setEffortValue] = useState(0);
+  const [dayinterval, setDayinterval] = useState(0);
 
   const handleEffortChange = (selectedValue: number) => {
     setEffortValue(selectedValue);
+  };
+
+  const handleIntervalChange = (selectedValue: number) => {
+    setDayinterval(selectedValue);
   };
 
   const theme = useAppTheme();
@@ -34,9 +40,13 @@ export default function AddChoreScreen({
   };
 
   const validateValues = () => {
-    if (choreData.dayinterval > 0 && effortValue > 0) {
+    if (dayinterval > 0 && effortValue > 0) {
       if (choreData.title.length > 0 && choreData.description.length > 0) {
-        handleAddChore({ ...choreData, effortNumber: effortValue });
+        handleAddChore({
+          ...choreData,
+          effortNumber: effortValue,
+          dayinterval,
+        });
         return;
       }
     }
@@ -65,15 +75,7 @@ export default function AddChoreScreen({
         value={choreData.description}
         onChangeText={(text) => handleChange('description', text)}
       />
-      <TextInput
-        label="Återkommer (dagar)"
-        style={styles.input}
-        placeholder="Day interval"
-        aria-labelledby="Day interval"
-        mode="outlined"
-        value={choreData.dayinterval.toString()}
-        onChangeText={(text) => handleChange('dayinterval', text)}
-      />
+      <IntervalIndicator value={dayinterval} onChange={handleIntervalChange} />
       <EffortIndicator value={effortValue} onChange={handleEffortChange} />
       <HelperText
         style={[styles.helperText, { color: theme.colors.error }]}
