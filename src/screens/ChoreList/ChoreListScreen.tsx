@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable import/no-cycle */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // eslint-disable-next-line import/no-cycle
@@ -17,8 +16,10 @@ import {
   setActiveChoreId,
 } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import 'firebase/auth';
 import { Button, Modal, PaperProvider, Portal } from 'react-native-paper';
 import AddChoreScreen from './AddChoreModalScreen';
+import NoChoresScreen from './NoChoresScreen';
 
 type Props = ChoreStackScreenProps<'ChoreList'>;
 
@@ -30,19 +31,34 @@ export default function ChoreListScreen({ navigation }: Props) {
   );
   const dbChores = useAppSelector((state) => state.chore.choresWithAvatars);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      let isActive = true;
-      const handleInit = async () => {
-        await dispatch(fetchDisplayChores(activeHouseholdId));
-      };
+  const [loading, setLoading] = React.useState(true);
 
-      handleInit();
-      return () => {
-        isActive = false;
-      };
-    }, []),
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log(activeHouseholdId);
+        const action = await dispatch(fetchDisplayChores(activeHouseholdId));
+        if (fetchDisplayChores.fulfilled.match(action)) {
+          console.log('Chore fetch succeeded');
+        } else console.error(action.payload);
+        setLoading(false); // Data has been fetched
+      } catch (error) {
+        // Handle any errors here
+        console.error(error);
+        setLoading(false); // Ensure loading state is updated in case of an error
+      }
+    };
+
+    fetchData();
+  }, [dispatch, activeHouseholdId]);
+
+  const currentUser = useAppSelector((state) =>
+    state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
   );
+  if (currentUser === undefined) {
+    setLoading(true);
+    console.error('User could not be found on choreListScreens rendering');
+  }
 
   const handleChoreSelection = (id: string) => {
     dispatch(setActiveChoreId(id));
@@ -69,69 +85,75 @@ export default function ChoreListScreen({ navigation }: Props) {
   return (
     <PaperProvider>
       <View style={styles.container}>
-        {dbChores.map((choreWithAvatar, index) => (
-          <View key={index} style={styles.choreList}>
-            <TouchableOpacity
-              style={[styles.card, { backgroundColor: theme.colors.card }]}
-              onPress={() => handleChoreSelection(choreWithAvatar.chore.id)}
-            >
-              <Text style={styles.cardText}>{choreWithAvatar.chore.title}</Text>
-              <View
-                style={{
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}
-              >
-                <View
-                  style={[
-                    styles.dayscounterContainer,
-                    { backgroundColor: choreWithAvatar.color },
-                  ]}
-                >
-                  <Text>{choreWithAvatar.daysSinceLastDone}</Text>
+        {loading ? (
+          <Text>Loading...</Text>
+        ) : (
+          <View style={styles.container}>
+            {dbChores.length > 0 ? (
+              dbChores.map((choreWithAvatar, index) => (
+                <View key={index} style={styles.choreList}>
+                  <TouchableOpacity
+                    style={[
+                      styles.card,
+                      { backgroundColor: theme.colors.card },
+                    ]}
+                    onPress={() =>
+                      handleChoreSelection(choreWithAvatar.chore.id)
+                    }
+                  >
+                    <Text style={styles.cardText}>
+                      {choreWithAvatar.chore.title}
+                    </Text>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                      }}
+                    >
+                      <View
+                        style={[
+                          styles.dayscounterContainer,
+                          { backgroundColor: choreWithAvatar.color },
+                        ]}
+                      >
+                        <Text>{choreWithAvatar.daysSinceLastDone}</Text>
+                      </View>
+                      {choreWithAvatar.avatars.map((avatar, index) => (
+                        <Text key={index}>{avatar}</Text>
+                      ))}
+                    </View>
+                  </TouchableOpacity>
                 </View>
-                {choreWithAvatar.avatars.map((avatar, index) => (
-                  <Text key={index}>{avatar}</Text>
-                ))}
+              ))
+            ) : (
+              <NoChoresScreen />
+            )}
+            <View style={styles.outerButtonContainer}>
+              <View style={styles.buttonContainer}>
+                <Button
+                  style={styles.button}
+                  buttonColor="white"
+                  textColor="black"
+                  icon="plus"
+                  mode="elevated"
+                  onPress={showModal}
+                  disabled={!currentUser?.isAdmin}
+                >
+                  Lägg till syssla
+                </Button>
+                <Portal>
+                  <Modal
+                    visible={visible}
+                    onDismiss={hideModal}
+                    contentContainerStyle={containerStyle}
+                  >
+                    <AddChoreScreen handleAddChore={handleAddChore} />
+                  </Modal>
+                </Portal>
               </View>
-            </TouchableOpacity>
+            </View>
           </View>
-        ))}
-        <View style={styles.outerButtonContainer}>
-          <View style={styles.buttonContainer}>
-            <Button
-              style={styles.button}
-              buttonColor="white"
-              textColor="black"
-              icon="plus"
-              mode="elevated"
-              onPress={showModal}
-            >
-              Lägg till
-            </Button>
-            <View style={styles.buttonGap} />
-            <Button
-              style={styles.button}
-              buttonColor="white"
-              textColor="black"
-              icon="pen"
-              mode="elevated"
-              // eslint-disable-next-line no-console
-              onPress={() => console.log('Pressed')}
-            >
-              Ändra
-            </Button>
-            <Portal>
-              <Modal
-                visible={visible}
-                onDismiss={hideModal}
-                contentContainerStyle={containerStyle}
-              >
-                <AddChoreScreen handleAddChore={handleAddChore} />
-              </Modal>
-            </Portal>
-          </View>
-        </View>
+        )}
       </View>
     </PaperProvider>
   );
@@ -182,8 +204,5 @@ const styles = StyleSheet.create({
   button: {
     width: 160,
     height: 40,
-  },
-  buttonGap: {
-    width: 40,
   },
 });

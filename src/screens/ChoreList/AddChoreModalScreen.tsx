@@ -40,7 +40,7 @@ export default function AddChoreScreen({
   return (
     <View style={styles.modalContent}>
       <TextInput
-        label="Title"
+        label="Sysslans titel"
         style={styles.input}
         placeholder="Title"
         aria-labelledby="Title"
@@ -49,8 +49,9 @@ export default function AddChoreScreen({
         onChangeText={(text) => handleChange('title', text)}
       />
       <TextInput
-        label="Description"
+        label="Beskriv sysslan"
         style={styles.input}
+        multiline
         placeholder="Description"
         aria-labelledby="Description"
         mode="outlined"
@@ -58,7 +59,7 @@ export default function AddChoreScreen({
         onChangeText={(text) => handleChange('description', text)}
       />
       <TextInput
-        label="Day Interval"
+        label="Återkommer (dagar)"
         style={styles.input}
         placeholder="Day interval"
         aria-labelledby="Day interval"
@@ -67,7 +68,7 @@ export default function AddChoreScreen({
         onChangeText={(text) => handleChange('dayinterval', text)}
       />
       <TextInput
-        label="Effort"
+        label="Hur energikrävande är sysslan, 0-10?"
         style={styles.input}
         placeholder="Effort"
         aria-labelledby="Effort"
@@ -87,8 +88,9 @@ export default function AddChoreScreen({
         textColor={theme.colors.buttonText}
         aria-label="Add Chore"
         onPress={validateValues}
+        style={styles.button}
       >
-        Add Chore
+        Lägg till syssla
       </Button>
     </View>
   );
@@ -104,5 +106,11 @@ const styles = StyleSheet.create({
   },
   helperText: {
     alignSelf: 'center',
+  },
+  button: {
+    alignSelf: 'center',
+    margin: 10,
+    borderColor: 'black',
+    borderRadius: 10,
   },
 });
