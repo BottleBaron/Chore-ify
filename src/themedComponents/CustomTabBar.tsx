@@ -1,6 +1,6 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import { useAppTheme } from '@src/contexts/ThemeContext';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Divider, IconButton } from 'react-native-paper';
 import { useAppSelector } from '@src/redux/store';
