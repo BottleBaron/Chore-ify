@@ -1,48 +1,88 @@
+/* eslint-disable no-console */
+/* eslint-disable react/no-array-index-key */
 import {
-  mockChores,
-  mockUserToCompletedChore,
-  mockUsers,
-} from '@src/assets/Data/MockData';
-import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+  getChoreStatistics,
+  getGlobalStatistics,
+} from '@src/redux/slices/statisticsSlice';
+import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { ChorePieChart } from './chartComponents/ChorePieChart';
 import { TotalPieChart } from './chartComponents/TotalPieChart';
-import transformer, {
-  transformChoreSpecific,
-} from './chartComponents/transformer';
 
 export default function StatisticsScreen(/* { route } */) {
-  const users = mockUsers;
-  const chores = mockChores;
-  const completed = mockUserToCompletedChore;
-  // console.log('period', route.params.period);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true);
 
-  // Transform the raw data into pie chart data
-  const pieChartData = transformer({ users, chores, completed });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const aboutAWeekAgo = new Date();
+        aboutAWeekAgo.setDate(aboutAWeekAgo.getDate() - 7);
+
+        // Dispatch global statistics and chore statistics separately
+        const globalStatsAction = await dispatch(
+          getGlobalStatistics(aboutAWeekAgo),
+        );
+        const choreStatsAction = await dispatch(
+          getChoreStatistics(aboutAWeekAgo),
+        );
+
+        if (
+          getGlobalStatistics.fulfilled.match(globalStatsAction) &&
+          getChoreStatistics.fulfilled.match(choreStatsAction)
+        ) {
+          console.log('Data fetched successfully');
+        } else {
+          console.error(
+            'Data fetch failed:',
+            globalStatsAction.payload,
+            choreStatsAction.payload,
+          );
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error('Error while fetching data:', error);
+        setLoading(false);
+      }
+    };
+
+    if (loading) {
+      fetchData();
+    }
+  }, [dispatch, loading]);
+
+  const pieChartData = useAppSelector(
+    (state) => state.statistics.totalPieChartData,
+  );
+  const chorePieChartData = useAppSelector(
+    (state) => state.statistics.chorePieChartData,
+  );
 
   return (
-    <ScrollView style={styles.scrollView}>
-      <View style={styles.topContainer}>
-        <TotalPieChart data={pieChartData} widthAndHeight={150} />
-      </View>
-      <View style={styles.gridContainer}>
-        {chores.map((chore) => {
-          const specificPieChartData = transformChoreSpecific(
-            { users, chores, completed },
-            chore.id,
-          );
-          return (
-            <View style={styles.gridItem} key={chore.id}>
-              <ChorePieChart
-                data={specificPieChartData}
-                widthAndHeight={50}
-                title={chore.title}
-              />
-            </View>
-          );
-        })}
-      </View>
-    </ScrollView>
+    <SafeAreaView style={styles.scrollView}>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.topContainer}>
+            <TotalPieChart data={pieChartData} widthAndHeight={150} />
+          </View>
+          <View style={styles.gridContainer}>
+            {chorePieChartData.map((chore, index) => (
+              <View style={styles.gridItem} key={index}>
+                <ChorePieChart
+                  data={chore.pieChartdata}
+                  widthAndHeight={50}
+                  title={chore.choreTitle}
+                />
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )}
+    </SafeAreaView>
   );
 }
 

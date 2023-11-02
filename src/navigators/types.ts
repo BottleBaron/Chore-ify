@@ -25,12 +25,12 @@ export type RootStackParamList = {
 export type AuthUserTabParamList = {
   ChoreStack: { period: string };
   Today: { period: string };
-  CurrentWeek: { period: string };
+  // CurrentWeek: { period: string };
   LastWeek: { period: string };
-  CurrentMonth: { period: string };
-  LastMonth: { period: string };
-  CurrentYear: { period: string };
-  LastYear: { period: string };
+  // CurrentMonth: { period: string };
+  // LastMonth: { period: string };
+  // CurrentYear: { period: string };
+  // LastYear: { period: string };
 };
 
 export type ChoreStackParamList = {
