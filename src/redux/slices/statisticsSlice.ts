@@ -40,6 +40,9 @@ const statisticsSlice = createSlice({
     builder.addCase(getGlobalStatistics.fulfilled, (state, action) => {
       state.totalPieChartData = action.payload;
     });
+    builder.addCase(getChoreStatistics.fulfilled, (state, action) => {
+      state.chorePieChartData = action.payload;
+    });
   },
 });
 
@@ -158,10 +161,13 @@ export const getChoreStatistics = createAppAsyncThunk(
         allChores.map(async (chore) => getFirebaseUserToChoreTables(chore.id)),
       );
 
+      console.log(allUsersToChores);
+
       const output = allChores.map((chore) => {
         const thisChoresCompleted = allUsersToChores
           .flat()
           .filter((utc) => utc.choreId === chore.id);
+
         const pieChartData: PieChartData[] = [];
 
         allUsers.forEach((user) => {
@@ -177,6 +183,13 @@ export const getChoreStatistics = createAppAsyncThunk(
               color,
             };
             pieChartData.push(chartData);
+          } else {
+            const defaultChartData = {
+              value: 0,
+              text: '',
+              color: '#808080',
+            };
+            pieChartData.push(defaultChartData);
           }
         });
 

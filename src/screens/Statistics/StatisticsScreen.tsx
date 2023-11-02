@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TotalPieChart } from './chartComponents/TotalPieChart';
+import { ChorePieChart } from './chartComponents/ChorePieChart';
 
 export default function StatisticsScreen(/* { route } */) {
   const dispatch = useAppDispatch();
@@ -65,7 +66,7 @@ export default function StatisticsScreen(/* { route } */) {
           <View style={styles.topContainer}>
             <TotalPieChart data={pieChartData} widthAndHeight={150} />
           </View>
-          {/* <View style={styles.gridContainer}>
+          <View style={styles.gridContainer}>
             {chorePieChartData.map((chore, index) => (
               <View style={styles.gridItem} key={index}>
                 <ChorePieChart
@@ -75,7 +76,7 @@ export default function StatisticsScreen(/* { route } */) {
                 />
               </View>
             ))}
-          </View> */}
+          </View>
         </ScrollView>
       )}
     </SafeAreaView>
