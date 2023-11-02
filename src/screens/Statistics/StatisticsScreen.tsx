@@ -60,10 +60,6 @@ export default function StatisticsScreen(/* { route } */) {
     (state) => state.statistics.chorePieChartData,
   );
 
-  console.log(chorePieChartData);
-
-  console.log(pieChartData);
-
   return (
     <SafeAreaView style={styles.scrollView}>
       {loading ? (
