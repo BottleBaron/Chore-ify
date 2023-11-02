@@ -1,13 +1,12 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { useAppTheme } from '@src/contexts/ThemeContext';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 interface StatusCardProps {
   status: string;
-  daysLeft: number;
 }
-export default function StatusCard({ status, daysLeft }: StatusCardProps) {
+export default function StatusCard({ status }: StatusCardProps) {
   const theme = useAppTheme();
   let backgroundColor = ''; // grå
   let text = 'Den här sysslan behöver fortfarande göras idag!';
@@ -20,11 +19,11 @@ export default function StatusCard({ status, daysLeft }: StatusCardProps) {
       break;
     case 'pending':
       backgroundColor = theme.colors.pending; /* '#FFEB3B'; */ // gul
-      text = `${daysLeft} dagar kvar tills denna syssla ska göras`;
+      text = `Denna sysslan ska göras nu`;
       break;
     case 'missed':
       backgroundColor = theme.colors.notStarted; /* '#F44336'; */ // röd
-      text = `Woh, den här sysslan är ${daysLeft} dagar sen!`;
+      text = `Den här sysslan är sen!`;
       break;
   }
 
