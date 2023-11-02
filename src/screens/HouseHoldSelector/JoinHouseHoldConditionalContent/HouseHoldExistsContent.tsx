@@ -18,11 +18,13 @@ import {
 } from 'react-native-paper';
 
 import { RootStackScreenProps } from '@src/navigators/types';
+import { useAppTheme } from '@src/contexts/ThemeContext';
 import { auth } from '../../../../firebaseConfig';
 
 type Props = RootStackScreenProps<'JoinHouseHoldConfirmation'>;
 
 export default function HouseHoldExistsContent({ navigation }: Props) {
+  const theme = useAppTheme();
   const dispatch = useAppDispatch();
   const [visible, setVisible] = React.useState(false);
   const [nickName, setNickName] = useState<string>('');
@@ -91,18 +93,20 @@ export default function HouseHoldExistsContent({ navigation }: Props) {
       </Snackbar>
       <View style={styles.inputview}>
         <View>
-          <Title>{household.name}</Title>
+          <Title style={{ color: theme.colors.text }}>{household.name}</Title>
         </View>
         <View>
-          <Paragraph>
+          <Paragraph style={{ color: theme.colors.text }}>
             {' '}
             -Du är påväg att ansluta dig till hushållsnamnet: {household.name}
           </Paragraph>
-          <Text>Ägare: {owners}</Text>
-          <Text>Medlemmar:</Text>
+          <Text style={{ color: theme.colors.text }}>Ägare: {owners}</Text>
+          <Text style={{ color: theme.colors.text }}>Medlemmar:</Text>
           <View>
             {members.map((member) => (
-              <Text key={member}>{member}</Text>
+              <Text style={{ color: theme.colors.text }} key={member}>
+                {member}
+              </Text>
             ))}
           </View>
         </View>
@@ -113,6 +117,22 @@ export default function HouseHoldExistsContent({ navigation }: Props) {
           label="Ditt namn i hushållet"
           value={nickName}
           onChangeText={(nickName) => setNickName(nickName)}
+          contentStyle={{
+            backgroundColor: theme.colors.transparency,
+          }}
+          placeholder="Skriv hushållets namn här" // Lägg till ditt placeholder-text här
+          placeholderTextColor={theme.colors.text} // Ange färgen för placeholder-text
+          outlineColor={theme.colors.inputOutline}
+          activeOutlineColor={theme.colors.inputActiveOutline}
+          selectionColor={theme.colors.inputActiveOutline}
+          // den blinkande cursorn:
+          cursorColor={theme.colors.button}
+          // texten:
+          textColor={theme.colors.text}
+          // underlinjen av texten:
+          underlineColor={theme.colors.inputOutline}
+          // underlinjen när texten är aktiv:
+          activeUnderlineColor={theme.colors.inputOutline}
         />
         <View style={styles.avatarselector}>
           <Text>
@@ -150,7 +170,7 @@ export default function HouseHoldExistsContent({ navigation }: Props) {
             icon="close-circle"
             mode="outlined"
             labelStyle={{ fontSize: 18 }}
-            // onPress={() => navigation.navigate('HouseHoldSelectorScreen')}
+            onPress={() => navigation.navigate('HouseHoldSelectorScreen')}
           >
             Stäng
           </Button>
@@ -167,7 +187,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   inputview: {
-    marginVertical: '40%',
+    paddingTop: '10%',
     flexDirection: 'column',
     alignContent: 'center',
   },

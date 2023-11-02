@@ -71,8 +71,8 @@ export default function JoinHouseholdConfirmationScreen({
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textContainer: {
     alignItems: 'center',
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 15,
+    // padding: 15,
   },
   divider: {
     width: '100%',
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight,
   },
   item: {
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    // padding: 20,
+    // marginVertical: 8,
+    // marginHorizontal: 16,
   },
   bottomButtons: {
     width: '100%',
