@@ -36,6 +36,4 @@ Avklarade krav.
 | En användare ska kunna se fördelningen av gjorda sysslor mellan användarna i sitt<br>hushåll. \*                                                   | x      |
 | Varje statistikvy ska visa den totala fördelningen (inräknat vikterna för sysslorna) samt<br>fördelning av varje enskild syssla. \*                | x      |
 | Det ska finnas en statistikvy över ”nuvarande vecka”. \*                                                                                           | x      |
-📋 Copy
-Clear
-Buy Me a Coffee at ko-fi.com
+
