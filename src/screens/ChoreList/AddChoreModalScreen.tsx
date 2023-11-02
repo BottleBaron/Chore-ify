@@ -3,6 +3,7 @@ import { Chore } from '@src/redux/slices/choreSlice';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
+import EffortIndicator from './EffortIndicator';
 
 interface AddChoreScreenProps {
   handleAddChore: (choreData: Chore) => void;
@@ -20,6 +21,11 @@ export default function AddChoreScreen({
   });
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [effortValue, setEffortValue] = useState(0);
+
+  const handleEffortChange = (selectedValue: number) => {
+    setEffortValue(selectedValue);
+  };
 
   const theme = useAppTheme();
 
@@ -28,9 +34,9 @@ export default function AddChoreScreen({
   };
 
   const validateValues = () => {
-    if (choreData.dayinterval > 0 && choreData.effortNumber > 0) {
+    if (choreData.dayinterval > 0 && effortValue > 0) {
       if (choreData.title.length > 0 && choreData.description.length > 0) {
-        handleAddChore(choreData);
+        handleAddChore({ ...choreData, effortNumber: effortValue });
         return;
       }
     }
@@ -52,6 +58,7 @@ export default function AddChoreScreen({
         label="Beskriv sysslan"
         style={styles.input}
         multiline
+        numberOfLines={5}
         placeholder="Description"
         aria-labelledby="Description"
         mode="outlined"
@@ -67,15 +74,7 @@ export default function AddChoreScreen({
         value={choreData.dayinterval.toString()}
         onChangeText={(text) => handleChange('dayinterval', text)}
       />
-      <TextInput
-        label="Hur energikrävande är sysslan, 0-10?"
-        style={styles.input}
-        placeholder="Effort"
-        aria-labelledby="Effort"
-        mode="outlined"
-        value={choreData.effortNumber.toString()}
-        onChangeText={(text) => handleChange('effortNumber', text)}
-      />
+      <EffortIndicator value={effortValue} onChange={handleEffortChange} />
       <HelperText
         style={[styles.helperText, { color: theme.colors.error }]}
         type="error"
