@@ -96,18 +96,24 @@ async function fetchChoresAndUsers(activeHouseholdId: string) {
   return { allChores, allUsers };
 }
 
-export const getGlobalStatistics = createAppAsyncThunk(
+export const getGlobalStatistics = createAppAsyncThunk<PieChartData[], Date>(
   'statistics/getGlobal',
-  async (_, thunkAPI) => {
+  async (lowestDate, thunkAPI) => {
     try {
       const activeHouseholdId = thunkAPI.getState().household.activeHouseholdId;
 
       const { allChores, allUsers } =
         await fetchChoresAndUsers(activeHouseholdId);
       const allUsersToChores = await Promise.all(
-        allChores.map(
-          async (chore) => await getFirebaseUserToChoreTables(chore.id),
-        ),
+        allChores.map(async (chore) => {
+          const fullResult = await getFirebaseUserToChoreTables(chore.id);
+
+          const filteredByDate = fullResult.filter(
+            (utc) => new Date(utc.timestamp) > lowestDate,
+          );
+
+          return filteredByDate;
+        }),
       );
 
       const output: PieChartData[] = allUsers.map((user) => {
@@ -149,59 +155,67 @@ export const getGlobalStatistics = createAppAsyncThunk(
   },
 );
 
-export const getChoreStatistics = createAppAsyncThunk(
-  'statistics/getChoreStatistics',
-  async (_, thunkAPI) => {
-    try {
-      const activeHouseholdId = thunkAPI.getState().household.activeHouseholdId;
+export const getChoreStatistics = createAppAsyncThunk<
+  ChorePieChartData[],
+  Date
+>('statistics/getChoreStatistics', async (lowestDate, thunkAPI) => {
+  try {
+    const activeHouseholdId = thunkAPI.getState().household.activeHouseholdId;
 
-      const { allChores, allUsers } =
-        await fetchChoresAndUsers(activeHouseholdId);
-      const allUsersToChores = await Promise.all(
-        allChores.map(async (chore) => getFirebaseUserToChoreTables(chore.id)),
-      );
+    const { allChores, allUsers } =
+      await fetchChoresAndUsers(activeHouseholdId);
+    const allUsersToChores = await Promise.all(
+      allChores.map(async (chore) => {
+        const fullResult = await getFirebaseUserToChoreTables(chore.id);
 
-      console.log(allUsersToChores);
+        const filteredByDate = fullResult.filter(
+          (utc) => new Date(utc.timestamp) > lowestDate,
+        );
 
-      const output = allChores.map((chore) => {
-        const thisChoresCompleted = allUsersToChores
-          .flat()
-          .filter((utc) => utc.choreId === chore.id);
+        return filteredByDate;
+      }),
+    );
 
-        const pieChartData: PieChartData[] = [];
+    console.log(allUsersToChores);
 
-        allUsers.forEach((user) => {
-          const completedByUser = thisChoresCompleted.filter(
-            (utc) => utc.userId === user.id,
-          );
+    const output = allChores.map((chore) => {
+      const thisChoresCompleted = allUsersToChores
+        .flat()
+        .filter((utc) => utc.choreId === chore.id);
 
-          if (completedByUser.length > 0) {
-            const color = getColorForAvatar(user.avatar);
-            const chartData = {
-              value: completedByUser.length,
-              text: user.avatar,
-              color,
-            };
-            pieChartData.push(chartData);
-          } else {
-            const defaultChartData = {
-              value: 0,
-              text: '',
-              color: '#808080',
-            };
-            pieChartData.push(defaultChartData);
-          }
-        });
+      const pieChartData: PieChartData[] = [];
 
-        return {
-          choreTitle: chore.title,
-          pieChartdata: pieChartData,
-        };
+      allUsers.forEach((user) => {
+        const completedByUser = thisChoresCompleted.filter(
+          (utc) => utc.userId === user.id,
+        );
+
+        if (completedByUser.length > 0) {
+          const color = getColorForAvatar(user.avatar);
+          const chartData = {
+            value: completedByUser.length,
+            text: user.avatar,
+            color,
+          };
+          pieChartData.push(chartData);
+        } else {
+          const defaultChartData = {
+            value: 0,
+            text: '',
+            color: '#808080',
+          };
+          pieChartData.push(defaultChartData);
+        }
       });
 
-      return output;
-    } catch (e: any) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  },
-);
+      return {
+        choreTitle: chore.title,
+        pieChartdata: pieChartData,
+      };
+    });
+
+    return output;
+  } catch (e: any) {
+    return thunkAPI.rejectWithValue(e.message);
+  }
+});

@@ -7,8 +7,8 @@ import {
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { TotalPieChart } from './chartComponents/TotalPieChart';
 import { ChorePieChart } from './chartComponents/ChorePieChart';
+import { TotalPieChart } from './chartComponents/TotalPieChart';
 
 export default function StatisticsScreen(/* { route } */) {
   const dispatch = useAppDispatch();
@@ -17,9 +17,16 @@ export default function StatisticsScreen(/* { route } */) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const aboutAWeekAgo = new Date();
+        aboutAWeekAgo.setDate(aboutAWeekAgo.getDate() - 7);
+
         // Dispatch global statistics and chore statistics separately
-        const globalStatsAction = await dispatch(getGlobalStatistics());
-        const choreStatsAction = await dispatch(getChoreStatistics());
+        const globalStatsAction = await dispatch(
+          getGlobalStatistics(aboutAWeekAgo),
+        );
+        const choreStatsAction = await dispatch(
+          getChoreStatistics(aboutAWeekAgo),
+        );
 
         if (
           getGlobalStatistics.fulfilled.match(globalStatsAction) &&
