@@ -2,8 +2,8 @@
 import initialBackground from '@src/assets/backgrounds/initial_background.png';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import { RootStackScreenProps } from '@src/navigators/types';
-import { signIntoAccount } from '@src/redux/slices/accountSlice';
-import { useAppDispatch } from '@src/redux/store';
+// import { signIntoAccount } from '@src/redux/slices/accountSlice';
+// import { useAppDispatch } from '@src/redux/store';
 import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 import * as React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
@@ -15,16 +15,16 @@ type Props = RootStackScreenProps<'Auth'>;
 
 export default function AuthScreen({ navigation }: Props) {
   const theme = useAppTheme();
-
+  /*
   const dispatch = useAppDispatch();
-
+  
   const handleLoginBypass = async () => {
     const credentials = { email: 'apa123@mail.com', password: 'apa123' };
     const action = await dispatch(signIntoAccount(credentials));
     if (signIntoAccount.fulfilled.match(action))
       navigation.navigate('HouseHoldSelectorScreen');
   };
-
+*/
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -53,7 +53,7 @@ export default function AuthScreen({ navigation }: Props) {
             // leftIconColor={theme.colors.inputActiveOutline}
             // rightIconColor={theme.colors.inputActiveOutline}
             // showLeftIcon={false} // New prop, default to true
-            // showRightIcon={false}
+            showRightIcon={false}
           />
           <ThemedClickableCardButton
             hideTitle // or hideTitle={false}
@@ -64,17 +64,17 @@ export default function AuthScreen({ navigation }: Props) {
             // leftIconColor={theme.colors.inputActiveOutline}
             // rightIconColor={theme.colors.inputActiveOutline}
             // showLeftIcon={false} // New prop, default to true
-            // showRightIcon={false}
+            showRightIcon={false}
           />
-          {/*  // Knappen */}
-          <ThemedClickableCardButton
+
+          {/*   <ThemedClickableCardButton
             hideTitle // or hideTitle={false}
             title="Login Bypass"
             content="Login Bypass"
             iconName="cog"
             leftIconColor={theme.colors.buttonIcon}
             onPress={handleLoginBypass}
-          />
+          /> */}
         </View>
       </ImageBackground>
     </View>

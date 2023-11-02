@@ -19,6 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import 'firebase/auth';
 import { Button, Modal, PaperProvider, Portal } from 'react-native-paper';
+import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 import AddChoreScreen from './AddChoreModalScreen';
 import NoChoresScreen from './NoChoresScreen';
 
@@ -86,85 +87,87 @@ export default function ChoreListScreen({ navigation }: Props) {
   };
 
   return (
-    <PaperProvider>
-      <View style={styles.container}>
-        {loading ? (
-          <Text>Loading...</Text>
-        ) : (
-          <View style={styles.container}>
-            {dbChores.length > 0 ? (
-              dbChores.map((choreWithAvatar, index) => (
-                <View key={index} style={styles.choreList}>
-                  <TouchableOpacity
-                    style={[
-                      styles.card,
-                      { backgroundColor: theme.colors.card },
-                    ]}
-                    onPress={() =>
-                      handleChoreSelection(choreWithAvatar.chore.id)
-                    }
-                  >
-                    <Text style={styles.cardText}>
-                      {choreWithAvatar.chore.title}
-                    </Text>
-                    <View
-                      style={{
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                      }}
-                    >
-                      {choreWithAvatar.daysSinceLastDone === 0 ? (
-                        <View>
-                          <Text> </Text>
-                        </View>
-                      ) : (
-                        <View
-                          style={[
-                            styles.dayscounterContainer,
-                            { backgroundColor: choreWithAvatar.color },
-                          ]}
-                        >
-                          <Text>{choreWithAvatar.daysSinceLastDone}</Text>
-                        </View>
-                      )}
-                      {choreWithAvatar.avatars.map((avatar, index) => (
-                        <Text key={index}>{avatar}</Text>
-                      ))}
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              ))
-            ) : (
-              <NoChoresScreen />
-            )}
-            <View style={styles.outerButtonContainer}>
-              <View style={styles.buttonContainer}>
-                <Button
-                  style={styles.button}
-                  buttonColor="white"
-                  textColor="black"
-                  icon="plus"
-                  mode="elevated"
-                  onPress={showModal}
-                  disabled={!currentUser?.isAdmin}
+    <View style={styles.container}>
+      {loading ? (
+        <Text style={{ color: theme.colors.text }}>Loading...</Text>
+      ) : (
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: theme.colors.background },
+          ]}
+        >
+          {dbChores.length > 0 ? (
+            dbChores.map((choreWithAvatar, index) => (
+              <View key={index} style={styles.choreList}>
+                <TouchableOpacity
+                  style={[styles.card, { backgroundColor: theme.colors.card }]}
+                  onPress={() => handleChoreSelection(choreWithAvatar.chore.id)}
                 >
-                  Lägg till syssla
-                </Button>
-                <Portal>
-                  <Modal
-                    visible={visible}
-                    onDismiss={hideModal}
-                    contentContainerStyle={containerStyle}
+                  <Text style={[styles.cardText, { color: theme.colors.text }]}>
+                    {choreWithAvatar.chore.title}
+                  </Text>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}
                   >
-                    <AddChoreScreen handleAddChore={handleAddChore} />
-                  </Modal>
-                </Portal>
+                    {choreWithAvatar.daysSinceLastDone === 0 ? (
+                      <View>
+                        <Text> </Text>
+                      </View>
+                    ) : (
+                      <View
+                        style={[
+                          styles.dayscounterContainer,
+                          { backgroundColor: choreWithAvatar.color },
+                        ]}
+                      >
+                        <Text>{choreWithAvatar.daysSinceLastDone}</Text>
+                      </View>
+                    )}
+                    {choreWithAvatar.avatars.map((avatar, index) => (
+                      <Text key={index}>{avatar}</Text>
+                    ))}
+                  </View>
+                </TouchableOpacity>
               </View>
+            ))
+          ) : (
+            <NoChoresScreen />
+          )}
+          <View style={styles.outerButtonContainer}>
+            <View style={styles.buttonContainer}>
+              <Button
+                style={styles.button}
+                buttonColor={theme.colors.button}
+                textColor={theme.colors.text}
+                icon="plus"
+                mode="elevated"
+                onPress={showModal}
+                disabled={!currentUser?.isAdmin}
+                contentStyle={{ borderColor: theme.colors.border }}
+              >
+                Lägg till syssla
+              </Button>
+              <Portal>
+                <Modal
+                  style={{
+                    backgroundColor: theme.colors.background,
+                  }}
+                  visible={visible}
+                  onDismiss={hideModal}
+                  contentContainerStyle={containerStyle}
+                >
+                  <AddChoreScreen handleAddChore={handleAddChore} />
+                </Modal>
+              </Portal>
             </View>
           </View>
-        )}
-      </View>
-    </PaperProvider>
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -181,14 +184,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 30,
-    height: 30,
+    minWidth: '10%',
+    // height: 30,
     borderRadius: 50,
     marginHorizontal: 10,
   },
   card: {
-    height: 55,
-    width: 390,
+    minHeight: '8%',
+    minWidth: '80%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     elevation: 8,
@@ -211,7 +214,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   button: {
-    width: 160,
-    height: 40,
+    // width: 160,
+    // height: 40,
   },
 });
