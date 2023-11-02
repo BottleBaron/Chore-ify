@@ -9,7 +9,6 @@ import CreateHouseHoldScreen from '@src/screens/HouseHoldSelector/CreateHouseHol
 import HouseHoldSelectorScreen from '@src/screens/HouseHoldSelector/HouseHoldSelectorScreen';
 import JoinHouseHoldScreen from '@src/screens/HouseHoldSelector/JoinHouseHoldScreen';
 import JoinHouseholdConfirmationScreen from '@src/screens/HouseHoldSelector/JoinHouseholdConfirmationScreen';
-import SplashScreen from '@src/screens/SplashScreen';
 import { RootStackParamList } from '../types';
 import AuthUserTabNavigator from './AuthUserTabNavigator';
 
@@ -19,11 +18,6 @@ export default function RootStackNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Group>
-        <Stack.Screen
-          name="Splash"
-          component={SplashScreen}
-          options={{ headerShown: false }}
-        />
         <Stack.Screen
           name="Auth"
           component={AuthScreen}
