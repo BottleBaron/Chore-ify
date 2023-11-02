@@ -1,11 +1,10 @@
 /* eslint-disable react/require-default-props, import/prefer-default-export, react/function-component-definition */
 
 import { useAppTheme } from '@src/contexts/ThemeContext';
+import { PieChartData } from '@src/redux/slices/statisticsSlice';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
-
-type PieChartData = { value: number; text: string; color?: string };
 
 interface TotalPieChartProps {
   widthAndHeight?: number;

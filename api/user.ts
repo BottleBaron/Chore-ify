@@ -29,11 +29,15 @@ export async function getFirebaseUsers(accountId: string): Promise<User[]> {
 }
 
 export async function getFirebaseUserById(id: string): Promise<User> {
-  const docRef = doc(db, 'users', id);
-  const snapshot = await getDoc(docRef);
-  const document = snapshot.data();
-
-  return document as User;
+  try {
+    const docRef = doc(db, 'users', id);
+    const snapshot = await getDoc(docRef);
+    const document = snapshot.data();
+    return document as User;
+  } catch (error) {
+    console.error(`Error fetching user data for userId: ${id}`, error);
+    throw error;
+  }
 }
 export async function getFirebaseUsersByHouseholdId(
   householdIds: string[],
