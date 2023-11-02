@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
 });
 
-//Denna styling bör appliceras i denna fil!
+// Denna styling bör appliceras i denna fil!
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,
