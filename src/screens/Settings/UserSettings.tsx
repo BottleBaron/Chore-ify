@@ -18,7 +18,8 @@ export default function UserSettings({
         title="ProfileSettings"
         content="Profile Settings"
         iconName="user"
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
@@ -26,7 +27,8 @@ export default function UserSettings({
         title="LeaveHousehold"
         content="Leave Household"
         iconName="times-circle"
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
@@ -35,7 +37,8 @@ export default function UserSettings({
         content="Sign Out"
         iconName="sign-out"
         rotateIcon={180}
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
     </View>

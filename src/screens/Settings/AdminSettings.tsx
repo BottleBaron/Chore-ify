@@ -16,7 +16,8 @@ export default function AdminSettings({
         title="ProfileSettings"
         content="Profile Settings"
         iconName="user"
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
@@ -24,7 +25,8 @@ export default function AdminSettings({
         title="HandleUsers"
         content="Handle Users"
         iconName="edit"
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
@@ -32,7 +34,8 @@ export default function AdminSettings({
         title="ShowAccessCode"
         content="Show Access Code"
         iconName="key"
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
@@ -40,7 +43,8 @@ export default function AdminSettings({
         title="ShowQRCode"
         content="Show QR Code"
         iconName="qrcode"
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
       <ThemedClickableCardButton
@@ -48,7 +52,8 @@ export default function AdminSettings({
         title="EditHousehold"
         content="Edit Household"
         iconName="edit"
-        iconColor={theme.colors.text}
+        leftIconColor={theme.colors.buttonIcon}
+        rightIconColor={theme.colors.buttonIcon}
         onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
       />
     </View>
