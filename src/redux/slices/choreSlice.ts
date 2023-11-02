@@ -1,7 +1,7 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-return-assign */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getFirebaseUserById } from '@root/api/user';
 import { getFirebaseUserToChoreTables } from '@root/api/userToChore';
 import {
   createFirebaseChore,
@@ -138,12 +138,16 @@ export const deleteChore = createAppAsyncThunk<string, string>(
 export const fetchDisplayChores = createAppAsyncThunk<DisplayChore[], string>(
   'chore/whodidwhat',
   async (householdId, thunkAPI) => {
+    const state = thunkAPI.getState();
+    console.log(state.user.allUsers);
+
     try {
       const date = new Date();
       const activeChores = await getFirebaseChores(householdId);
 
       const choreWithAvatarList: DisplayChore[] = await Promise.all(
         activeChores.map(async (chore) => {
+          // sequence
           const tableResult = await getFirebaseUserToChoreTables(chore.id);
           const filteredTable = tableResult.filter((utc) => {
             const parsedDate = new Date(utc.timestamp);
@@ -152,12 +156,12 @@ export const fetchDisplayChores = createAppAsyncThunk<DisplayChore[], string>(
 
           let avatarList: string[] = [];
           if (filteredTable.length > 0) {
-            avatarList = await Promise.all(
-              filteredTable.map(async (item) => {
-                const user = await getFirebaseUserById(item.userId);
-                return user.avatar;
-              }),
-            );
+            avatarList = filteredTable
+              .map(
+                (item) =>
+                  state.user.allUsers.find((u) => u.id === item.userId)!,
+              )
+              .map((u) => u?.avatar);
           }
 
           // Logic to find days since last completed
