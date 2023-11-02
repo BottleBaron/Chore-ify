@@ -1,9 +1,9 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import { useAppTheme } from '@src/contexts/ThemeContext';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Divider, IconButton } from 'react-native-paper';
-
+import { useAppSelector } from '@src/redux/store';
 // type Props = RootStackScreenProps<'ChoreList'>;
 
 function getDisplayLabel(tabName: string): string {
@@ -19,8 +19,6 @@ function getDisplayLabel(tabName: string): string {
   return mapping[tabName] || tabName; // fallback to tabName if mapping doesn't exist
 }
 
-const currentHousehold = 'Household Name'; // Replace with your actual household name
-
 function CustomTabBar({
   state,
   // descriptors,
@@ -28,7 +26,15 @@ function CustomTabBar({
 }: MaterialTopTabBarProps) {
   // const dispatch = useDispatch();
   const theme = useAppTheme();
-
+  const householdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+  const household = useAppSelector((state) =>
+    state.household.households.find(
+      (household) => household.id === householdId,
+    ),
+  );
+  const currentHousehold = household?.name; // Replace with your actual household name
   const handleHomeIconPress = () => {
     // Navigate back to the "HouseHoldSelectorScreen" in the RootStackNavigator
     navigation.navigate('HouseHoldSelectorScreen');
@@ -66,7 +72,7 @@ function CustomTabBar({
             {
               backgroundColor: theme.colors.card,
               borderWidth: 2,
-              borderColor: theme.colors.error,
+              borderColor: theme.colors.border,
             },
           ]}
         >
@@ -95,7 +101,7 @@ function CustomTabBar({
             {
               backgroundColor: theme.colors.card,
               borderWidth: 2,
-              borderColor: theme.colors.error,
+              borderColor: theme.colors.border,
             },
           ]}
         >
@@ -108,7 +114,7 @@ function CustomTabBar({
           <View
             style={[
               styles.textContainer,
-              { borderWidth: 2, borderColor: theme.colors.error },
+              { borderWidth: 2, borderColor: theme.colors.border },
             ]}
           >
             <Text style={[styles.bottomBarText, { color: theme.colors.text }]}>
