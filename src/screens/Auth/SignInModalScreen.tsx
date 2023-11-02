@@ -110,8 +110,8 @@ export default function SignInModalScreen({ navigation }: Props) {
           </HelperText>
 
           <TextInput
-            label="Confirm Password"
-            aria-labelledby="confirm password"
+            label="Password"
+            aria-labelledby="password"
             value={password}
             onChangeText={validatePassword}
             secureTextEntry

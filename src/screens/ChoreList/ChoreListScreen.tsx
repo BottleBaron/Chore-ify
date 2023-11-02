@@ -8,6 +8,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // import { useAppTheme } from '@src/contexts/ThemeContext';
 import { useAppTheme } from '@src/contexts/ThemeContext';
 // import { HouseholdDashboardTabScreenProps } from '@src/navigators/types';
+import { useFocusEffect } from '@react-navigation/native';
 import { ChoreStackScreenProps } from '@src/navigators/types';
 import {
   Chore,
@@ -33,24 +34,26 @@ export default function ChoreListScreen({ navigation }: Props) {
 
   const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log(activeHouseholdId);
-        const action = await dispatch(fetchDisplayChores(activeHouseholdId));
-        if (fetchDisplayChores.fulfilled.match(action)) {
-          console.log('Chore fetch succeeded');
-        } else console.error(action.payload);
-        setLoading(false); // Data has been fetched
-      } catch (error) {
-        // Handle any errors here
-        console.error(error);
-        setLoading(false); // Ensure loading state is updated in case of an error
-      }
-    };
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          console.log(activeHouseholdId);
+          const action = await dispatch(fetchDisplayChores(activeHouseholdId));
+          if (fetchDisplayChores.fulfilled.match(action)) {
+            console.log('Chore fetch succeeded');
+          } else console.error(action.payload);
+          setLoading(false); // Data has been fetched
+        } catch (error) {
+          // Handle any errors here
+          console.error(error);
+          setLoading(false); // Ensure loading state is updated in case of an error
+        }
+      };
 
-    fetchData();
-  }, [dispatch, activeHouseholdId]);
+      fetchData();
+    }, [dispatch, activeHouseholdId]),
+  );
 
   const currentUser = useAppSelector((state) =>
     state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
@@ -110,14 +113,20 @@ export default function ChoreListScreen({ navigation }: Props) {
                         flexDirection: 'row',
                       }}
                     >
-                      <View
-                        style={[
-                          styles.dayscounterContainer,
-                          { backgroundColor: choreWithAvatar.color },
-                        ]}
-                      >
-                        <Text>{choreWithAvatar.daysSinceLastDone}</Text>
-                      </View>
+                      {choreWithAvatar.daysSinceLastDone === 0 ? (
+                        <View>
+                          <Text> </Text>
+                        </View>
+                      ) : (
+                        <View
+                          style={[
+                            styles.dayscounterContainer,
+                            { backgroundColor: choreWithAvatar.color },
+                          ]}
+                        >
+                          <Text>{choreWithAvatar.daysSinceLastDone}</Text>
+                        </View>
+                      )}
                       {choreWithAvatar.avatars.map((avatar, index) => (
                         <Text key={index}>{avatar}</Text>
                       ))}
