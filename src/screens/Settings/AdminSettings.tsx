@@ -1,12 +1,10 @@
 import { useAppTheme } from '@src/contexts/ThemeContext';
 import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
 import React from 'react';
-import { View, StyleSheet } from 'react-native'; // Text was missing in the import
+import { View } from 'react-native'; // Text was missing in the import
 import { TextInput, Text } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
 import { updateHousehold, Household } from '@src/redux/slices/householdSlice';
-
-import { AdminSettingsSubComponentProps } from './SettingsScreen';
 
 function ChangeHouseHoldName() {
   const householdId = useAppSelector(
@@ -17,10 +15,12 @@ function ChangeHouseHoldName() {
       (household) => household.id === householdId,
     ),
   );
+
   const dispatch = useAppDispatch();
   const [text, setText] = React.useState(household?.name || '');
   const [nameChanged, setNameChanged] = React.useState(false);
   const theme = useAppTheme();
+
   const changeName = async () => {
     if (household) {
       const modifiedHousehold: Household = { ...household, name: text };
@@ -63,9 +63,7 @@ function ChangeHouseHoldName() {
   );
 }
 
-export default function AdminSettings({
-  navigation,
-}: AdminSettingsSubComponentProps) {
+export default function AdminSettings() {
   const theme = useAppTheme();
 
   const householdCode = useAppSelector(
@@ -84,7 +82,19 @@ export default function AdminSettings({
       setButtonText('Visa hushållskod');
     }
   };
+  React.useEffect(() => {
+    if (showCode === true) {
+      setButtonText(householdCode);
+    } else {
+      setButtonText('Visa hushållskod');
+    }
+  }, [showCode, householdCode]);
 
+  React.useEffect(() => {
+    if (showChangeForm) {
+      // Kör någon lämplig kod om showChangeForm är sann
+    }
+  }, [showChangeForm]);
   const toogleChangeForm = () => setShowChangeForm(!showChangeForm);
 
   return (
@@ -115,7 +125,7 @@ export default function AdminSettings({
   );
 }
 
-const styles = StyleSheet.create({
+/* const styles = StyleSheet.create({
   rootContainer: {},
   buttonContainer: {
     flex: 1,
@@ -141,3 +151,4 @@ const styles = StyleSheet.create({
     // textAlign: 'center',
   },
 });
+*/

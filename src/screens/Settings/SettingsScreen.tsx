@@ -2,6 +2,8 @@ import { useAppTheme } from '@src/contexts/ThemeContext';
 import { ChoreStackScreenProps } from '@src/navigators/types';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import ThemedClickableCardButton from '@src/themedComponents/ThemedClickableCardButton';
+import { useAppSelector } from '@src/redux/store';
 import AdminSettings from './AdminSettings';
 import UserSettings from './UserSettings';
 
@@ -17,20 +19,36 @@ export type UserSettingsSubComponentProps = {
 
 export default function SettingsScreen({ navigation }: Props) {
   const theme = useAppTheme();
-  const userIsAdmin = true; // You can toggle this for testing
+  const activeHouseholdId = useAppSelector(
+    (state) => state.household.activeHouseholdId,
+  );
+  const currentUser = useAppSelector((state) =>
+    state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
+  );
+
+  if (currentUser === undefined) {
+    console.error('User could not be found on choreListScreens rendering');
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
         <View style={styles.textContainer}>
           <Text style={[styles.sectionHeader, { color: theme.colors.text }]}>
-            {userIsAdmin ? 'Admin Settings' : 'User Settings'}
+            {currentUser?.isAdmin ? 'Admin Settings' : 'User Settings'}
           </Text>
         </View>
-        {!userIsAdmin ? (
-          <UserSettings navigation={navigation} />
-        ) : (
-          <AdminSettings navigation={navigation} />
-        )}
+        {!currentUser?.isAdmin ? <UserSettings /> : <AdminSettings />}
+        <ThemedClickableCardButton
+          hideTitle
+          title="EditHousehold"
+          content="Gå tillbaka"
+          iconName="arrow-left"
+          leftIconColor={theme.colors.buttonIcon}
+          rightIconColor={theme.colors.buttonIcon}
+          onPress={() => navigation.navigate('ChoreList', { period: 'today' })}
+          showRightIcon={false}
+        />
       </View>
     </ScrollView>
   );
