@@ -3,18 +3,16 @@
 import doneIcon from '@src/assets/doneIcon.png';
 import * as React from 'react';
 import {
-  Modal,
   Button,
   Image,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Card, IconButton, Paragraph, Title, Text } from 'react-native-paper';
+import { Card, IconButton, Paragraph, Text, Title } from 'react-native-paper';
 // eslint-disable-next-line import/no-cycle
 import { useFocusEffect } from '@react-navigation/core';
 import { mockCompletedChores, mockUsers } from '@src/assets/Data/MockData';
-import { useAppTheme } from '@src/contexts/ThemeContext';
 import { ChoreStackScreenProps } from '@src/navigators/types';
 import {
   Chore,
@@ -92,6 +90,16 @@ export default function ChoreScreen({ navigation }: Props) {
   // ta bort
   if (!currentChore) {
     return <Text>Sysslan kunde inte hittas</Text>;
+  }
+
+  const [loading, setLoading] = React.useState(true);
+
+  const currentUser = useAppSelector((state) =>
+    state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
+  );
+  if (currentUser === undefined) {
+    setLoading(true);
+    console.error('User could not be found on choreListScreens rendering');
   }
 
   const handleChoreCompletion = async () => {
@@ -207,13 +215,22 @@ export default function ChoreScreen({ navigation }: Props) {
       </Card>
 
       <View style={styles.actionButtons}>
-        <IconButton icon="delete" size={20} onPress={handleDeleteChore} />
-        <Button
-          title="Redigera"
-          onPress={() =>
-            navigation.navigate('EditChoreModal', { chore: currentChore })
-          }
-        />
+        {currentUser?.isAdmin && (
+          <>
+            <IconButton
+              icon="delete"
+              mode="contained"
+              size={30}
+              onPress={handleDeleteChore}
+            />
+            <Button
+              title="Redigera"
+              onPress={() =>
+                navigation.navigate('EditChoreModal', { chore: currentChore })
+              }
+            />
+          </>
+        )}
       </View>
       {/*       <Modal
         visible={isEditModalVisible}

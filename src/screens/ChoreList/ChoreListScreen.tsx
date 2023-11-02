@@ -16,8 +16,10 @@ import {
   setActiveChoreId,
 } from '@src/redux/slices/choreSlice';
 import { useAppDispatch, useAppSelector } from '@src/redux/store';
+import 'firebase/auth';
 import { Button, Modal, PaperProvider, Portal } from 'react-native-paper';
 import AddChoreScreen from './AddChoreModalScreen';
+import NoChoresScreen from './NoChoresScreen';
 
 type Props = ChoreStackScreenProps<'ChoreList'>;
 
@@ -34,9 +36,10 @@ export default function ChoreListScreen({ navigation }: Props) {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log(activeHouseholdId);
         const action = await dispatch(fetchDisplayChores(activeHouseholdId));
         if (fetchDisplayChores.fulfilled.match(action)) {
-          console.log('DisplayChores fetched Successfully');
+          console.log('Chore fetch succeeded');
         } else console.error(action.payload);
         setLoading(false); // Data has been fetched
       } catch (error) {
@@ -48,6 +51,14 @@ export default function ChoreListScreen({ navigation }: Props) {
 
     fetchData();
   }, [dispatch, activeHouseholdId]);
+
+  const currentUser = useAppSelector((state) =>
+    state.user.myUsers.find((u) => u.householdId === activeHouseholdId),
+  );
+  if (currentUser === undefined) {
+    setLoading(true);
+    console.error('User could not be found on choreListScreens rendering');
+  }
 
   const handleChoreSelection = (id: string) => {
     dispatch(setActiveChoreId(id));
@@ -78,36 +89,45 @@ export default function ChoreListScreen({ navigation }: Props) {
           <Text>Loading...</Text>
         ) : (
           <View style={styles.container}>
-            {dbChores.map((choreWithAvatar, index) => (
-              <View key={index} style={styles.choreList}>
-                <TouchableOpacity
-                  style={[styles.card, { backgroundColor: theme.colors.card }]}
-                  onPress={() => handleChoreSelection(choreWithAvatar.chore.id)}
-                >
-                  <Text style={styles.cardText}>
-                    {choreWithAvatar.chore.title}
-                  </Text>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                    }}
+            {dbChores.length > 0 ? (
+              dbChores.map((choreWithAvatar, index) => (
+                <View key={index} style={styles.choreList}>
+                  <TouchableOpacity
+                    style={[
+                      styles.card,
+                      { backgroundColor: theme.colors.card },
+                    ]}
+                    onPress={() =>
+                      handleChoreSelection(choreWithAvatar.chore.id)
+                    }
                   >
+                    <Text style={styles.cardText}>
+                      {choreWithAvatar.chore.title}
+                    </Text>
                     <View
-                      style={[
-                        styles.dayscounterContainer,
-                        { backgroundColor: choreWithAvatar.color },
-                      ]}
+                      style={{
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                      }}
                     >
-                      <Text>{choreWithAvatar.daysSinceLastDone}</Text>
+                      <View
+                        style={[
+                          styles.dayscounterContainer,
+                          { backgroundColor: choreWithAvatar.color },
+                        ]}
+                      >
+                        <Text>{choreWithAvatar.daysSinceLastDone}</Text>
+                      </View>
+                      {choreWithAvatar.avatars.map((avatar, index) => (
+                        <Text key={index}>{avatar}</Text>
+                      ))}
                     </View>
-                    {choreWithAvatar.avatars.map((avatar, index) => (
-                      <Text key={index}>{avatar}</Text>
-                    ))}
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ))}
+                  </TouchableOpacity>
+                </View>
+              ))
+            ) : (
+              <NoChoresScreen />
+            )}
             <View style={styles.outerButtonContainer}>
               <View style={styles.buttonContainer}>
                 <Button
@@ -117,20 +137,9 @@ export default function ChoreListScreen({ navigation }: Props) {
                   icon="plus"
                   mode="elevated"
                   onPress={showModal}
+                  disabled={!currentUser?.isAdmin}
                 >
-                  Lägg till
-                </Button>
-                <View style={styles.buttonGap} />
-                <Button
-                  style={styles.button}
-                  buttonColor="white"
-                  textColor="black"
-                  icon="pen"
-                  mode="elevated"
-                  // eslint-disable-next-line no-console
-                  onPress={() => console.log('Pressed')}
-                >
-                  Ändra
+                  Lägg till syssla
                 </Button>
                 <Portal>
                   <Modal
@@ -195,8 +204,5 @@ const styles = StyleSheet.create({
   button: {
     width: 160,
     height: 40,
-  },
-  buttonGap: {
-    width: 40,
   },
 });
